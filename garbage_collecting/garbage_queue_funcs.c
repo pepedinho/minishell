@@ -31,8 +31,6 @@ t_to_destroy	*push_to_garbage(t_garbage *garbage, void *ptr)
 	new = malloc(sizeof(t_to_destroy));
 	if (!new)
 		return (NULL);
-	new->to_destroy = ptr;
-	new->next = NULL;
 	if (!garbage->first)
 		garbage->first = new;
 	else
@@ -42,6 +40,8 @@ t_to_destroy	*push_to_garbage(t_garbage *garbage, void *ptr)
 			current = current->next;
 		current->next = new;
 	}
+	new->to_destroy = ptr;
+	new->next = NULL;
 	return (new);
 }
 
@@ -57,8 +57,7 @@ void	destroy(t_garbage *garbage, t_to_destroy *elem)
 	if (elem == garbage->first->to_destroy)
 	{
 		garbage->first = current->next;
-		free(current->to_destroy);
-		free(current);
+		(free(current->to_destroy), free(current));
 		garbage->first = NULL;
 		return ;
 	}
@@ -70,8 +69,7 @@ void	destroy(t_garbage *garbage, t_to_destroy *elem)
 	if (current->to_destroy == elem)
 	{
 		tmp_n = current->next;
-		free(current->to_destroy);
-		free(current);
+		(free(current->to_destroy), free(current));
 		tmp_b->next = tmp_n;
 	}
 }
