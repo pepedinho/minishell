@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/24 18:47:29 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/24 20:06:33 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_command_line	*init_queue(void)
 	return (new);
 }
 
-t_element	*add_to_queue(t_command_line *queue, int type, char *content)
+t_element	*add_to_queue(t_command_line *queue, char *content)
 {
 	t_element	*new;
 	t_element	*current;
@@ -31,10 +31,10 @@ t_element	*add_to_queue(t_command_line *queue, int type, char *content)
 	new = ft_malloc(sizeof(t_element));
 	if (!new)
 		return (NULL);
-	new->type = type;
+	new->type = 0;
 	new->content = content;
 	if (!queue->first)
-		queue->first = NULL;
+		queue->first = new;
 	else
 	{
 		current = queue->first;
@@ -50,6 +50,7 @@ void	free_queue(t_command_line *queue)
 	t_element	*current;
 	t_element	*next;
 
+	current = queue->first;
 	while (current)
 	{
 		next = current->next;

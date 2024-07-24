@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/24 19:28:33 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/24 20:28:43 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,8 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	$(CC) $(C_FLAGS) -c $< -o $@
 
 clean : 
-	rm -rf $(OBJS_DIR)
-
+	@rm -rf $(OBJS_DIR)
+	@echo "🧼🧼cleaned🧼🧼"
 fclean : clean
 	rm -rf $(NAME)
 
