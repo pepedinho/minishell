@@ -30,22 +30,35 @@ OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 DIR_DUP = mkdir -p $(@D)
 
+LIBFT = libft.a
+
 NAME = ./minishell
 
-all : $(NAME)
+all : $(LIBFT) $(NAME)
+
+$(LIBFT) :
+	@echo "compiling libft"
+	@make -C ./libft
+	@echo "libft compilation done"
 
 $(NAME) : $(OBJS)
-	$(CC) $(C_FLAGS) $^ -o $@
+	@$(CC) $(C_FLAGS) -L ./libft -lft $^ -o $@
+	@echo "executable ./minishell created"
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
-	$(DIR_DUP)
-	$(CC) $(C_FLAGS) -c $< -o $@
+	@$(DIR_DUP)
+	@$(CC) $(C_FLAGS) -c $< -o $@
 
 clean : 
 	@rm -rf $(OBJS_DIR)
-	@echo "🧼🧼cleaned🧼🧼"
+	@make clean -C ./libft
+	@echo "🧼🧼objects cleaned🧼🧼"
+	
+
 fclean : clean
 	rm -rf $(NAME)
+	make fclean -C ./libft
+	@echo "🧼🧼executable cleaned🧼🧼"
 
 re : fclean all
 
