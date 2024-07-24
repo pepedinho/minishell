@@ -6,9 +6,18 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/24 20:28:43 by itahri           ###   ########.fr        #
+#    Updated: 2024/07/24 21:03:16 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+BLACK=	$(shell tput -Txterm setaf 0)
+RED= 	$(shell tput -Txterm setaf 1)
+GREEN= 	$(shell tput -Txterm setaf 2)
+WHITE= 	$(shell tput -Txterm setaf 7)
+YELLOW=	$(shell tput -Txterm setaf 3)
+BLUE=	$(shell tput -Txterm setaf 6)
+PURPLE			=	\033[0;35m
+END= 	$(shell tput -Txterm sgr0)
 
 CC = cc
 
@@ -37,13 +46,13 @@ NAME = ./minishell
 all : $(LIBFT) $(NAME)
 
 $(LIBFT) :
-	@echo "compiling libft"
+	@echo "👷$(YELLOW)compiling libft$(END)👷"
 	@make -C ./libft
-	@echo "libft compilation done"
+	@echo "👷$(YELLOW)libft compilation done$(END)👷"
 
 $(NAME) : $(OBJS)
 	@$(CC) $(C_FLAGS) -L ./libft -lft $^ -o $@
-	@echo "executable ./minishell created"
+	@echo "💻$(BLUE)executable created ./minishell >_$(END)✅"
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@$(DIR_DUP)
@@ -52,13 +61,13 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 clean : 
 	@rm -rf $(OBJS_DIR)
 	@make clean -C ./libft
-	@echo "🧼🧼objects cleaned🧼🧼"
+	@echo "🧼🧼$(PURPLE)objects cleaned$(END)🧼🧼"
 	
 
 fclean : clean
 	rm -rf $(NAME)
 	make fclean -C ./libft
-	@echo "🧼🧼executable cleaned🧼🧼"
+	@echo "🧼🧼$(PURPLE)executable cleaned$(END)🧼🧼"
 
 re : fclean all
 
