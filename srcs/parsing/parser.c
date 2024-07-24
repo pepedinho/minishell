@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/24 20:25:18 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/24 21:26:57 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ int	add_elem(t_command_line *queue, char *str, int i)
 {
 	int		j;
 	char	*cmd;
+	int		type;
 
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
+	type = 0;
+	while (str[i + j] && str[i + j] != ' ')
 		j++;
 	if (!j)
 		return (1);
@@ -40,13 +42,15 @@ int	add_elem(t_command_line *queue, char *str, int i)
 	if (!cmd)
 		return (0);
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
+	while (str[i + j] && str[i + j] != ' ')
 	{
 		cmd[j] = str[i + j];
 		j++;
 	}
 	cmd[j] = '\0';
-	if (!add_to_queue(queue, cmd))
+	if (j == 1 && cmd[0] == '|')
+		type = 3;
+	if (!add_to_queue(queue, cmd, type))
 		return (0);
 	return (1);
 }
@@ -91,6 +95,10 @@ void	print_queue(t_command_line *queue)
 		{
 			if (current->type == 1)
 				printf("|             |__[Command]\n");
+			else if (current->type == 2)
+				printf("|             |__[Suffix]\n");
+			else if (current->type == 3)
+				printf("|             |__[Redirection]\n");
 		}
 		i++;
 		current = current->next;
