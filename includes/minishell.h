@@ -15,5 +15,10 @@
 
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
+# include "../libft/libft.h"
+
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #endif
