@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/24 21:26:57 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/24 22:41:28 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ int	is_a_separator(char c)
 	return (0);
 }
 
+int	add_redirect(t_command_line *queue, char redirection)
+{
+	char	*str;
+
+	if (!is_a_separator(redirection))
+		return (0);
+	str = ft_malloc(sizeof(char) * 1);
+	if (!str)
+		return (0);
+	str[0] = redirection;
+	str[1] = '\0';
+	if (!add_to_queue(queue, str, 3))
+		return (0);
+	return (1);
+}
+
 int	add_elem(t_command_line *queue, char *str, int i)
 {
 	int		j;
@@ -34,23 +50,23 @@ int	add_elem(t_command_line *queue, char *str, int i)
 
 	j = 0;
 	type = 0;
-	while (str[i + j] && str[i + j] != ' ')
+	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
 		j++;
 	if (!j)
-		return (1);
+		return (add_redirect(queue, str[i + j]));
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		return (0);
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ')
+	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
 	{
 		cmd[j] = str[i + j];
 		j++;
 	}
 	cmd[j] = '\0';
 	if (j == 1 && cmd[0] == '|')
-		type = 3;
-	if (!add_to_queue(queue, cmd, type))
+		type = 2;
+	if (!add_to_queue(queue, cmd, 1))
 		return (0);
 	return (1);
 }
@@ -69,9 +85,15 @@ void	parser(char **str, t_command_line *queue)
 			while (str[i][j] == ' ')
 				j++;
 			add_elem(queue, str[i], j);
-			while (str[i][j] && str[i][j] != ' ')
+			j++;
+			while (str[i][j] && str[i][j] != ' ' && !is_a_separator(str[i][j]))
 				j++;
-			if (is_a_separator(str[i][j]) || str[i][j] != '\0')
+			if (is_a_separator(str[i][j]))
+			{
+				add_elem(queue, str[i], j);
+				j++;
+			}
+			if (str[i][j] != '\0')
 				j++;
 		}
 		i++;
@@ -94,11 +116,11 @@ void	print_queue(t_command_line *queue)
 		if (current->type)
 		{
 			if (current->type == 1)
-				printf("|             |__[Command]\n");
+				printf("|             |____[Command]\n");
 			else if (current->type == 2)
-				printf("|             |__[Suffix]\n");
+				printf("|             |____[Suffix]\n");
 			else if (current->type == 3)
-				printf("|             |__[Redirection]\n");
+				printf("|             |____[Redirection]\n");
 		}
 		i++;
 		current = current->next;
