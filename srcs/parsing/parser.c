@@ -71,32 +71,26 @@ int	add_elem(t_command_line *queue, char *str, int i)
 	return (1);
 }
 
-void	parser(char **str, t_command_line *queue)
+void	parser(char *str, t_command_line *queue)
 {
 	int	i;
-	int	j;
 
-	i = 1;
+	i = 0;
 	while (str[i])
 	{
-		j = 0;
-		while (str[i][j])
+		while (str[i] == ' ')
+			i++;
+		if (!is_a_separator(str[i]) && str[i] != ' ')
 		{
-			while (str[i][j] == ' ')
-				j++;
-			if (!is_a_separator(str[i][j]) && str[i][j] != ' ')
-			{
-				add_elem(queue, str[i], j);
-				j++;
-			}
-			while (str[i][j] && str[i][j] != ' ' && !is_a_separator(str[i][j]))
-				j++;
-			if (is_a_separator(str[i][j]))
-				add_elem(queue, str[i], j);
-			if (str[i][j] != '\0')
-				j++;
+			add_elem(queue, str, i);
+			i++;
 		}
-		i++;
+		while (str[i] && str[i] != ' ' && !is_a_separator(str[i]))
+			i++;
+		if (is_a_separator(str[i]))
+			add_elem(queue, str, i);
+		if (str[i] != '\0')
+			i++;
 	}
 }
 
@@ -142,4 +136,3 @@ void	print_queue(t_command_line *queue)
 		current = current->next;
 	}
 }
-

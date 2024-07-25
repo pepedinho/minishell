@@ -15,15 +15,16 @@
 int	main(int argc, char *argv[])
 {
 	t_command_line	*queue;
-	char *line;
+	char			*line;
 
+	(void)argv;
+	(void)argc;
 	line = readline("minishell > ");
 	ft_printf("%s\n", line);
-	(void)argc;
 	queue = init_queue();
 	if (!queue)
 		return (10);
-	parser(argv, queue);
+	parser(line, queue);
 	print_queue(queue);
 	ft_free(DESTROY);
 	return (EXIT_SUCCESS);
