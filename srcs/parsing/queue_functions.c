@@ -27,7 +27,6 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 {
 	t_element	*new;
 	t_element	*current;
-	t_element	*before;
 
 	new = ft_malloc(sizeof(t_element));
 	if (!new)
@@ -43,12 +42,11 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		current = queue->first;
 		while (current->next)
 		{
-			before = current;
 			current = current->next;
 		}
-		if (type == 1 && before->type == 1)
+		if (type == 1 && (current->type == 1 || current->type == 2))
 			new->type = 2;
-		new->before = before;
+		new->before = current;
 		current->next = new;
 	}
 	return (new);

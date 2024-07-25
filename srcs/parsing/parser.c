@@ -84,15 +84,15 @@ void	parser(char **str, t_command_line *queue)
 		{
 			while (str[i][j] == ' ')
 				j++;
-			add_elem(queue, str[i], j);
-			j++;
-			while (str[i][j] && str[i][j] != ' ' && !is_a_separator(str[i][j]))
-				j++;
-			if (is_a_separator(str[i][j]))
+			if (!is_a_separator(str[i][j]) && str[i][j] != ' ')
 			{
 				add_elem(queue, str[i], j);
 				j++;
 			}
+			while (str[i][j] && str[i][j] != ' ' && !is_a_separator(str[i][j]))
+				j++;
+			if (is_a_separator(str[i][j]))
+				add_elem(queue, str[i], j);
 			if (str[i][j] != '\0')
 				j++;
 		}
@@ -109,18 +109,34 @@ void	print_queue(t_command_line *queue)
 	current = queue->first;
 	while (current)
 	{
-		printf("|\n");
-		printf("|__[%d]\n", i);
-		printf("|    |___[content] -> ['%s']\n", current->content);
-		printf("|    |___[type] -> [%d]\n", current->type);
-		if (current->type)
+		if (current->type == 1 || current->type == 3)
 		{
-			if (current->type == 1)
-				printf("|             |____[Command]\n");
-			else if (current->type == 2)
-				printf("|             |____[Suffix]\n");
-			else if (current->type == 3)
-				printf("|             |____[Redirection]\n");
+			printf("|\n");
+			printf("|__[%d]\n", i);
+			printf("|    |___[content] -> ['%s']\n", current->content);
+			printf("|    |___[type] -> [%d]\n", current->type);
+			if (current->type)
+			{
+				if (current->type == 1)
+					printf("|             |____[Command]\n");
+				else if (current->type == 2)
+					printf("|             |____[Suffix]\n");
+				else if (current->type == 3)
+					printf("|             |____[Redirection]\n");
+			}
+		}
+		else
+		{
+			// printf("|\n");
+			printf("|                |\n");
+			printf("|                |__[%d]\n", i);
+			printf("|                |    |___[content] -> ['%s']\n",
+				current->content);
+			printf("|                |    |___[type] -> [%d]\n", current->type);
+			printf("|                |                    |____[Suffix]\n");
+			if (current->type)
+			{
+			}
 		}
 		i++;
 		current = current->next;
