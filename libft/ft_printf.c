@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/24 18:26:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:03:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_printf(const char *str, ...)
 		return (-1);
 	print = malloc(sizeof(char));
 	if (!print)
-		return (0);
+		return (-1);
 	print[0] = '\0';
 	ft_len_print(0);
 	va_start(args, str);
@@ -63,6 +63,44 @@ int	ft_printf(const char *str, ...)
 	if (!print)
 		return (-1);
 	return (va_end(args), ft_putstr(print), ft_len_print(2));
+}
+
+char	*ft_sprintf(const char *str, ...)
+{
+	va_list	args;
+	char	*print;
+
+	if (!str)
+		return (NULL);
+	print = malloc(sizeof(char));
+	if (!print)
+		return (NULL);
+	print[0] = '\0';
+	ft_len_print(0);
+	va_start(args, str);
+	print = ft_printf_bis(print, str, args);
+	if (!print)
+		return (NULL);
+	return (va_end(args), print);
+}
+
+int	ft_printf_fd(const char *str, int fd, ...)
+{
+	va_list	args;
+	char	*print;
+
+	if (!str)
+		return (-1);
+	print = malloc(sizeof(char));
+	if (!print)
+		return (-1);
+	print[0] = '\0';
+	ft_len_print(0);
+	va_start(args, fd);
+	print = ft_printf_bis(print, str, args);
+	if (!print)
+		return (-1);
+	return (va_end(args), ft_putstr_fd(print, fd), ft_len_print(2));
 }
 
 /*int	main(void)

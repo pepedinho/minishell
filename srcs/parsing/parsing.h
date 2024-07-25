@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/24 19:53:49 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/25 21:45:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ typedef struct s_command_line
 t_command_line			*init_queue(void);
 t_element				*add_to_queue(t_command_line *queue, char *content);
 void					free_queue(t_command_line *queue);
+void	parser(char **str, t_command_line *queue);
+void	print_queue(t_command_line *queue);
 
 #endif

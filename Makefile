@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/24 21:03:16 by itahri           ###   ########.fr        #
+#    Updated: 2024/07/25 21:45:42 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 OBJS_DIR = .objets/
 
-SRCS = $(PARSING) $(GARBAGE)
+SRCS = main.c $(PARSING) $(GARBAGE)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 

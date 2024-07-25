@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:05:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/06 12:42:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:03:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include "libft.h"
 
 int		ft_printf(const char *str, ...);
+char	*ft_sprintf(const char *str, ...);
+int		ft_printf_fd(const char *str, int fd, ...);
+
 int		ft_strlen1(char *str);
 int		ft_size_malloc(long nb, int len_base);
 int		ft_size_malloc_long(unsigned long long int nb, int len_base);
