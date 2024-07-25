@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/25 21:45:42 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/25 22:10:24 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ $(LIBFT) :
 	@echo "👷$(YELLOW)libft compilation done$(END)👷"
 
 $(NAME) : $(OBJS)
-	@$(CC) $(C_FLAGS) -L ./libft -lft $^ -o $@
+	@$(CC) $(C_FLAGS) $^ -L ./libft -lft -lreadline -o $@
 	@echo "💻$(BLUE)executable created ./minishell >_$(END)✅"
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
