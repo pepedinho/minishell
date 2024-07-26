@@ -28,6 +28,7 @@
 # define R_RED 32
 # define L_RED 33
 # define AND 34
+# define FILE 4
 
 // Prompt
 void	receive_prompt(void);

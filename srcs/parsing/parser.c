@@ -83,7 +83,7 @@ int	add_elem(t_command_line *queue, char *str, int *i)
 {
 	int			j;
 	char		*cmd;
-	int static	quotes;
+	static int	quotes;
 
 	if (quotes == 2)
 		quotes = 0;
@@ -171,6 +171,8 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[Left Redirect]\n");
 				else if (current->type == AND)
 					printf("|             |____[And]\n");
+				else if (current->type == FILE)
+					printf("|             |____[File]\n");
 			}
 		}
 		else
