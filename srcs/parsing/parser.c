@@ -42,45 +42,31 @@ int	add_redirect(t_command_line *queue, char redirection)
 	return (1);
 }
 
-void	concat_elem(t_command_line *queue, char *str, int i)
-{
-	t_element	*current;
-	char		*tmp;
-
-	current = queue->first;
-	while (current->next)
-		current = current->next;
-	tmp = ft_sprintf("%s %s", current->content, &str[i]);
-	if (!tmp)
-		return ;
-	ft_free(current->content);
-	current->content = tmp;
-}
-
-int	add_elem_for_quotes(t_command_line *queue, char *str, int i)
+int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 {
 	int		j;
 	char	*cmd;
 
 	j = 1;
-	while (str[i + j] && str[i + j] != '"')
+	while (str[*i + j] && str[*i + j] != '"')
 		j++;
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		return (0);
 	j = 1;
-	while (str[i + j] && str[i + j] != '"')
+	while (str[*i + j] && str[*i + j] != '"')
 	{
-		cmd[j - 1] = str[i + j];
+		cmd[j - 1] = str[*i + j];
 		j++;
 	}
-	cmd[j] = '\0';
+	cmd[j - 1] = '\0';
 	if (!add_to_queue(queue, cmd, 1))
 		return (0);
+	*i += j;
 	return (1);
 }
 
-int	add_elem(t_command_line *queue, char *str, int i)
+int	add_elem(t_command_line *queue, char *str, int *i)
 {
 	int			j;
 	char		*cmd;
@@ -89,28 +75,29 @@ int	add_elem(t_command_line *queue, char *str, int i)
 	if (quotes == 2)
 		quotes = 0;
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
+	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
 	{
-		if (str[i + j] == '"')
+		if (str[*i + j] == '"')
 			quotes++;
 		j++;
 	}
 	if (quotes == 1)
-		return (add_elem_for_quotes(queue, str, i));
+		return (quotes++, add_elem_for_quotes(queue, str, i));
 	if (!j)
-		return (add_redirect(queue, str[i + j]));
+		return ((*i)++, add_redirect(queue, str[*i + j]));
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		return (0);
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
+	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
 	{
-		cmd[j] = str[i + j];
+		cmd[j] = str[*i + j];
 		j++;
 	}
 	cmd[j] = '\0';
 	if (!add_to_queue(queue, cmd, 1))
 		return (0);
+	*i += j;
 	return (1);
 }
 
@@ -133,13 +120,10 @@ t_command_line	*parser(char *str)
 		{
 			if (str[i] == '"')
 				quotes++;
-			add_elem(queue, str, i);
-			i++;
+			add_elem(queue, str, &i);
 		}
-		while (str[i] && str[i] != ' ' && !is_a_separator(str[i]))
-			i++;
 		if (is_a_separator(str[i]))
-			add_elem(queue, str, i);
+			add_elem(queue, str, &i);
 		if (str[i] != '\0')
 			i++;
 	}
