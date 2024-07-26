@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/26 13:28:11 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/26 15:26:41 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,13 @@ PARSING = $(addprefix parsing/, parser.c queue_functions.c)
 
 GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c)
 
+SIGNALS = $(addprefix signal/, signal.c)
+
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 

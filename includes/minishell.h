@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/26 14:30:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 15:23:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 void receive_prompt(t_command_line *queue);
 
 // Signals
+void sigaction_sigint(void);
 void handle_sigint(int num);
 
 #endif

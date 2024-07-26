@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   receive_prompt.c                                   :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/26 15:28:07 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/26 15:28:21 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../includes/minishell.h"
-#include <unistd.h>
+#include <signal.h>
 
-void receive_prompt(t_command_line *queue)
+void handle_sigint(int num)
 {
-	char *command_line;
+	(void)num;
+	write(STDERR_FILENO, "minishell > ^C\nminishell > ", 27);
+}
 
-	while (true) 
-	{
-		command_line = readline("minishell > ");
-		if (!command_line)
-			break ;
-		parser(command_line, queue);
-		free(command_line);
-		print_queue(queue);
-	}
+void sigaction_sigint(void)
+{
+	struct sigaction sa;
+
+	sa.sa_handler = &handle_sigint;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
 }
