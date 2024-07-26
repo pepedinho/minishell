@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/25 21:53:21 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:35:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	add_redirect(t_command_line *queue, char redirection)
 
 	if (!is_a_separator(redirection))
 		return (0);
-	str = ft_malloc(sizeof(char) * 1);
+	str = ft_malloc(sizeof(char) * 2);
 	if (!str)
 		return (0);
 	str[0] = redirection;
