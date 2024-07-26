@@ -22,6 +22,13 @@
 # include <stdbool.h>
 # include <stdio.h>
 
+# define CMD 1
+# define SFX 2
+# define PIPE 31
+# define R_RED 32
+# define L_RED 33
+# define AND 34
+
 // Prompt
 void	receive_prompt(void);
 

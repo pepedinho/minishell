@@ -22,9 +22,25 @@ int	is_a_separator(char c)
 	return (0);
 }
 
+int	assigne_type(char redirection)
+{
+	if (redirection == '|')
+		return (PIPE);
+	if (redirection == '>')
+		return (R_RED);
+	if (redirection == '<')
+		return (L_RED);
+	if (redirection == '&')
+		return (AND);
+	if (redirection == ';')
+		return (AND);
+	return (3);
+}
+
 int	add_redirect(t_command_line *queue, char redirection)
 {
 	char	*str;
+	int		type;
 
 	if (!is_a_separator(redirection))
 		return (0);
@@ -33,7 +49,8 @@ int	add_redirect(t_command_line *queue, char redirection)
 		return (0);
 	str[0] = redirection;
 	str[1] = '\0';
-	if (!add_to_queue(queue, str, 3))
+	type = assigne_type(redirection);
+	if (!add_to_queue(queue, str, type))
 		return (0);
 	return (1);
 }
@@ -134,7 +151,7 @@ void	print_queue(t_command_line *queue)
 	current = queue->first;
 	while (current)
 	{
-		if (current->type == 1 || current->type == 3)
+		if (current->type != 2)
 		{
 			printf("|\n");
 			printf("|__[%d]\n", i);
@@ -146,8 +163,14 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[Command]\n");
 				else if (current->type == 2)
 					printf("|             |____[Suffix]\n");
-				else if (current->type == 3)
-					printf("|             |____[Redirection]\n");
+				else if (current->type == PIPE)
+					printf("|             |____[Pipe]\n");
+				else if (current->type == R_RED)
+					printf("|             |____[Right Redirect]\n");
+				else if (current->type == L_RED)
+					printf("|             |____[Left Redirect]\n");
+				else if (current->type == AND)
+					printf("|             |____[And]\n");
 			}
 		}
 		else
