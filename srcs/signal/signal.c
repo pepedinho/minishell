@@ -15,11 +15,11 @@
 #include <signal.h>
 #include <unistd.h>
 
-int		signal_code = 0;
+int		g_signal_code = 0;
 
 void	handle_sigint(int num)
 {
-	signal_code = num + 128;
+	g_signal_code = num + 128;
 	write(STDERR_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

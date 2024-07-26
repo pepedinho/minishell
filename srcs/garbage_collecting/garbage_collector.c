@@ -38,9 +38,10 @@ void	*ft_malloc(long int t)
 
 void	ft_free(void *ptr)
 {
-	static int			i = -1;
+	static int			i;
 	static t_garbage	*garbage;
 
+	i = -1;
 	if (ptr == DESTROY)
 	{
 		i = -1;

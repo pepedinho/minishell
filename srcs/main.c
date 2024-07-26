@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-extern int	signal_code;
+extern int	g_signal_code;
 
 int	main(void)
 {

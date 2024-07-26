@@ -65,11 +65,14 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 leak : all
 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
 
+push : fclean
+	@python3 -m c_formatter_42 srcs/*.c */*.h */*/*.c */*/*.c | sleep 1
+	@norminette | grep Error
+
 clean : 
 	@rm -rf $(OBJS_DIR)
 	@make clean -C ./libft
 	@echo "🧼🧼$(PURPLE)objects cleaned$(END)🧼🧼"
-	
 
 fclean : clean
 	@rm -rf $(NAME)
