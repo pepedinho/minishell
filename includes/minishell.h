@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/25 22:02:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:13:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,8 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <stdbool.h>
+
+void receive_prompt(t_command_line *queue);
 
 #endif

@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   receive_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/26 13:15:46 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/26 13:19:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char *argv[])
+void receive_prompt(t_command_line *queue)
 {
-	t_command_line	*queue;
+	char *command_line;
 
-	(void)argv;
-	(void)argc;
-	queue = init_queue();
-	if (!queue)
-		return (10);
-	receive_prompt(queue);
-	ft_printf("exit\n");
-	ft_free(DESTROY);
-	return (EXIT_SUCCESS);
+	while (true) 
+	{
+		command_line = readline("minishell > ");
+		if (!command_line)
+			break ;
+		parser(command_line, queue);
+		free(command_line);
+		print_queue(queue);
+	}
 }

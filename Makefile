@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/25 22:10:24 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/26 13:28:11 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,11 @@ PARSING = $(addprefix parsing/, parser.c queue_functions.c)
 
 GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c)
 
+PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
+
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 
@@ -57,6 +59,9 @@ $(NAME) : $(OBJS)
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@$(DIR_DUP)
 	@$(CC) $(C_FLAGS) -c $< -o $@
+
+shell : all
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
 
 clean : 
 	@rm -rf $(OBJS_DIR)
