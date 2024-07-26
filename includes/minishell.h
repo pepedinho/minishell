@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/26 13:13:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:30:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 #include <stdbool.h>
+#include <signal.h>
 
+// Prompt
 void receive_prompt(t_command_line *queue);
+
+// Signals
+void handle_sigint(int num);
 
 #endif

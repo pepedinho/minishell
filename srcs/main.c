@@ -6,18 +6,17 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/26 13:15:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 15:14:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char *argv[])
+int	main(void)
 {
 	t_command_line	*queue;
 
-	(void)argv;
-	(void)argc;
+	signal(SIGINT, &handle_sigint);
 	queue = init_queue();
 	if (!queue)
 		return (10);

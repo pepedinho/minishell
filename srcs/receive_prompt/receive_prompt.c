@@ -6,11 +6,18 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/26 13:19:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/26 15:12:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
+
+void handle_sigint(int num)
+{
+	(void)num;
+	write(STDERR_FILENO, "minishell > ^C\nminishell > ", 27);
+}
 
 void receive_prompt(t_command_line *queue)
 {
