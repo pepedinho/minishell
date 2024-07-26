@@ -17,7 +17,6 @@
 
 void	handle_sigint(int num)
 {
-	printf("\n%d\n", num + 128);
 	write(STDERR_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

@@ -12,7 +12,7 @@
 
 #include "garbage_collecting.h"
 
-void	*ft_malloc(size_t t)
+void	*ft_malloc(long int t)
 {
 	static int			i;
 	static t_garbage	*garbage;
@@ -20,13 +20,19 @@ void	*ft_malloc(size_t t)
 
 	if (!garbage)
 		garbage = init_garbage();
+	if (t == -1)
+	{
+		garbage = NULL;
+		return (NULL);
+	}
 	ptr = malloc(t);
 	if (!ptr)
 		return (NULL);
 	push_to_garbage(garbage, ptr);
-	if (!i)
+	if (!garbage->total_alloc)
 		ft_free(garbage);
 	i++;
+	garbage->total_alloc++;
 	return (ptr);
 }
 
@@ -37,7 +43,9 @@ void	ft_free(void *ptr)
 
 	if (ptr == DESTROY)
 	{
+		i = -1;
 		destroy_all(garbage);
+		garbage = ft_malloc(-1);
 		return ;
 	}
 	if (!ptr)
