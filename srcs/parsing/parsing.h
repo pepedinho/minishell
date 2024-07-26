@@ -40,7 +40,7 @@ t_command_line			*init_queue(void);
 t_element				*add_to_queue(t_command_line *queue, char *content,
 							int type);
 void					free_queue(t_command_line *queue);
-void					parser(char *str, t_command_line *queue);
+t_command_line			*parser(char *str);
 void					print_queue(t_command_line *queue);
 
 #endif

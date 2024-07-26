@@ -67,10 +67,12 @@ int	add_elem(t_command_line *queue, char *str, int i)
 	return (1);
 }
 
-void	parser(char *str, t_command_line *queue)
+t_command_line	*parser(char *str)
 {
-	int	i;
+	int				i;
+	t_command_line	*queue;
 
+	queue = init_queue();
 	i = 0;
 	while (str[i])
 	{
@@ -88,6 +90,7 @@ void	parser(char *str, t_command_line *queue)
 		if (str[i] != '\0')
 			i++;
 	}
+	return (queue);
 }
 
 void	print_queue(t_command_line *queue)

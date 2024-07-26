@@ -65,5 +65,5 @@ void	free_queue(t_command_line *queue)
 		ft_free(current);
 		current = next;
 	}
-	free(queue);
+	ft_free(queue);
 }
