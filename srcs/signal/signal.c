@@ -10,24 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
 
-void handle_sigint(int num)
+void	handle_sigint(int num)
 {
-	(void)num;
+	printf("\n%d\n", num + 128);
 	write(STDERR_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void sigaction_sigint(void)
+void	sigaction_sigint(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = &handle_sigint;

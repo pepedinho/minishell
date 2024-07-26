@@ -15,13 +15,8 @@
 
 int	main(void)
 {
-	t_command_line	*queue;
-
 	sigaction_sigint();
-	queue = init_queue();
-	if (!queue)
-		return (10);
-	receive_prompt(queue);
+	receive_prompt();
 	ft_printf("exit\n");
 	ft_free(DESTROY);
 	rl_clear_history();

@@ -14,18 +14,20 @@
 #include <readline/history.h>
 #include <unistd.h>
 
-void receive_prompt(t_command_line *queue)
+void	receive_prompt(void)
 {
-	char *command_line;
+	char			*command_line;
+	t_command_line	*queue;
 
-	while (true) 
+	while (true)
 	{
 		command_line = readline("minishell > ");
 		add_history(command_line);
 		if (!command_line)
 			break ;
-		parser(command_line, queue);
+		queue = parser(command_line);
 		free(command_line);
 		print_queue(queue);
+		free_queue(queue);
 	}
 }

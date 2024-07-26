@@ -13,21 +13,20 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
-# include "../libft/libft.h"
-
-# include <stdio.h>
-# include <readline/readline.h>
 # include <readline/history.h>
-#include <stdbool.h>
-#include <signal.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
 
 // Prompt
-void receive_prompt(t_command_line *queue);
+void	receive_prompt(void);
 
 // Signals
-void sigaction_sigint(void);
-void handle_sigint(int num);
+void	sigaction_sigint(void);
+void	handle_sigint(int num);
 
 #endif
