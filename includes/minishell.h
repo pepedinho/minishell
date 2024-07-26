@@ -22,11 +22,13 @@
 # include <stdbool.h>
 # include <stdio.h>
 
+extern int	signal_code;
+
 // Prompt
-void	receive_prompt(void);
+void		receive_prompt(void);
 
 // Signals
-void	sigaction_sigint(void);
-void	handle_sigint(int num);
+void		sigaction_sigint(void);
+void		handle_sigint(int num);
 
 #endif
