@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <readline/readline.h>
 
 extern int	signal_code;
 
