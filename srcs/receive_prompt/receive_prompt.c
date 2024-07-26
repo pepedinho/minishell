@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <readline/history.h>
 #include <unistd.h>
 
 void receive_prompt(t_command_line *queue)
@@ -20,6 +21,7 @@ void receive_prompt(t_command_line *queue)
 	while (true) 
 	{
 		command_line = readline("minishell > ");
+		add_history(command_line);
 		if (!command_line)
 			break ;
 		parser(command_line, queue);

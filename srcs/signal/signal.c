@@ -29,6 +29,7 @@ void sigaction_sigint(void)
 {
 	struct sigaction sa;
 
+	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = &handle_sigint;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
