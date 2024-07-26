@@ -69,6 +69,9 @@ push : fclean
 	@python3 -m c_formatter_42 srcs/*.c */*.h */*/*.c */*/*.c | sleep 1
 	@norminette | grep Error
 
+debug : all
+	@lldb ./minishell
+
 clean : 
 	@rm -rf $(OBJS_DIR)
 	@make clean -C ./libft

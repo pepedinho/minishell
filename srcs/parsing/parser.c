@@ -16,10 +16,6 @@ int	is_a_separator(char c)
 {
 	static int	quotes;
 
-	if (quotes == 2)
-		quotes = 0;
-	if (c == '"')
-		quotes++;
 	if (quotes != 1 && (c == '>' || c == '<' || c == '|' || c == '&'
 			|| c == ';'))
 		return (1);
@@ -84,7 +80,7 @@ int	add_elem(t_command_line *queue, char *str, int *i)
 	if (quotes == 1)
 		return (quotes++, add_elem_for_quotes(queue, str, i));
 	if (!j)
-		return ((*i)++, add_redirect(queue, str[*i + j]));
+		return (add_redirect(queue, str[*i + j]));
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		return (0);
@@ -115,8 +111,7 @@ t_command_line	*parser(char *str)
 			quotes = 0;
 		while (str[i] == ' ')
 			i++;
-		if (!is_a_separator(str[i]) && (str[i] != ' ' || quotes == 1)
-			&& quotes <= 2)
+		if (!is_a_separator(str[i]) && (str[i] != ' '))
 		{
 			if (str[i] == '"')
 				quotes++;
@@ -161,7 +156,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
