@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <readline/readline.h>
 
 int	main(void)
 {
 	t_command_line	*queue;
-	
+
 	sigaction_sigint();
 	queue = init_queue();
 	if (!queue)
@@ -23,5 +24,6 @@ int	main(void)
 	receive_prompt(queue);
 	ft_printf("exit\n");
 	ft_free(DESTROY);
+	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

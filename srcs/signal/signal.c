@@ -12,6 +12,7 @@
 
 
 #include "../../includes/minishell.h"
+#include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
 
@@ -19,7 +20,9 @@ void handle_sigint(int num)
 {
 	(void)num;
 	write(STDERR_FILENO, "\n", 1);
-	write(STDERR_FILENO, "minishell > ", 12);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void sigaction_sigint(void)
