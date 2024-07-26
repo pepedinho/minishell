@@ -37,7 +37,7 @@ void					destroy(t_garbage *garbage, t_to_destroy *elem);
 void					destroy_all(t_garbage *garbage);
 
 // garbage collector functions
-void					*ft_malloc(size_t t);
+void					*ft_malloc(long int t);
 void					ft_free(void *ptr);
 
 /*

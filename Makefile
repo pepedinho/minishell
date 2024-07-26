@@ -62,8 +62,8 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	@$(DIR_DUP)
 	@$(CC) $(C_FLAGS) -c $< -o $@
 
-shell : all
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
+leak : all
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
 
 clean : 
 	@rm -rf $(OBJS_DIR)
@@ -72,10 +72,10 @@ clean :
 	
 
 fclean : clean
-	rm -rf $(NAME)
-	make fclean -C ./libft
+	@rm -rf $(NAME)
+	@make fclean -C ./libft
 	@echo "🧼🧼$(PURPLE)executable cleaned$(END)🧼🧼"
 
 re : fclean all
 
-.PHONY : all clean fclean re 
+.PHONY : all clean fclean re debug

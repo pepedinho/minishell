@@ -20,7 +20,6 @@ int	main(void)
 	sigaction_sigint();
 	receive_prompt();
 	ft_printf("exit\n");
-	ft_free(DESTROY);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

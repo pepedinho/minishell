@@ -22,12 +22,12 @@ void	receive_prompt(void)
 	while (true)
 	{
 		command_line = readline("minishell > ");
-		add_history(command_line);
 		if (!command_line)
 			break ;
+		add_history(command_line);
 		queue = parser(command_line);
 		free(command_line);
 		print_queue(queue);
-		free_queue(queue);
+		ft_free(DESTROY);
 	}
 }
