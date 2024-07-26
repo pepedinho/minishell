@@ -46,10 +46,8 @@ int	add_elem(t_command_line *queue, char *str, int i)
 {
 	int		j;
 	char	*cmd;
-	int		type;
 
 	j = 0;
-	type = 0;
 	while (str[i + j] && str[i + j] != ' ' && !is_a_separator(str[i + j]))
 		j++;
 	if (!j)
@@ -64,8 +62,6 @@ int	add_elem(t_command_line *queue, char *str, int i)
 		j++;
 	}
 	cmd[j] = '\0';
-	if (j == 1 && cmd[0] == '|')
-		type = 2;
 	if (!add_to_queue(queue, cmd, 1))
 		return (0);
 	return (1);
