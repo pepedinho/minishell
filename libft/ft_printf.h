@@ -13,12 +13,12 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include "libft.h"
 # include <limits.h>
 # include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft.h"
 
 int		ft_printf(const char *str, ...);
 char	*ft_sprintf(const char *str, ...);

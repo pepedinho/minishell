@@ -13,6 +13,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "../../includes/minishell.h"
 # include "../garbage_collecting/garbage_collecting.h"
 
 /*
