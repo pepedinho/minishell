@@ -11,25 +11,38 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "receive_prompt/info.h"
 
 extern int	g_signal_code;
+
+void	minishell(t_info *info)
+{
+	receive_prompt(info);
+	ft_printf("exit\n");
+	rl_clear_history();
+}
+
+void	subminishell(char **argv, t_info *info)
+{
+	if (ft_strcmp(argv[1], "-c") != 0)
+	{
+		g_signal_code = 2;
+		return ;
+	}
+	if (argv[3])
+		info->name = argv[3];
+	receive_prompt_subminishell(argv[2], info);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_info	info;
 
 	sigaction_sigint();
+	info.envp = envp;
+	info.name = "minishell";
 	if (argc == 2)
-	{
-		info.name = "minishell";
-		receive_prompt();
-		ft_printf("exit\n");
-		rl_clear_history();
-	}
-	if (argc > 2)
-	{
-		info.name = argv[3];
-	}
+		minishell(&info);
+	else
+		subminishell(argv, &info);
 	return (g_signal_code);
 }

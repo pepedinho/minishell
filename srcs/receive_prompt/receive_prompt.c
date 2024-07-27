@@ -11,14 +11,23 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <readline/history.h>
-#include <unistd.h>
 
-void	receive_prompt(void)
+void	receive_prompt_subminishell(char *command_line, t_info *info)
+{
+	t_command_line	*queue;
+
+	(void)info;
+	queue = parser(command_line);
+	print_queue(queue);
+	ft_free(DESTROY);
+}
+
+void	receive_prompt(t_info *info)
 {
 	char			*command_line;
 	t_command_line	*queue;
 
+	(void)info;
 	while (true)
 	{
 		command_line = readline("minishell > ");
