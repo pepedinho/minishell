@@ -79,6 +79,13 @@ push : fclean
 debug : all
 	@lldb ./minishell
 
+docker:
+	@if [ -z $$(docker images -q minishell-app) ]; then \
+		echo "🐳Image minishell-app non trouvée, construction en cours...🐳"; \
+		docker-compose build; \
+	fi
+	docker-compose run app
+
 clean : 
 	@rm -rf $(OBJS_DIR)
 	@make clean -C ./libft
