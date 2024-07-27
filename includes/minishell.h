@@ -16,7 +16,7 @@
 # include "../libft/libft.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
-# include "../srcs/receive_prompt/info.h"
+# include "../srcs/receive_prompt/prompt.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -30,9 +30,6 @@
 # define L_RED 33
 # define AND 34
 # define FILE 4
-
-// Prompt
-void	receive_prompt(void);
 
 // Signals
 void	sigaction_sigint(void);
