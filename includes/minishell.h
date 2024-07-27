@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/26 15:42:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/27 20:00:54 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "../srcs/binary_tree/lexer.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
+# include "../srcs/receive_prompt/prompt.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -30,11 +32,10 @@
 # define AND 34
 # define FILE 4
 
-// Prompt
-void	receive_prompt(void);
-
 // Signals
 void	sigaction_sigint(void);
 void	handle_sigint(int num);
+
+t_tree	*smart_agencement(t_command_line *queue);
 
 #endif
