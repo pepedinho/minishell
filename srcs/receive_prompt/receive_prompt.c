@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/27 19:50:38 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/27 19:52:28 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	receive_prompt(t_info *info)
 		add_history(command_line);
 		queue = parser(command_line);
 		free(command_line);
-		print_queue(queue);
+		// print_queue(queue);
+		smart_agencement(queue);
 		ft_free(DESTROY);
 	}
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/minishell.h"
 
 t_command_line	*init_queue(void)
 {

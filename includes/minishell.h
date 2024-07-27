@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:24:48 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/27 20:00:54 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@
 // Signals
 void	sigaction_sigint(void);
 void	handle_sigint(int num);
+
+t_tree	*smart_agencement(t_command_line *queue);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:49:39 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/27 19:58:03 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/minishell.h"
 
 t_tree	*init_tree(void)
 {
@@ -50,8 +50,6 @@ void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *l_cmd,
 t_tree	*smart_agencement(t_command_line *queue)
 {
 	t_element	*current;
-	t_element	*before;
-	t_element	*tmp;
 	t_tree		*tree;
 	int			i;
 

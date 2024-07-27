@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	sigaction_sigint();
 	info.envp = envp;
 	info.name = "minishell";
-	if (argc == 2)
+	if (argc == 1)
 		minishell(&info);
 	else
 		subminishell(argv, &info);
