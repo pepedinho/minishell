@@ -11,6 +11,39 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "lexer.h"
+
+t_sfx	*init_sfx(void)
+{
+	t_sfx	*new;
+
+	new = ft_malloc(sizeof(t_tree));
+	if (!new)
+		return (NULL);
+	new->first = NULL;
+	return (new);
+}
+
+void	add_sfx(t_sfx *sfx_queue, t_element *sfx)
+{
+	t_cmd_sfx	*new;
+	t_cmd_sfx	*current;
+
+	new = ft_malloc(sizeof(t_branch));
+	if (!new)
+		return ;
+	new->next = NULL;
+	new->suffix = sfx;
+	if (!sfx_queue->first)
+		sfx_queue->first = new;
+	else
+	{
+		current = sfx_queue->first;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+}
 
 t_tree	*init_tree(void)
 {
@@ -51,6 +84,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 {
 	t_element	*current;
 	t_tree		*tree;
+	t_element	*tmp;
 	int			i;
 
 	tree = init_tree();
@@ -59,18 +93,19 @@ t_tree	*smart_agencement(t_command_line *queue)
 	current = queue->first;
 	while (current)
 	{
+		if (current->type == CMD)
+			tmp = current;
 		if (current->type / 10 == 3)
 		{
 			i = 0;
 			if (current != queue->first)
 			{
-				assemble_in_tree(tree, current->next, current->before, current);
+				assemble_in_tree(tree, current->next, tmp, current);
 				i = 1;
 			}
 			else
 			{
-				assemble_in_tree(tree, current->next, current->next->next,
-					current);
+				assemble_in_tree(tree, current->next->next, tmp, current);
 				i = 2;
 			}
 			while (i-- && current)
@@ -78,14 +113,16 @@ t_tree	*smart_agencement(t_command_line *queue)
 				current = current->next;
 			}
 		}
+		current = current->next;
 	}
-	print_tree(tree);
 	return (tree);
 }
 
 void	print_tree(t_tree *tree)
 {
 	t_branch	*current;
+	t_element	*current_lft;
+	t_element	*current_rgt;
 
 	current = tree->first;
 	while (current)
@@ -94,8 +131,21 @@ void	print_tree(t_tree *tree)
 			current->main_cmd->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
-		printf("                [%s]      [%s]", current->l_cmd->content,
-			current->r_cmd->content);
+		printf("             [");
+		current_lft = current->l_cmd;
+		while (current_lft && current_lft->type / 10 != 3)
+		{
+			printf("%s ", current_lft->content);
+			current_lft = current_lft->next;
+		}
+		printf("]     [");
+		current_rgt = current->r_cmd;
+		while (current_rgt && current_rgt->type / 10 != 3)
+		{
+			printf("%s ", current_rgt->content);
+			current_rgt = current_rgt->next;
+		}
+		printf("]\n");
 		current = current->next;
 	}
 }

@@ -36,8 +36,7 @@ void	receive_prompt(t_info *info)
 		add_history(command_line);
 		queue = parser(command_line);
 		free(command_line);
-		// print_queue(queue);
-		smart_agencement(queue);
+		print_queue(queue);
 		ft_free(DESTROY);
 	}
 }

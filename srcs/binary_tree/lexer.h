@@ -15,11 +15,24 @@
 
 # include "../../includes/minishell.h"
 
+typedef struct s_cmd_sfx
+{
+	struct s_element	*suffix;
+	struct s_cmd_sfx	*next;
+}						t_cmd_sfx;
+
+typedef struct s_sfx
+{
+	t_cmd_sfx			*first;
+}						t_sfx;
+
 typedef struct s_branch
 {
 	struct s_element	*main_cmd;
 	struct s_element	*r_cmd;
+	t_sfx				*r_cmd_sfx;
 	struct s_element	*l_cmd;
+	t_sfx				*l_cmd_sfx;
 	struct s_branch		*next;
 }						t_branch;
 
