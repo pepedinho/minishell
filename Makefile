@@ -79,6 +79,9 @@ push : fclean
 debug : all
 	@lldb ./minishell
 
+docker :
+	docker-compose run app
+
 clean : 
 	@rm -rf $(OBJS_DIR)
 	@make clean -C ./libft
