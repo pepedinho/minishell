@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:06:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/27 19:24:48 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "../srcs/binary_tree/lexer.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
 # include "../srcs/receive_prompt/info.h"
