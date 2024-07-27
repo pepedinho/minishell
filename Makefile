@@ -73,8 +73,7 @@ push : fclean
 	@git add .
 	@git commit -m $ARG
 	git push
-	@echo -n "$(YELLOW) All has been push with"
-	@echo -n "'$(ARG)' in commit $(END)"
+	@echo -n "$(YELLOW) All has been push with "$(ARG)" in commit $(END)"
 
 debug : all
 	@lldb ./minishell
