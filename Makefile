@@ -71,8 +71,8 @@ push : fclean
 	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.c | sleep 1
 	@norminette | grep Error
 	@git add .
-	@git commit -m $ARG
-	git push
+	@git commit -m "$(ARG)"
+	@git push
 	@echo -n "$(YELLOW) All has been push with "
 	@echo "'$(ARG)' in commit $(END)"
 
