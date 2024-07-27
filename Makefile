@@ -79,7 +79,11 @@ push : fclean
 debug : all
 	@lldb ./minishell
 
-docker :
+docker:
+	@if [ -z $$(docker images -q minishell-app) ]; then \
+		echo "🐳Image minishell-app non trouvée, construction en cours...🐳"; \
+		docker-compose build; \
+	fi
 	docker-compose run app
 
 clean : 
