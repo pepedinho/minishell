@@ -128,7 +128,7 @@ void	print_tree(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-			current->main_cmd->content);
+				current->main_cmd->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("             [");
