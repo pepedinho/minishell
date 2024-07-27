@@ -6,14 +6,13 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/25 21:53:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/27 19:06:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "../../includes/minishell.h"
 # include "../garbage_collecting/garbage_collecting.h"
 
 /*
