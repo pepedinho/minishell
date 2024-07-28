@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/27 19:54:06 by itahri           ###   ########.fr        #
+#    Updated: 2024/07/28 19:06:36 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 SIGNALS = $(addprefix signal/, signal.c)
 
-BINARY_TREE = $(addprefix binary_tree/, lexing.c)
+BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
 
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 

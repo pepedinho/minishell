@@ -43,9 +43,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 /*int main(void)
 {
- 	char * s = ft_substr("hola", 2, 3);
- 	if (!strcmp(s, ""))
- 		printf("yes\n");
- 	else
- 		printf("no\n");
+	char * s = ft_substr("hola", 2, 3);
+	if (!strcmp(s, ""))
+		printf("yes\n");
+	else
+		printf("no\n");
 }*/

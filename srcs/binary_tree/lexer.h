@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:19:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:58:28 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 19:30:02 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ typedef struct s_sfx
 
 typedef struct s_branch
 {
-	struct s_element	*main_cmd;
+	struct s_element	*redirect;
 	struct s_element	*r_cmd;
-	t_sfx				*r_cmd_sfx;
-	struct s_element	*l_cmd;
-	t_sfx				*l_cmd_sfx;
-	struct s_branch		*next;
+	struct s_branch		*l_cmd;
+	struct s_element	*first_cmd;
 }						t_branch;
 
 typedef struct s_tree
@@ -43,5 +41,6 @@ typedef struct s_tree
 
 // lexing
 void					print_tree(t_tree *tree);
+int						is_a_redirect(int type);
 
 #endif

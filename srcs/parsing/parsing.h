@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:26:20 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 19:22:25 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_element
 typedef struct s_command_line
 {
 	t_element			*first;
+	t_element			*last;
 }						t_command_line;
 
 // queue functions

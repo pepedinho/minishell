@@ -55,5 +55,5 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		printf("yes\n");
 	else
 		printf("no\n");
- 	return (0);
+	return (0);
 }*/

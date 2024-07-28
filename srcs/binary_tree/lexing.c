@@ -6,12 +6,14 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:58:03 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 19:33:22 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "lexer.h"
+
+void	print_proto(t_tree *tree);
 
 t_sfx	*init_sfx(void)
 {
@@ -56,8 +58,7 @@ t_tree	*init_tree(void)
 	return (new);
 }
 
-void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *l_cmd,
-		t_element *m_cmd)
+void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *m_cmd)
 {
 	t_branch	*new;
 	t_branch	*current;
@@ -65,19 +66,28 @@ void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *l_cmd,
 	new = ft_malloc(sizeof(t_branch));
 	if (!new)
 		return ;
-	new->next = NULL;
-	new->l_cmd = l_cmd;
+	new->l_cmd = NULL;
 	new->r_cmd = r_cmd;
-	new->main_cmd = m_cmd;
+	new->redirect = m_cmd;
 	if (!tree->first)
 		tree->first = new;
 	else
 	{
 		current = tree->first;
-		while (current->next)
-			current = current->next;
-		current->next = new;
+		while (current->l_cmd)
+			current = current->l_cmd;
+		current->l_cmd = new;
 	}
+}
+
+void	add_first_cmd(t_tree *tree, t_element *first_cmd)
+{
+	t_branch	*current;
+
+	current = tree->first;
+	while (current->l_cmd)
+		current = current->l_cmd;
+	current->first_cmd = first_cmd;
 }
 
 t_tree	*smart_agencement(t_command_line *queue)
@@ -85,59 +95,56 @@ t_tree	*smart_agencement(t_command_line *queue)
 	t_element	*current;
 	t_tree		*tree;
 	t_element	*tmp;
-	int			i;
 
 	tree = init_tree();
 	if (!tree)
 		return (NULL);
-	current = queue->first;
-	while (current)
+	current = queue->last;
+	while (current->before)
 	{
 		if (current->type == CMD)
 			tmp = current;
-		if (current->type / 10 == 3)
+		if (is_a_redirect(current->type))
 		{
-			i = 0;
 			if (current != queue->first)
-			{
-				assemble_in_tree(tree, current->next, tmp, current);
-				i = 1;
-			}
+				assemble_in_tree(tree, tmp, current);
 			else
-			{
-				assemble_in_tree(tree, current->next->next, tmp, current);
-				i = 2;
-			}
-			while (i-- && current)
-			{
-				current = current->next;
-			}
+				assemble_in_tree(tree, current->next->next, current);
+			while (current->before && current->type == SFX)
+				current = current->before;
 		}
-		current = current->next;
+		current = current->before;
 	}
+	add_first_cmd(tree, current);
+	print_proto(tree);
 	return (tree);
 }
 
-void	print_tree(t_tree *tree)
+void	print_proto(t_tree *tree)
 {
 	t_branch	*current;
-	t_element	*current_lft;
 	t_element	*current_rgt;
+	t_element	*first_cmd;
 
 	current = tree->first;
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-				current->main_cmd->content);
+			current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
-		printf("             [");
-		current_lft = current->l_cmd;
-		while (current_lft && current_lft->type / 10 != 3)
+		printf("                 [");
+		if (!current->l_cmd)
 		{
-			printf("%s ", current_lft->content);
-			current_lft = current_lft->next;
+			first_cmd = current->first_cmd;
+			while (first_cmd && first_cmd->type / 10 != 3)
+			{
+				printf("%s ", first_cmd->content);
+				first_cmd = first_cmd->next;
+			}
 		}
+		else
+			printf("*");
 		printf("]     [");
 		current_rgt = current->r_cmd;
 		while (current_rgt && current_rgt->type / 10 != 3)
@@ -146,6 +153,60 @@ void	print_tree(t_tree *tree)
 			current_rgt = current_rgt->next;
 		}
 		printf("]\n");
-		current = current->next;
+		if (current->l_cmd)
+		{
+			printf("                   \\\n");
+			printf("                    \\\n");
+		}
+		current = current->l_cmd;
 	}
+}
+
+void	print_sub_tree(t_branch *branch)
+{
+	t_element	*current_rgt;
+
+	printf("                     [%s]                    \n",
+		branch->redirect->content);
+	printf("                    /    \\                  \n");
+	printf("                   /      \\                 \n");
+	printf("             [");
+	if (branch->l_cmd)
+		print_sub_tree(branch);
+	else
+		printf("null");
+	printf("]     [");
+	current_rgt = branch->r_cmd;
+	while (current_rgt && current_rgt->type / 10 != 3)
+	{
+		printf("%s ", current_rgt->content);
+		current_rgt = current_rgt->next;
+	}
+	printf("]\n");
+}
+
+void	print_tree(t_tree *tree)
+{
+	t_branch	*current;
+	t_element	*current_rgt;
+
+	current = tree->first;
+	while (current)
+	{
+		printf("                     [%s]                    \n",
+			current->redirect->content);
+		printf("                    /    \\                  \n");
+		printf("                   /      \\                 \n");
+		printf("             [");
+		print_sub_tree(current->l_cmd);
+	}
+	printf("]     [");
+	current_rgt = current->r_cmd;
+	while (current_rgt && current_rgt->type / 10 != 3)
+	{
+		printf("%s ", current_rgt->content);
+		current_rgt = current_rgt->next;
+	}
+	printf("]\n");
+	current = current->l_cmd;
 }

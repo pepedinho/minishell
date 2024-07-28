@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 19:05:07 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 19:23:25 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_command_line	*init_queue(void)
 	new = ft_malloc(sizeof(t_command_line));
 	if (!new)
 		return (NULL);
+	new->first = NULL;
 	new->first = NULL;
 	return (new);
 }
@@ -36,7 +37,10 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	new->next = NULL;
 	new->before = NULL;
 	if (!queue->first)
+	{
 		queue->first = new;
+		queue->last = new;
+	}
 	else
 	{
 		current = queue->first;
@@ -50,6 +54,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 			new->type = SFX;
 		new->before = current;
 		current->next = new;
+		queue->last = new;
 	}
 	return (new);
 }
