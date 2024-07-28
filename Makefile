@@ -83,6 +83,7 @@ docker:
 		docker-compose build; \
 		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
 	fi
+	@echo "🐳$(BLUE)Docker container is built $(END)✅"
 	@docker-compose run app
 
 clean : 
