@@ -70,9 +70,11 @@ leak : all
 push : fclean
 	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.h | norminette | grep Error
 	@git add .
-	@git commit -m "$(ARG)"
+	@echo -n "$(BLUE)Enter your commit : $(END)"
+	@read -p "Enter a value: " ARG;
+	@git commit -m "$ARG"
 	@git push
-	@echo "$(YELLOW) All has been push with '$(ARG)' in commit $(END)"
+	@echo "$(YELLOW) All has been push with '$$ARG' in commit $(END)"
 
 debug : all
 	@lldb $(NAME)
