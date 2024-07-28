@@ -74,6 +74,7 @@ push : fclean
 	@git push
 	@echo "$(YELLOW) All has been push with '$(ARG)' in commit $(END)"
 
+#gg
 debug : all
 	@lldb ./minishell
 
