@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 19:22:25 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 22:20:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "../../includes/minishell.h"
 # include "../garbage_collecting/garbage_collecting.h"
+
+# define NO_END_QUOTE 0
 
 /*
  * type :

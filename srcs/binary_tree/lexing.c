@@ -130,7 +130,7 @@ void	print_proto(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-			current->redirect->content);
+				current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("                 [");
@@ -167,7 +167,7 @@ void	print_sub_tree(t_branch *branch)
 	t_element	*current_rgt;
 
 	printf("                     [%s]                    \n",
-		branch->redirect->content);
+			branch->redirect->content);
 	printf("                    /    \\                  \n");
 	printf("                   /      \\                 \n");
 	printf("             [");
@@ -194,7 +194,7 @@ void	print_tree(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-			current->redirect->content);
+				current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("             [");

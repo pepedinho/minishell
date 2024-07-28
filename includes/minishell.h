@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/27 20:00:54 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 22:57:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define L_RED 33
 # define AND 34
 # define FILE 4
+
+# define ERR_MALLOC -1
+# define MALLOC_MESS "Error malloc when allocate for"
 
 // Signals
 void	sigaction_sigint(void);

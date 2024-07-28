@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 19:23:25 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/28 21:43:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_command_line	*init_queue(void)
 	new = ft_malloc(sizeof(t_command_line));
 	if (!new)
 		return (NULL);
-	new->first = NULL;
 	new->first = NULL;
 	return (new);
 }
