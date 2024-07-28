@@ -26,6 +26,7 @@ void	subminishell(char **argv, t_info *info)
 	if (ft_strcmp(argv[1], "-c") != 0)
 	{
 		g_signal_code = 2;
+		ft_printf_fd("minishell: %s: invalid option\n", STDERR_FILENO, argv[1]);
 		return ;
 	}
 	if (argv[3])
