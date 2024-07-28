@@ -74,13 +74,12 @@ push : fclean
 	@git push
 	@echo "$(YELLOW) All has been push with '$(ARG)' in commit $(END)"
 
-#gg
 debug : all
-	@lldb ./minishell
+	@lldb $(NAME)
 
 docker:
 	@if [ -z $$(docker images -q minishell-app) ]; then \
-		echo "🐳Image minishell-app non trouvée, construction en cours...🐳"; \
+		echo "🐳$(BLUE)Image minishell-app non trouvée, construction en cours...$(END)🐳"; \
 		docker-compose build; \
 	fi
 	docker-compose run app
