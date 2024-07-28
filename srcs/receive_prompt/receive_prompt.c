@@ -6,13 +6,11 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/28 23:30:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/28 23:45:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int		g_signal_code = 0;
 
 void	receive_prompt_subminishell(char *command_line, t_info *info)
 {

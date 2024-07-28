@@ -6,13 +6,13 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/27 19:16:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/28 23:45:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-extern int	g_signal_code;
+int		g_signal_code = 0;
 
 void	minishell(t_info *info)
 {

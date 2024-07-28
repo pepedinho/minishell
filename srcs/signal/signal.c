@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/26 17:51:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/28 23:45:46 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
-
-int		g_signal_code = 0;
 
 void	handle_sigint(int num)
 {

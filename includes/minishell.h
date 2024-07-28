@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 22:57:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/28 23:45:08 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 # define ERR_MALLOC -1
 # define MALLOC_MESS "Error malloc when allocate for"
 
-// Signals
-void	sigaction_sigint(void);
-void	handle_sigint(int num);
+extern int	g_signal_code;
 
-t_tree	*smart_agencement(t_command_line *queue);
+// Signals
+void		sigaction_sigint(void);
+void		handle_sigint(int num);
+
+t_tree		*smart_agencement(t_command_line *queue);
 
 #endif
