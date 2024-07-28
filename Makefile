@@ -67,14 +67,14 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 leak : all
 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
 
-push : fclean
+push: fclean
 	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.h | norminette | grep Error
 	@git add .
-	@echo -n "$(BLUE)Enter your commit : $(END)"
-	@read -p "Enter a value: " ARG;
-	@git commit -m "$ARG"
-	@git push
-	@echo "$(YELLOW) All has been push with '$$ARG' in commit $(END)"
+	@echo -n "$(BLUE)Enter your commit message: $(END)"
+	@read commit_message; \
+	git commit -m "$$commit_message"; \
+	git push; \
+	echo "$(YELLOW)All has been pushed with '$$commit_message' in commit$(END)"
 
 debug : all
 	@lldb $(NAME)
