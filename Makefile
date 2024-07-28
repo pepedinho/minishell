@@ -68,8 +68,7 @@ leak : all
 	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
 
 push : fclean
-	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.c | sleep 1
-	@norminette | grep Error
+	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.h | norminette | grep Error
 	@git add .
 	@git commit -m $(ARG)
 	@git push
