@@ -83,8 +83,9 @@ docker:
 	@if [ -z $$(docker images -q minishell-app) ]; then \
 		echo "🐳Image minishell-app non trouvée, construction en cours...🐳"; \
 		docker-compose build; \
+		echo "🐳Docker container is built ✅"; \
 	fi
-	docker-compose run app
+	@docker-compose run app
 
 clean : 
 	@rm -rf $(OBJS_DIR)
