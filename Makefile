@@ -79,9 +79,9 @@ debug : all
 
 docker:
 	@if [ -z $$(docker images -q minishell-app) ]; then \
-		echo "🐳$(BLUE)Image minishell-app non trouvée, construction en cours...$(END)🐳"; \
+		echo "🐳$(BLUE)Image minishell-app not found, work in progress...$(END)🐳"; \
 		docker-compose build; \
-		echo "🐳Docker container is built ✅"; \
+		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
 	fi
 	@docker-compose run app
 
