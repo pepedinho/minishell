@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:01:48 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 02:36:03 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 09:28:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ void	ft_free(void *ptr)
 	destroy(garbage, ptr);
 }
 
-void	free_and_exit(char *error, char *with)
+void	free_and_exit(void)
 {
-	ft_fprintf(2, "%s %s\n", error, with);
 	ft_free(DESTROY);
 	exit(g_signal_code);
 }

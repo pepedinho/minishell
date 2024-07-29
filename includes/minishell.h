@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 04:29:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 09:29:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@
 # define LL_RED 38
 # define FILE 4
 
-# define ERR_MALLOC -1
-# define MALLOC_MESS "Error malloc when allocate for"
+# define ERR_MALLOC 105
 
 extern int	g_signal_code;
 

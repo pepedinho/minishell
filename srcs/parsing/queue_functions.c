@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 21:43:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 09:30:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_command_line	*init_queue(void)
 
 	new = ft_malloc(sizeof(t_command_line));
 	if (!new)
-		return (NULL);
+		handle_malloc_error("queues");
 	new->first = NULL;
 	return (new);
 }
@@ -30,7 +30,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 
 	new = ft_malloc(sizeof(t_element));
 	if (!new)
-		return (NULL);
+		handle_malloc_error("queues");
 	new->type = type;
 	new->content = content;
 	new->next = NULL;

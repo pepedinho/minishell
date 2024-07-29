@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 04:40:00 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 09:40:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,51 @@ int	is_a_separator(char c)
 	return (0);
 }
 
-int	assigne_type(char redirection)
+int	assigne_type(char *redirection)
 {
-	if (redirection == '|')
+	if (!ft_strcmp(redirection, "|"))
 		return (PIPE);
-	if (redirection == '>')
+	if (!ft_strcmp(redirection, "||"))
+		return (OR);
+	if (!ft_strcmp(redirection, ">"))
 		return (R_RED);
-	if (redirection == '<')
+	if (!ft_strcmp(redirection, ">>"))
+		return (RR_RED);
+	if (!ft_strcmp(redirection, "<"))
 		return (L_RED);
-	if (redirection == '&')
+	if (!ft_strcmp(redirection, "<<"))
+		return (LL_RED);
+	if (!ft_strcmp(redirection, "&&"))
 		return (AND);
-	if (redirection == ';')
+	if (!ft_strcmp(redirection, ";"))
 		return (LIST);
+	handle_unexpected_token(3, ';');
 	return (3);
 }
 
-int	add_redirect(t_command_line *queue, char redirection)
+int	add_redirect(t_command_line *queue, char *str, int *i)
 {
-	char	*str;
+	char	*redirection;
+	char	symbol;
 	int		type;
+	int		j;
 
-	str = ft_malloc(sizeof(char) * 2);
-	if (!str)
-		return (g_signal_code = 105, ERR_MALLOC);
-	str[0] = redirection;
-	str[1] = '\0';
+	symbol = str[*i];
+	j = 0;
+	while (str[*i + j] == symbol)
+		j++;
+	if (j > 2)
+		handle_unexpected_token(j, symbol);
+	redirection = ft_malloc(sizeof(char) * (j + 1));
+	if (!redirection)
+		handle_malloc_error("redirections");
+	j = -1;
+	while (str[*i + ++j] == symbol)
+		redirection[j] = str[*i + j];
+	redirection[j] = '\0';
 	type = assigne_type(redirection);
-	if (!add_to_queue(queue, str, type))
-		return (g_signal_code = 105, ERR_MALLOC);
+	add_to_queue(queue, redirection, type);
+	*i += j;
 	return (1);
 }
 
@@ -62,7 +79,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 		return (NO_END_QUOTE); // handle when quote dosen't end
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
-		return (g_signal_code = 105, ERR_MALLOC);
+		handle_malloc_error("quotes");
 	j = 1;
 	while (str[*i + j] && str[*i + j] != '"')
 	{
@@ -86,7 +103,7 @@ int	add_command(t_command_line *queue, char *str, int *i)
 		j++;
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
-		return (g_signal_code = 105, ERR_MALLOC);
+		handle_malloc_error("commands");
 	j = 0;
 	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
 	{
@@ -95,7 +112,7 @@ int	add_command(t_command_line *queue, char *str, int *i)
 	}
 	cmd[j] = '\0';
 	if (!add_to_queue(queue, cmd, 1))
-		return (g_signal_code = 105, ERR_MALLOC);
+		handle_malloc_error("commands");
 	*i += j;
 	return (1);
 }
@@ -103,20 +120,11 @@ int	add_command(t_command_line *queue, char *str, int *i)
 int	add_elem(t_command_line *queue, char *str, int *i)
 {
 	if (str[*i] == '"')
-	{
-		if (add_elem_for_quotes(queue, str, i) == ERR_MALLOC)
-			free_and_exit(MALLOC_MESS, "quotes");
-	}
+		add_elem_for_quotes(queue, str, i);
 	else if (is_a_separator(str[*i]))
-	{
-		if (add_redirect(queue, str[*i]) == ERR_MALLOC)
-			free_and_exit(MALLOC_MESS, "redirections");
-	}
+		add_redirect(queue, str, i);
 	else
-	{
-		if (add_command(queue, str, i) == ERR_MALLOC)
-			free_and_exit(MALLOC_MESS, "commands");
-	}
+		add_command(queue, str, i);
 	return (1);
 }
 
@@ -137,8 +145,6 @@ t_command_line	*parser(char *str)
 	{
 		skip_white_space(str, &i);
 		add_elem(queue, str, &i);
-		if (str[i] != '\0')
-			i++;
 	}
 	return (queue);
 }
@@ -166,12 +172,20 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[Suffix]\n");
 				else if (current->type == PIPE)
 					printf("|             |____[Pipe]\n");
+				else if (current->type == OR)
+					printf("|             |____[Or]\n");
 				else if (current->type == R_RED)
 					printf("|             |____[Right Redirect]\n");
+				else if (current->type == RR_RED)
+					printf("|             |____[RRight Redirect]\n");
 				else if (current->type == L_RED)
 					printf("|             |____[Left Redirect]\n");
+				else if (current->type == LL_RED)
+					printf("|             |____[LLeft Redirect]\n");
 				else if (current->type == AND)
 					printf("|             |____[And]\n");
+				else if (current->type == LIST)
+					printf("|             |____[List]\n");
 				else if (current->type == FILE)
 					printf("|             |____[File]\n");
 			}

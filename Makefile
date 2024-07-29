@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/29 02:37:53 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/29 09:34:09 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS_DIR = srcs/
 
 PARSING = $(addprefix parsing/, parser.c queue_functions.c)
 
-GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c)
+GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c handle_functions.c)
 
 SIGNALS = $(addprefix signal/, signal.c)
 
