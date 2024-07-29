@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 19:33:22 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/29 23:19:08 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,11 @@
 
 void	print_proto(t_tree *tree);
 
-t_sfx	*init_sfx(void)
+int	next_is_sfx(t_element *elem)
 {
-	t_sfx	*new;
-
-	new = ft_malloc(sizeof(t_tree));
-	if (!new)
-		return (NULL);
-	new->first = NULL;
-	return (new);
-}
-
-void	add_sfx(t_sfx *sfx_queue, t_element *sfx)
-{
-	t_cmd_sfx	*new;
-	t_cmd_sfx	*current;
-
-	new = ft_malloc(sizeof(t_branch));
-	if (!new)
-		return ;
-	new->next = NULL;
-	new->suffix = sfx;
-	if (!sfx_queue->first)
-		sfx_queue->first = new;
-	else
-	{
-		current = sfx_queue->first;
-		while (current->next)
-			current = current->next;
-		current->next = new;
-	}
+	if (elem && elem->type / 10 != 3)
+		return (1);
+	return (0);
 }
 
 t_tree	*init_tree(void)
@@ -137,7 +112,7 @@ void	print_proto(t_tree *tree)
 		if (!current->l_cmd)
 		{
 			first_cmd = current->first_cmd;
-			while (first_cmd && first_cmd->type / 10 != 3)
+			while (next_is_sfx(first_cmd))
 			{
 				printf("%s ", first_cmd->content);
 				first_cmd = first_cmd->next;
@@ -147,7 +122,7 @@ void	print_proto(t_tree *tree)
 			printf("*");
 		printf("]     [");
 		current_rgt = current->r_cmd;
-		while (current_rgt && current_rgt->type / 10 != 3)
+		while (next_is_sfx(current_rgt))
 		{
 			printf("%s ", current_rgt->content);
 			current_rgt = current_rgt->next;
