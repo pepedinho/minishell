@@ -167,7 +167,7 @@ void	print_queue(t_command_line *queue)
 			if (current->type)
 			{
 				if (current->type == 1)
-					printf("|             |____ \n");
+					printf("|             |____[Commands]\n");
 				else if (current->type == 2)
 					printf("|             |____[Suffix]\n");
 				else if (current->type == PIPE)
@@ -196,7 +196,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

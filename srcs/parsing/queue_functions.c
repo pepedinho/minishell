@@ -47,7 +47,8 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		{
 			current = current->next;
 		}
-		if (type == CMD && (current->type == L_RED || current->type == R_RED))
+		if (type == CMD && (current->type == L_RED || current->type == R_RED
+				|| current->type == RR_RED || current->type == LL_RED))
 			new->type = FILE;
 		else if (type == CMD && (current->type == CMD || current->type == SFX))
 			new->type = SFX;

@@ -28,6 +28,7 @@
 typedef struct s_element
 {
 	int					type;
+	int					relative_type;
 	char				*content;
 	struct s_element	*next;
 	struct s_element	*before;

@@ -130,7 +130,7 @@ void	print_proto(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-				current->redirect->content);
+			current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("                 [");
@@ -160,53 +160,4 @@ void	print_proto(t_tree *tree)
 		}
 		current = current->l_cmd;
 	}
-}
-
-void	print_sub_tree(t_branch *branch)
-{
-	t_element	*current_rgt;
-
-	printf("                     [%s]                    \n",
-			branch->redirect->content);
-	printf("                    /    \\                  \n");
-	printf("                   /      \\                 \n");
-	printf("             [");
-	if (branch->l_cmd)
-		print_sub_tree(branch);
-	else
-		printf("null");
-	printf("]     [");
-	current_rgt = branch->r_cmd;
-	while (current_rgt && current_rgt->type / 10 != 3)
-	{
-		printf("%s ", current_rgt->content);
-		current_rgt = current_rgt->next;
-	}
-	printf("]\n");
-}
-
-void	print_tree(t_tree *tree)
-{
-	t_branch	*current;
-	t_element	*current_rgt;
-
-	current = tree->first;
-	while (current)
-	{
-		printf("                     [%s]                    \n",
-				current->redirect->content);
-		printf("                    /    \\                  \n");
-		printf("                   /      \\                 \n");
-		printf("             [");
-		print_sub_tree(current->l_cmd);
-	}
-	printf("]     [");
-	current_rgt = current->r_cmd;
-	while (current_rgt && current_rgt->type / 10 != 3)
-	{
-		printf("%s ", current_rgt->content);
-		current_rgt = current_rgt->next;
-	}
-	printf("]\n");
-	current = current->l_cmd;
 }
