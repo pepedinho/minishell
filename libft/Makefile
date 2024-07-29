@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
+#    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/23 16:07:55 by madamou           #+#    #+#              #
-#    Updated: 2024/07/24 21:34:49 by itahri           ###   ########.fr        #
+#    Updated: 2024/07/29 19:38:38 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,13 @@ OBJS_BONUS = $(SRCS_BONUS:./%.c=$(OBJS_DIR)/%.o)
 
 DIR_DUP = mkdir -p $(@D)
 
+G				= \e[92m
+X 				= \e[0m
+BAR_SIZE		= 50
+
+TOTAL_FILES		:= $(words $(SRCS))
+COMPILED_FILES	:= 0
+
 NAME = libft.a
 
 all: $(NAME)
@@ -50,7 +57,21 @@ $(NAME): $(OBJS)
 
 $(OBJS_DIR)/%.o : %.c
 	@$(DIR_DUP)
-	@$(CC) $(CFLAGS) -c -include ./libft.h $< -o $@
+	@$(CC) $(C_FLAGS) -c $< -o $@
+	@$(eval COMPILED_FILES := $(shell echo $$(($(COMPILED_FILES)+1))))
+	@echo -n ""
+	@for i in `seq 1 $(shell echo "$$(($(COMPILED_FILES)*$(BAR_SIZE)/$(TOTAL_FILES)))")`; do \
+		echo -n "$(G)▰$(X)" ; \
+	done
+	@for i in `seq 1 $(shell echo "$$(($(BAR_SIZE)-$(COMPILED_FILES)*$(BAR_SIZE)/$(TOTAL_FILES)))")`; do \
+		echo -n "▱" ; \
+	done
+	@echo -n " ($(shell echo "scale=2; $(COMPILED_FILES)/$(TOTAL_FILES) * 100" | bc)%) "
+	@echo -n ""
+	@printf "%d/%d" $(COMPILED_FILES) $(TOTAL_FILES)
+	@echo -n " "
+	@printf "%s" $(notdir $<)
+	@printf "\e[0K\r"
 
 bonus: all $(OBJS_BONUS)
 	ar rc $(NAME) $(OBJS_BONUS)
