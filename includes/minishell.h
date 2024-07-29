@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:29:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:47:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # define RR_RED 37
 # define LL_RED 38
 # define FILE 4
+
+# define INIT 0
+# define GET 1
 
 # define ERR_MALLOC 105
 

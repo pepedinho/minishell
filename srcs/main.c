@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 02:31:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:59:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 int		g_signal_code = 0;
 
+t_info	*info_in_static(t_info *info, int cas)
+{
+	static t_info	*save;
+
+	if (cas == INIT)
+		save = info;
+	return (save);
+}
+
 void	minishell(t_info *info)
 {
+	info_in_static(info, INIT);
 	receive_prompt(info);
 	ft_printf("exit\n");
 	rl_clear_history();
@@ -31,6 +41,7 @@ void	subminishell(char **argv, t_info *info)
 	}
 	if (argv[3])
 		info->name = argv[3];
+	info_in_static(info, INIT);
 	receive_prompt_subminishell(argv[2], info);
 }
 

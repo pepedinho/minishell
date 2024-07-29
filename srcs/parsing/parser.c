@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:40:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:44:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	print_queue(t_command_line *queue)
 			if (current->type)
 			{
 				if (current->type == 1)
-					printf("|             |____[Command]\n");
+					printf("|             |____ \n");
 				else if (current->type == 2)
 					printf("|             |____[Suffix]\n");
 				else if (current->type == PIPE)
