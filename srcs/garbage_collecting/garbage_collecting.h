@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:07:27 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:34:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:49:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void					destroy_all(t_garbage *garbage);
 // garbage collector functions
 void					*ft_malloc(long int t);
 void					ft_free(void *ptr);
-void					free_and_exit(void);
 void					handle_unexpected_token(int j, char symbol);
 void					handle_malloc_error(char *message);
 

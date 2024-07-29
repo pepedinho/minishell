@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/29 09:34:09 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/29 15:47:37 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ all : $(LIBFT) $(NAME)
 
 $(LIBFT) :
 	@echo "👷$(YELLOW)compiling libft$(END)👷"
-	@make -C ./libft
+	@make -sC ./libft
 	@echo "👷$(YELLOW)libft compilation done$(END)👷"
 
 $(NAME) : $(OBJS)
@@ -90,12 +90,12 @@ docker:
 
 clean : 
 	@rm -rf $(OBJS_DIR)
-	@make clean -C ./libft
+	@make clean -sC ./libft
 	@echo "🧼🧼$(PURPLE)objects cleaned$(END)🧼🧼"
 
 fclean : clean
 	@rm -rf $(NAME)
-	@make fclean -C ./libft
+	@make fclean -sC ./libft
 	@echo "🧼🧼$(PURPLE)executable cleaned$(END)🧼🧼"
 
 re : fclean all

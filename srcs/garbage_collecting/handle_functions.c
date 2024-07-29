@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 10:59:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:51:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	handle_unexpected_token(int j, char symbol)
 	info = info_in_static(NULL, GET);
 	if (j == 3)
 		ft_fprintf(2, "%s: syntax error near unexpected token `%c'\n",
-			info->name, symbol);
+				info->name, symbol);
 	else
 		ft_fprintf(2, "%s: syntax error near unexpected token `%c%c'\n",
-			info->name, symbol, symbol);
+				info->name, symbol, symbol);
 	g_signal_code = 1;
-	free_and_exit();
+	ft_free(DESTROY);
+	exit(g_signal_code);
 }
 
 void	handle_malloc_error(char *message)
@@ -33,7 +34,8 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-		message);
+			message);
 	g_signal_code = ERR_MALLOC;
-	free_and_exit();
+	ft_free(DESTROY);
+	exit(g_signal_code);
 }
