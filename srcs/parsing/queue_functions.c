@@ -47,6 +47,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		{
 			current = current->next;
 		}
+		// TODO: add here doc geture
 		if (type == CMD && (current->type == L_RED || current->type == R_RED
 				|| current->type == RR_RED || current->type == LL_RED))
 			new->type = FILE;

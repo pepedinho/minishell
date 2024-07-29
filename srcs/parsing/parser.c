@@ -192,11 +192,10 @@ void	print_queue(t_command_line *queue)
 		}
 		else
 		{
-			// printf("|\n");
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

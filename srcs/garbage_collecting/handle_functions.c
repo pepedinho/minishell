@@ -19,10 +19,10 @@ void	handle_unexpected_token(int j, char symbol)
 	info = info_in_static(NULL, GET);
 	if (j == 3)
 		ft_fprintf(2, "%s: syntax error near unexpected token `%c'\n",
-				info->name, symbol);
+			info->name, symbol);
 	else
 		ft_fprintf(2, "%s: syntax error near unexpected token `%c%c'\n",
-				info->name, symbol, symbol);
+			info->name, symbol, symbol);
 	g_signal_code = 1;
 	ft_free(DESTROY);
 	exit(g_signal_code);
@@ -34,7 +34,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	g_signal_code = ERR_MALLOC;
 	ft_free(DESTROY);
 	exit(g_signal_code);
