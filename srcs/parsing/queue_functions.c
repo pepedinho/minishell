@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:30:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 22:48:37 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ t_command_line	*init_queue(void)
 	return (new);
 }
 
+static int	is_redirection(t_element *elem)
+{
+	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED
+		|| elem->type == LL_RED)
+		return (1);
+	return (0);
+}
+
 t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 {
 	t_element	*new;
@@ -34,6 +42,9 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	new->type = type;
 	new->content = content;
 	new->next = NULL;
+	new->fd = NULL;
+	new->path = NULL;
+	new->in_output = NULL;
 	new->before = NULL;
 	if (!queue->first)
 	{
@@ -48,8 +59,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 			current = current->next;
 		}
 		// TODO: add here doc geture
-		if (type == CMD && (current->type == L_RED || current->type == R_RED
-				|| current->type == RR_RED || current->type == LL_RED))
+		if (type == CMD && is_redirection(current))
 			new->type = FILE;
 		else if (type == CMD && (current->type == CMD || current->type == SFX))
 			new->type = SFX;

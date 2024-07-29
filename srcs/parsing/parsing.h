@@ -30,6 +30,9 @@ typedef struct s_element
 	int					type;
 	int					relative_type;
 	char				*content;
+	int					*fd;
+	char				*path;
+	char				*in_output;
 	struct s_element	*next;
 	struct s_element	*before;
 }						t_element;
