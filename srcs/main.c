@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/28 23:45:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 02:31:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	subminishell(char **argv, t_info *info)
 	if (ft_strcmp(argv[1], "-c") != 0)
 	{
 		g_signal_code = 2;
-		ft_printf_fd("minishell: %s: invalid option\n", STDERR_FILENO, argv[1]);
+		ft_fprintf(STDERR_FILENO, "minishell: %s: invalid option\n", argv[1]);
 		return ;
 	}
 	if (argv[3])

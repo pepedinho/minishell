@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:01:48 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/23 15:51:42 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/29 02:36:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,11 @@ void	ft_free(void *ptr)
 		return ;
 	}
 	destroy(garbage, ptr);
+}
+
+void	free_and_exit(char *error, char *with)
+{
+	ft_fprintf(2, "%s %s\n", error, with);
+	ft_free(DESTROY);
+	exit(g_signal_code);
 }

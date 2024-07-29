@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 22:07:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 02:31:21 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_printf(const char *str, ...)
 	print = ft_printf_bis(print, str, args);
 	if (!print)
 		return (-1);
-	return (va_end(args), ft_putstr(print), ft_len_print(2));
+	return (va_end(args), ft_putstrr(print), ft_len_print(2));
 }
 
 char	*ft_sprintf(const char *str, ...)
@@ -84,7 +84,7 @@ char	*ft_sprintf(const char *str, ...)
 	return (va_end(args), print);
 }
 
-int	ft_printf_fd(const char *str, int fd, ...)
+int	ft_fprintf(int fd, const char *str, ...)
 {
 	va_list	args;
 	char	*print;
@@ -96,11 +96,12 @@ int	ft_printf_fd(const char *str, int fd, ...)
 		return (-1);
 	print[0] = '\0';
 	ft_len_print(0);
-	va_start(args, fd);
+	va_start(args, str);
 	print = ft_printf_bis(print, str, args);
 	if (!print)
 		return (-1);
-	return (va_end(args), ft_putstr_fd(print, fd), ft_len_print(2));
+	ft_putstr_fd(print, fd);
+	return (va_end(args), free(print), ft_len_print(2));
 }
 
 /*int	main(void)

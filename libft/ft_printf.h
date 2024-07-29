@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:05:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 16:03:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 02:30:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int		ft_printf(const char *str, ...);
 char	*ft_sprintf(const char *str, ...);
-int		ft_printf_fd(const char *str, int fd, ...);
+int		ft_fprintf(int fd, const char *str, ...);
 
 int		ft_strlen1(char *str);
 int		ft_size_malloc(long nb, int len_base);
@@ -48,6 +48,6 @@ char	*ft_pointer(char *print, void *ptr);
 char	*ft_str_to_print(char *print, char c);
 char	*ft_check_if_format(const char *str, int i, char *print, va_list args);
 
-void	ft_putstr(char *s);
+void	ft_putstrr(char *s);
 
 #endif

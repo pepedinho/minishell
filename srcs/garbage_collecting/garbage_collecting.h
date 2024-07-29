@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collecting.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:07:27 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/23 15:35:56 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/29 02:36:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GARBAGE_COLLECTING_H
 # define GARBAGE_COLLECTING_H
+
+# include "../../includes/minishell.h"
 # include <stdio.h>
 # include <stdlib.h>
 
@@ -39,6 +41,7 @@ void					destroy_all(t_garbage *garbage);
 // garbage collector functions
 void					*ft_malloc(long int t);
 void					ft_free(void *ptr);
+void					free_and_exit(char *error, char *with);
 
 /*
  * HOW TO USE

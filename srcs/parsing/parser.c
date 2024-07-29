@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/28 23:33:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 02:37:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	add_redirect(t_command_line *queue, char redirection)
 
 	str = ft_malloc(sizeof(char) * 2);
 	if (!str)
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	str[0] = redirection;
 	str[1] = '\0';
 	type = assigne_type(redirection);
 	if (!add_to_queue(queue, str, type))
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	return (1);
 }
 
@@ -62,7 +62,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 		return (NO_END_QUOTE); // handle when quote dosen't end
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	j = 1;
 	while (str[*i + j] && str[*i + j] != '"')
 	{
@@ -71,7 +71,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	}
 	cmd[j - 1] = '\0';
 	if (!add_to_queue(queue, cmd, 1))
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	*i += j;
 	return (1);
 }
@@ -86,7 +86,7 @@ int	add_command(t_command_line *queue, char *str, int *i)
 		j++;
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	j = 0;
 	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
 	{
@@ -95,7 +95,7 @@ int	add_command(t_command_line *queue, char *str, int *i)
 	}
 	cmd[j] = '\0';
 	if (!add_to_queue(queue, cmd, 1))
-		return (ERR_MALLOC);
+		return (g_signal_code = 105, ERR_MALLOC);
 	*i += j;
 	return (1);
 }
@@ -105,17 +105,17 @@ int	add_elem(t_command_line *queue, char *str, int *i)
 	if (str[*i] == '"')
 	{
 		if (add_elem_for_quotes(queue, str, i) == ERR_MALLOC)
-			return (ft_printf_fd("%s quotes\n", 2, MALLOC_MESS), ERR_MALLOC);
+			free_and_exit(MALLOC_MESS, "quotes");
 	}
 	else if (is_a_separator(str[*i]))
 	{
 		if (add_redirect(queue, str[*i]) == ERR_MALLOC)
-			return (ft_printf_fd("%s redirections\n", 2, MALLOC_MESS), -1);
+			free_and_exit(MALLOC_MESS, "redirections");
 	}
 	else
 	{
 		if (add_command(queue, str, i) == ERR_MALLOC)
-			return (ft_printf_fd("%s commands\n", 2, MALLOC_MESS), -1);
+			free_and_exit(MALLOC_MESS, "commands");
 	}
 	return (1);
 }
@@ -136,8 +136,7 @@ t_command_line	*parser(char *str)
 	while (str[i])
 	{
 		skip_white_space(str, &i);
-		if (add_elem(queue, str, &i) == ERR_MALLOC)
-			return (ft_free(DESTROY), NULL);
+		add_elem(queue, str, &i);
 		if (str[i] != '\0')
 			i++;
 	}
