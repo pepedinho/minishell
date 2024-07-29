@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/28 23:45:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 05:34:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ void	handle_sigint(int num)
 void	sigaction_sigint(void)
 {
 	struct sigaction	sa;
+	struct sigaction	sb;
 
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = &handle_sigint;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
+	ft_memset(&sb, 0, sizeof(sb));
+	sb.sa_handler = SIG_IGN;
+	sb.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sb, NULL);
 }

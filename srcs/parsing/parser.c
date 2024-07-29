@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 02:37:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:40:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	assigne_type(char redirection)
 	if (redirection == '&')
 		return (AND);
 	if (redirection == ';')
-		return (AND);
+		return (LIST);
 	return (3);
 }
 

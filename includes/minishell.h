@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 02:36:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:29:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define R_RED 32
 # define L_RED 33
 # define AND 34
+# define OR 35
+# define LIST 36
+# define RR_RED 37
+# define LL_RED 38
 # define FILE 4
 
 # define ERR_MALLOC -1
