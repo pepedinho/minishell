@@ -22,7 +22,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 
 # define CMD 1
@@ -36,6 +35,8 @@
 # define RR_RED 37
 # define LL_RED 38
 # define FILE 4
+# define H_FILE 41
+# define U_TOKEN 5
 
 # define INIT 0
 # define GET 1

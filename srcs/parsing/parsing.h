@@ -23,8 +23,14 @@
  * 1 = Command
  * 2 = suffix
  * 3 = redirection
+ * 4 = file (go to minishell.h to see more)
  */
 
+/*
+ * path      = path to the  command to execute
+ * fd        = tab of 2 fd for pipe communication betwen process
+ * in_output = input or output_file
+ */
 typedef struct s_element
 {
 	int					type;
@@ -37,8 +43,15 @@ typedef struct s_element
 	struct s_element	*before;
 }						t_element;
 
+/*
+ * heredoc_flag = 1 if there is some in heredoc in command
+ *                |
+ *                --> 0 if ther is no heredoc in command
+ */
+
 typedef struct s_command_line
 {
+	int					heredoc_flag;
 	t_element			*first;
 	t_element			*last;
 }						t_command_line;

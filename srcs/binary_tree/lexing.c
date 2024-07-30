@@ -60,9 +60,10 @@ void	add_first_cmd(t_tree *tree, t_element *first_cmd)
 	t_branch	*current;
 
 	current = tree->first;
-	while (current->l_cmd)
+	while (current && current->l_cmd)
 		current = current->l_cmd;
-	current->first_cmd = first_cmd;
+	if (current)
+		current->first_cmd = first_cmd;
 }
 
 t_tree	*smart_agencement(t_command_line *queue)
@@ -77,7 +78,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 	current = queue->last;
 	while (current->before)
 	{
-		if (current->type == CMD)
+		if (current->type == CMD || current->type == H_FILE)
 			tmp = current;
 		if (is_a_redirect(current->type))
 		{

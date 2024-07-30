@@ -29,7 +29,7 @@ void	receive_prompt(t_info *info)
 	t_command_line	*queue;
 
 	(void)info;
-	while (true)
+	while (1)
 	{
 		command_line = readline("minishell > ");
 		if (!command_line)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <time.h>
 
 t_command_line	*init_queue(void)
 {
@@ -25,8 +26,7 @@ t_command_line	*init_queue(void)
 
 static int	is_redirection(t_element *elem)
 {
-	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED
-		|| elem->type == LL_RED)
+	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED)
 		return (1);
 	return (0);
 }
@@ -61,6 +61,8 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		// TODO: add here doc geture
 		if (type == CMD && is_redirection(current))
 			new->type = FILE;
+		else if (type == CMD && current->type == LL_RED)
+			new->type = H_FILE;
 		else if (type == CMD && (current->type == CMD || current->type == SFX))
 			new->type = SFX;
 		new->before = current;
