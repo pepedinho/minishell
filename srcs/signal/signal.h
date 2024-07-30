@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 16:55:32 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/30 13:23:13 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/30 13:24:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <string.h>
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-void	ft_pwd(void)
-{
-	char	*buffer;
-	size_t	size;
+// Signals
+void	sigaction_sigint(void);
+void	handle_sigint(int num);
 
-	size = 100;
-	buffer = ft_malloc(sizeof(char) * size);
-}
+#endif // !SIGNAL_H

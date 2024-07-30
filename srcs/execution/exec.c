@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/30 17:03:48 by madamou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minishell.h"
+#include <fcntl.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void	message_pipe(char *limiter)
+{
+	t_info	*info;
+
+	info = info_in_static(NULL, GET);
+	ft_printf("%s: warning: here-document at line 1 delimited ", info->name);
+	ft_printf("by end-of-file (wanted `%s')\n", limiter);
+}
+
+void	here_doc(t_element *tmp)
+{
+	char	*line;
+
+	if (pipe(tmp->fd) == -1)
+		error_message("pipe");
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line)
+		{
+			message_pipe(tmp->content);
+			break ;
+		}
+		if (ft_strcmp(line, tmp->content) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(tmp->fd[WRITE], line, ft_strlen(line));
+		write(tmp->fd[WRITE], "\n", 1);
+		free(line);
+	}
+	close(tmp->fd[WRITE]);
+}
+
+void	file(t_element *tmp)
+{
+	if (tmp->before && tmp->before->type == L_RED)
+	{
+		tmp->file_fd = open(tmp->content, O_RDONLY);
+		if (tmp->file_fd == -1)
+			error_message(tmp->content);
+	}
+	if (tmp->before && tmp->before->type == R_RED)
+	{
+		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (tmp->file_fd == -1)
+			error_message(tmp->content);
+	}
+	if (tmp->before && tmp->before->type == RR_RED)
+	{
+		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (tmp->file_fd == -1)
+			error_message(tmp->content);
+	}
+}
+
+void	open_file(t_command_line *queue)
+{
+	t_element	*tmp;
+
+	tmp = queue->first;
+	while (tmp)
+	{
+		if (tmp->type == FILE)
+			file(tmp);
+		if (tmp->type == H_FILE)
+			here_doc(tmp);
+		tmp = tmp->next;
+	}
+}
+
+void	global_check(t_command_line *queue, t_tree *tree)
+{
+	(void)tree;
+	open_file(queue);
+}

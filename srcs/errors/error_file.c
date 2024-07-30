@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   error_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 16:55:32 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/30 13:18:55 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/30 16:34:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <string.h>
 
-void	ft_pwd(void)
+void	error_message(char *content)
 {
-	char	*buffer;
-	size_t	size;
+	t_info	*info;
+	char	*message;
 
-	size = 100;
-	buffer = ft_malloc(sizeof(char) * size);
+	info = info_in_static(NULL, GET);
+	message = ft_sprintf("%s: %s", info->name, content);
+	perror(message);
+	free(message);
+	g_signal_code = 1;
 }

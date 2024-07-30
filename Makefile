@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/29 19:44:40 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/30 13:31:51 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,11 @@ SRCS_DIR = srcs/
 
 PARSING = $(addprefix parsing/, parser.c queue_functions.c)
 
-GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c handle_functions.c)
+GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c)
+
+ERROR = $(addprefix errors/, error_file.c handle_functions.c)
+
+EXEC = $(addprefix execution/, exec.c)
 
 SIGNALS = $(addprefix signal/, signal.c)
 
@@ -37,7 +41,7 @@ PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 

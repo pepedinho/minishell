@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 16:55:32 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/30 16:23:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <string.h>
+#ifndef EXEC_H
+# define EXEC_H
 
-void	ft_pwd(void)
-{
-	char	*buffer;
-	size_t	size;
+# ifdef MINISHELL_H
+#  undef MINISHELL_H
+# endif
+# include "../../includes/minishell.h"
 
-	size = 100;
-	buffer = ft_malloc(sizeof(char) * size);
-}
+void	global_check(struct s_command_line *queue, t_tree *tree);
+void	message_pipe(char *limiter);
+
+#endif // !EXEC_H

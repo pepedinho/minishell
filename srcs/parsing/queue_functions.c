@@ -42,7 +42,6 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	new->type = type;
 	new->content = content;
 	new->next = NULL;
-	new->fd = NULL;
 	new->path = NULL;
 	new->in_output = NULL;
 	new->before = NULL;
@@ -58,11 +57,13 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		{
 			current = current->next;
 		}
-		// TODO: add here doc geture
 		if (type == CMD && is_redirection(current))
 			new->type = FILE;
 		else if (type == CMD && current->type == LL_RED)
+		{
 			new->type = H_FILE;
+			queue->heredoc_flag = 1;
+		}
 		else if (type == CMD && (current->type == CMD || current->type == SFX))
 			new->type = SFX;
 		new->before = current;

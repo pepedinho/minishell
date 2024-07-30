@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 16:20:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/30 16:30:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 # include "../libft/libft.h"
 # include "../srcs/binary_tree/lexer.h"
 # include "../srcs/builtins/builtins.h"
+# include "../srcs/errors/errors.h"
+# include "../srcs/execution/exec.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
 # include "../srcs/receive_prompt/prompt.h"
+# include "../srcs/signal/signal.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -41,13 +44,13 @@
 # define INIT 0
 # define GET 1
 
+// PIPE
+# define READ 0
+# define WRITE 1
+
 # define ERR_MALLOC 105
 
 extern int	g_signal_code;
-
-// Signals
-void		sigaction_sigint(void);
-void		handle_sigint(int num);
 
 t_tree		*smart_agencement(t_command_line *queue);
 

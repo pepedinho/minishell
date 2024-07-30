@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 16:55:32 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/30 13:20:40 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/30 16:35:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include <string.h>
+#ifndef ERRORS_H
+# define ERRORS_H
 
-void	ft_pwd(void)
-{
-	char	*buffer;
-	size_t	size;
+void	error_message(char *content);
+void	handle_unexpected_token(int j, char symbol);
+void	handle_malloc_error(char *message);
 
-	size = 100;
-	buffer = ft_malloc(sizeof(char) * size);
-}
+#endif // !ERRORS_H
