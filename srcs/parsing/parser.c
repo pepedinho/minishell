@@ -37,7 +37,7 @@ int	assigne_type(char *redirection)
 		return (AND);
 	if (!ft_strcmp(redirection, ";"))
 		return (LIST);
-	// handle_unexpected_token(3, ';');
+	handle_unexpected_token(3, ';', INIT);
 	return (U_TOKEN);
 }
 
@@ -52,8 +52,8 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	j = 0;
 	while (str[*i + j] == symbol)
 		j++;
-	// if (j > 2)
-	//	handle_unexpected_token(j, symbol);
+	if (j > 2)
+		handle_unexpected_token(j, symbol, INIT);
 	redirection = ft_malloc(sizeof(char) * (j + 1));
 	if (!redirection)
 		handle_malloc_error("redirections");
@@ -197,7 +197,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

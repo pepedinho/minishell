@@ -12,29 +12,42 @@
 
 #include "../../includes/minishell.h"
 
-void	handle_unexpected_token(int j, char symbol)
+void	handle_unexpected_token(int j, char symbol, int cas)
 {
-	t_info	*info;
+	t_info		*info;
+	static char	*text;
+	static int	check;
 
 	info = info_in_static(NULL, GET);
-	if (j == 3)
-		ft_fprintf(2, "%s: syntax error near unexpected token `%c'\n",
-			info->name, symbol);
-	else
-		ft_fprintf(2, "%s: syntax error near unexpected token `%c%c'\n",
-			info->name, symbol, symbol);
-	g_signal_code = 1;
-	ft_free(DESTROY);
-	exit(g_signal_code);
+	if (check == 0 && cas == INIT)
+	{
+		if (j == 3)
+			text = ft_sprintf("%s: syntax error near unexpected token `%c'\n",
+								info->name,
+								symbol);
+		else
+			text = ft_sprintf("%s: syntax error near unexpected token `%c%c'\n",
+								info->name,
+								symbol,
+								symbol);
+		check = 1;
+	}
+	if (cas == GET && text)
+	{
+		ft_fprintf(2, "%s", text);
+		g_signal_code = 1;
+		ft_free(DESTROY);
+		exit(g_signal_code);
+	}
 }
 
 void	handle_malloc_error(char *message)
 {
-	t_info *info;
+	t_info	*info;
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-		message);
+			message);
 	g_signal_code = ERR_MALLOC;
 	ft_free(DESTROY);
 	exit(g_signal_code);

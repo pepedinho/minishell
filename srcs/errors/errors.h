@@ -14,7 +14,7 @@
 # define ERRORS_H
 
 void	error_message(char *content);
-void	handle_unexpected_token(int j, char symbol);
+void	handle_unexpected_token(int j, char symbol, int cas);
 void	handle_malloc_error(char *message);
 
 #endif // !ERRORS_H

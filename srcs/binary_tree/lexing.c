@@ -92,7 +92,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 		current = current->before;
 	}
 	add_first_cmd(tree, current);
-	print_proto(tree);
+	//	print_proto(tree);
 	return (tree);
 }
 

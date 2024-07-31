@@ -49,6 +49,7 @@ void	here_doc(t_element *tmp)
 		free(line);
 	}
 	close(tmp->fd[WRITE]);
+	tmp->file_fd = tmp->fd[READ];
 }
 
 void	file(t_element *tmp)
@@ -86,6 +87,7 @@ void	open_file(t_command_line *queue)
 			here_doc(tmp);
 		tmp = tmp->next;
 	}
+	handle_unexpected_token(0, 0, GET);
 }
 
 void	global_check(t_command_line *queue, t_tree *tree)
