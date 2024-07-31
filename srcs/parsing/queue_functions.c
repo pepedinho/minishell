@@ -36,7 +36,8 @@ static int	is_redirection(t_element *elem)
 	return (0);
 }
 
-t_element	*add_to_queue(t_command_line *queue, char *content, int type)
+t_element	*add_to_queue(t_command_line *queue, char *content, int type,
+		char *env_value)
 {
 	t_element	*new;
 	t_element	*current;
@@ -45,12 +46,15 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	if (!new)
 		handle_malloc_error("queues");
 	new->type = type;
+	new->env_value = NULL;
 	new->content = content;
 	new->next = NULL;
 	new->path = NULL;
 	new->file_fd = -1;
 	new->in_output = NULL;
 	new->before = NULL;
+	if (type == ENV)
+		new->env_value = env_value;
 	if (type == HU_TOKEN)
 		queue->u_heredoc_token_flag = 1;
 	if (!queue->first)
@@ -73,7 +77,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 			queue->heredoc_flag = 1;
 		}
 		else if (type == CMD && (current->type == CMD || current->type == SFX
-					|| current->type == H_FILE || current->type == FILE))
+				|| current->type == H_FILE || current->type == FILE))
 			new->type = SFX;
 		new->before = current;
 		current->next = new;

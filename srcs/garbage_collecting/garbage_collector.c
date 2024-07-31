@@ -59,9 +59,3 @@ void	ft_free(void *ptr)
 	}
 	destroy(garbage, ptr);
 }
-
-void	free_and_exit(void)
-{
-	ft_free(DESTROY);
-	exit(g_signal_code);
-}

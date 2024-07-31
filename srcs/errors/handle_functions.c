@@ -51,7 +51,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	g_signal_code = ERR_MALLOC;
 	ft_free(DESTROY);
 	exit(g_signal_code);
@@ -76,7 +76,8 @@ void	free_and_exit(void)
 	t_command_line	*queue;
 
 	info = info_in_static(NULL, GET);
-	queue = queue_in_static(queue, GET);
+	queue = queue_in_static(NULL, GET);
+	close_fd(queue);
 	free_env(info->env);
 	ft_free(DESTROY);
 	exit(g_signal_code);

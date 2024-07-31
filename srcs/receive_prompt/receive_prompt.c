@@ -28,7 +28,7 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	t_element		*tmp;
 
 	(void)info;
-	queue = parser(command_line);
+	queue = parser(command_line, info->env);
 	print_queue(queue);
 	tree = smart_agencement(queue);
 	if (queue->heredoc_flag == 1)
@@ -58,7 +58,7 @@ void	receive_prompt(t_info *info)
 			g_signal_code = 0;
 			break ;
 		}
-		queue = parser(command_line);
+		queue = parser(command_line, info->env);
 		print_queue(queue);
 		tree = smart_agencement(queue);
 		add_history(command_line);
