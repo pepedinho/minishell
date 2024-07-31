@@ -43,16 +43,36 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	ft_free(DESTROY);
 }
 
+char	*get_prompt(t_info *info)
+{
+	t_env	*current;
+	char	*pwd;
+	char	*hostname;
+	char	*prompt;
+
+	current = info->env;
+	while (current && ft_strcmp(current->key, "PWD"))
+		current = current->next;
+	pwd = current->value;
+	current = info->env;
+	while (current && ft_strcmp(current->key, "USER"))
+		current = current->next;
+	hostname = current->value;
+	prompt = ft_sprintf("\033[0;34m%s:\033[0;32m%s$\033[0m", hostname, pwd);
+	return (prompt);
+}
+
 void	receive_prompt(t_info *info)
 {
 	char			*command_line;
 	t_command_line	*queue;
 	t_tree			*tree;
+	char			*prompt;
 
-	(void)info;
 	while (1)
 	{
-		command_line = readline("minishell > ");
+		prompt = get_prompt(info);
+		command_line = readline(prompt);
 		if (!command_line)
 		{
 			g_signal_code = 0;
@@ -64,6 +84,7 @@ void	receive_prompt(t_info *info)
 		add_history(command_line);
 		free(command_line);
 		global_check(queue, tree);
+		free(prompt);
 		ft_free(DESTROY);
 	}
 }
