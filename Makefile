@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/31 17:26:07 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/01 00:24:43 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 ERROR = $(addprefix errors/, error_file.c handle_functions.c)
 
-EXEC = $(addprefix execution/, exec.c)
+EXEC = $(addprefix execution/, exec.c exec_commands.c)
 
 SIGNALS = $(addprefix signal/, signal.c)
 

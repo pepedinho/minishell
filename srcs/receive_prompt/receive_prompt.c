@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 21:54:27 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 00:04:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	receive_prompt(t_info *info)
 		tree = smart_agencement(queue);
 		add_history(command_line);
 		free(command_line);
-		global_check(queue, tree);
+		if (global_check(queue, tree))
+			exec(tree->first, queue, info);
 		free(prompt);
 		ft_free(DESTROY);
 	}
