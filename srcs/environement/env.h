@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:12:42 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 18:52:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 01:21:42 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	char			**split;
+	char			**envp;
+	int				global;
 	struct s_env	*next;
 }					t_env;
 
