@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 21:23:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 21:32:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ void	fill_open_quote(t_element *sfx)
 			break ;
 		}
 		if (line[0] == '"')
+		{
+			free(line);
 			break ;
+		}
 		len = ft_strlen(sfx->content);
 		realloc_str = ft_malloc(sizeof(char) * (len + ft_strlen(line) + 2));
 		if (!realloc_str)
@@ -116,6 +119,7 @@ void	fill_open_quote(t_element *sfx)
 		realloc_str[i + 1] = '\0';
 		ft_free(sfx->content);
 		sfx->content = realloc_str;
+		free(line);
 	}
 }
 
