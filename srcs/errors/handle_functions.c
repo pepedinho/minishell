@@ -6,11 +6,12 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 15:51:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 19:27:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <sys/types.h>
 #include <unistd.h>
 
 void	init_index(char token, int *i)
@@ -52,6 +53,20 @@ void	handle_malloc_error(char *message)
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
 			message);
 	g_signal_code = ERR_MALLOC;
+	ft_free(DESTROY);
+	exit(g_signal_code);
+}
+
+void	close_fd(t_command_line *queue)
+{
+}
+
+void	free_and_exit(void)
+{
+	t_info	*info;
+
+	info = info_in_static(NULL, GET);
+	free_env(info->env);
 	ft_free(DESTROY);
 	exit(g_signal_code);
 }

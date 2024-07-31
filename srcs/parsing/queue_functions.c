@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 22:48:37 by itahri           ###   ########.fr       */
+/*   Updated: 2024/07/31 19:23:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	new->path = NULL;
 	new->in_output = NULL;
 	new->before = NULL;
+  new->fd
 	if (!queue->first)
 	{
 		queue->first = new;

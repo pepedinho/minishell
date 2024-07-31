@@ -6,11 +6,20 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/30 16:17:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 19:19:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+t_command_line	*queue_in_static(t_command_line *queue, int cas)
+{
+	static t_command_line	*save;
+
+	if (cas == INIT)
+		save = queue;
+	return (save);
+}
 
 void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
