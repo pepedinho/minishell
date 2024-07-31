@@ -39,6 +39,8 @@ int	assigne_type(char *redirection, t_command_line *queue)
 	if (!ft_strcmp(redirection, ";"))
 		return (LIST);
 	queue->u_token_flag = 1;
+	if (redirection[0] == '<')
+		return (HU_TOKEN);
 	return (U_TOKEN);
 }
 
@@ -76,8 +78,12 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	j = 1;
 	while (str[*i + j] && str[*i + j] != '"')
 		j++;
-	if (!str[*i + j] && str[*i + j - 1] != '"')
-		return (NO_END_QUOTE); // handle when quote dosen't end
+	if ((!str[*i + j] && str[*i + j - 1] != '"') || (str[*i + j - 1] == '"'
+			&& j == 1))
+	{
+		queue->open_quotes_flag = 1;
+		// return (NO_END_QUOTE); // handle when quote dosen't end
+	}
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		handle_malloc_error("quotes");
@@ -127,7 +133,10 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	while (str[*i + j] && str[*i + j] != ')')
 		j++;
 	if (!str[*i + j] && str[*i + j - 1] != ')')
+	{
+		queue->open_parenthesis_flag = 1;
 		return (NO_END_QUOTE); // handle when quote dosen't end
+	}
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		handle_malloc_error("parenthesis");

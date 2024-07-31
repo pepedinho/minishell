@@ -64,10 +64,7 @@ void	destroy(t_garbage *garbage, t_to_destroy *elem)
 	if (current && current->to_destroy == elem)
 	{
 		tmp_n = current->next;
-		if (current->next)
-			tmp_b->next = tmp_n;
-		else
-			tmp_b->next = NULL;
+		tmp_b->next = tmp_n;
 		(free(current->to_destroy), free(current));
 	}
 }

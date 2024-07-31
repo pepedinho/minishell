@@ -126,9 +126,10 @@ void	print_proto(t_tree *tree)
 			printf("*");
 		printf("]     [");
 		current_rgt = current->r_cmd;
-		if (current_rgt->type == C_BLOCK)
+		if (current_rgt && current_rgt->type == C_BLOCK)
 			printf("(%s)", current_rgt->content);
-		while (current_rgt->type != C_BLOCK && next_is_sfx(current_rgt))
+		while (current_rgt && current_rgt->type != C_BLOCK
+			&& next_is_sfx(current_rgt))
 		{
 			printf("%s ", current_rgt->content);
 			current_rgt = current_rgt->next;

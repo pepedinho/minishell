@@ -74,6 +74,38 @@ void	file(t_element *tmp)
 	}
 }
 
+void	fill_open_quote(t_element *sfx)
+{
+	char	*line;
+	char	*realloc_str;
+	int		len;
+	int		i;
+	int		j;
+
+	while (1)
+	{
+		line = readline("dquote> ");
+		if (!line)
+			break ;
+		if (line[0] == '"')
+			break ;
+		len = ft_strlen(sfx->content);
+		realloc_str = ft_malloc(sizeof(char) * (len + ft_strlen(line) + 2));
+		if (!realloc_str)
+			break ;
+		i = -1;
+		j = 0;
+		while (sfx->content[++i])
+			realloc_str[i] = sfx->content[i];
+		while (line[j])
+			realloc_str[i++] = line[j++];
+		realloc_str[i] = '\n';
+		realloc_str[i + 1] = '\0';
+		ft_free(sfx->content);
+		sfx->content = realloc_str;
+	}
+}
+
 int	open_file(t_command_line *queue)
 {
 	t_element	*tmp;
@@ -82,6 +114,15 @@ int	open_file(t_command_line *queue)
 
 	i = 0;
 	j = 0;
+	tmp = queue->first;
+	if (queue->open_quotes_flag == 1)
+	{
+		while (tmp && tmp->type != SFX)
+			tmp = tmp->next;
+		if (tmp)
+			fill_open_quote(tmp);
+		print_queue(queue);
+	}
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)
 	{
@@ -98,13 +139,14 @@ int	open_file(t_command_line *queue)
 	{
 		if (tmp->type == H_FILE)
 		{
-			if (j < i)
+			if (j <= i)
 				here_doc(tmp);
 			else
 				return (0);
 		}
 		tmp = tmp->next;
-		j++;
+		if (queue->u_token_flag == 1)
+			j++;
 	}
 	tmp = queue->first;
 	while (tmp)

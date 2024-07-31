@@ -41,6 +41,7 @@
 # define FILE 4
 # define H_FILE 41
 # define U_TOKEN 5
+# define HU_TOKEN 51
 # define C_BLOCK 6
 
 # define INIT 0
