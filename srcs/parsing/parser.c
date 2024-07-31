@@ -157,6 +157,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*cmd;
+	t_env	*current;
 
 	j = 1;
 	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
@@ -171,7 +172,10 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 		j++;
 	}
 	cmd[j - 1] = '\0';
-	if (!add_to_queue(queue, cmd, ENV, env->value))
+	current = env;
+	while (current && ft_strcmp(current->key, cmd))
+		current = current->next;
+	if (!add_to_queue(queue, cmd, ENV, current->value))
 		return (g_signal_code = 105, ERR_MALLOC);
 	*i += j + 1;
 	return (1);
