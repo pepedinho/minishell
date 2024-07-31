@@ -64,7 +64,8 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 			new->type = H_FILE;
 			queue->heredoc_flag = 1;
 		}
-		else if (type == CMD && (current->type == CMD || current->type == SFX))
+		else if (type == CMD && (current->type == CMD || current->type == SFX
+				|| current->type == H_FILE || current->type == FILE))
 			new->type = SFX;
 		new->before = current;
 		current->next = new;
