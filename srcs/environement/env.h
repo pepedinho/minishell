@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 19:02:19 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 17:25:07 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/31 17:12:42 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/31 17:23:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
+#ifndef ENV_H
+# define ENV_H
 
 # include "../../includes/minishell.h"
 
-typedef struct s_info
+typedef struct s_env
 {
-	char			*name;
-	char			*path;
-	struct s_env	*env;
-}					t_info;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
-// Prompt
-void				receive_prompt(t_info *info);
-void	receive_prompt_subminishell(char *command_line,
-									t_info *info);
-t_info				*info_in_static(t_info *info, int cas);
+t_env				*env_in_struct(char **envp);
+t_env				*free_env(t_env *env);
 
-#endif
+#endif // !ENV_H

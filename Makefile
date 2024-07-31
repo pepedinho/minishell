@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/30 13:31:51 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/31 17:26:07 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,11 @@ BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
 
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 
+ENV = $(addprefix environement/, env.c)
+
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 

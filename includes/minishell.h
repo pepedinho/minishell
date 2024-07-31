@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/30 16:30:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 17:14:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include "../srcs/binary_tree/lexer.h"
 # include "../srcs/builtins/builtins.h"
+# include "../srcs/environement/env.h"
 # include "../srcs/errors/errors.h"
 # include "../srcs/execution/exec.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"

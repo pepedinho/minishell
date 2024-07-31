@@ -6,11 +6,13 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 10:59:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 17:21:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "environement/env.h"
+#include "receive_prompt/prompt.h"
 
 int		g_signal_code = 0;
 
@@ -48,9 +50,21 @@ void	subminishell(char **argv, t_info *info)
 int	main(int argc, char **argv, char **envp)
 {
 	t_info	info;
+	t_env	*buff;
 
 	sigaction_sigint();
-	info.envp = envp;
+	info.env = env_in_struct(envp);
+	if (!info.env)
+		return (ft_printf("Error malloc with Environement variables\n"));
+	buff = info.env;
+	while (buff)
+	{
+		ft_printf("key = %s\n", buff->key);
+		ft_printf("value = %s\n", buff->value);
+		buff = buff->next;
+	}
+	free_env(info.env);
+	return (0);
 	info.name = "minishell";
 	if (argc == 1)
 		minishell(&info);
