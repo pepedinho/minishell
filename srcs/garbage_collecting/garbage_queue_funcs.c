@@ -56,6 +56,7 @@ void	destroy(t_garbage *garbage, t_to_destroy *elem)
 	if (!garbage)
 		return ;
 	current = garbage->first;
+	tmp_b = current;
 	while (current && current->to_destroy != elem)
 	{
 		tmp_b = current;

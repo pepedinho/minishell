@@ -177,7 +177,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 		current = current->next;
 	if (!add_to_queue(queue, cmd, ENV, current->value))
 		return (g_signal_code = 105, ERR_MALLOC);
-	*i += j + 1;
+	*i += 1;
 	return (1);
 }
 
@@ -234,7 +234,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-						current->env_value);
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -271,7 +271,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
