@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:01:48 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:28:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 20:20:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,4 @@ void	ft_free(void *ptr)
 		return ;
 	}
 	destroy(garbage, ptr);
-}
-
-void	free_and_exit(void)
-{
-	ft_free(DESTROY);
-	exit(g_signal_code);
 }

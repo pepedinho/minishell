@@ -6,11 +6,12 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 19:51:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 20:18:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "errors.h"
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -53,8 +54,7 @@ void	handle_malloc_error(char *message)
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
 			message);
 	g_signal_code = ERR_MALLOC;
-	ft_free(DESTROY);
-	exit(g_signal_code);
+	free_and_exit();
 }
 
 void	close_fd(t_command_line *queue)
@@ -76,7 +76,8 @@ void	free_and_exit(void)
 	t_command_line	*queue;
 
 	info = info_in_static(NULL, GET);
-	queue = queue_in_static(queue, GET);
+	queue = queue_in_static(NULL, GET);
+	close_fd(queue);
 	free_env(info->env);
 	ft_free(DESTROY);
 	exit(g_signal_code);
