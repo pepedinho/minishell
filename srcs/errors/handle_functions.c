@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 19:27:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 19:51:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,24 @@ void	handle_malloc_error(char *message)
 
 void	close_fd(t_command_line *queue)
 {
+	t_element	*buff;
+
+	buff = queue->first;
+	while (buff)
+	{
+		if (buff->file_fd != -1)
+			close(buff->file_fd);
+		buff = buff->next;
+	}
 }
 
 void	free_and_exit(void)
 {
-	t_info	*info;
+	t_info			*info;
+	t_command_line	*queue;
 
 	info = info_in_static(NULL, GET);
+	queue = queue_in_static(queue, GET);
 	free_env(info->env);
 	ft_free(DESTROY);
 	exit(g_signal_code);
