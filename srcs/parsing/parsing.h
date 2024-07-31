@@ -54,6 +54,9 @@ typedef struct s_command_line
 {
 	int					heredoc_flag;
 	int					u_token_flag;
+	int					u_heredoc_token_flag;
+	int					open_quotes_flag;
+	int					open_parenthesis_flag;
 	t_element			*first;
 	t_element			*last;
 }						t_command_line;
