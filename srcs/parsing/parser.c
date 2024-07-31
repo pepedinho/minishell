@@ -53,7 +53,7 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	j = 0;
 	while (str[*i + j] == symbol)
 		j++;
-	//if (j > 2)
+	// if (j > 2)
 	//	handle_unexpected_token(j, symbol, INIT);
 	redirection = ft_malloc(sizeof(char) * (j + 1));
 	if (!redirection)
@@ -118,9 +118,37 @@ int	add_command(t_command_line *queue, char *str, int *i)
 	return (1);
 }
 
+int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
+{
+	int		j;
+	char	*cmd;
+
+	j = 1;
+	while (str[*i + j] && str[*i + j] != ')')
+		j++;
+	if (!str[*i + j] && str[*i + j - 1] != ')')
+		return (NO_END_QUOTE); // handle when quote dosen't end
+	cmd = ft_malloc(sizeof(char) * (j + 1));
+	if (!cmd)
+		handle_malloc_error("parenthesis");
+	j = 1;
+	while (str[*i + j] && str[*i + j] != ')')
+	{
+		cmd[j - 1] = str[*i + j];
+		j++;
+	}
+	cmd[j - 1] = '\0';
+	if (!add_to_queue(queue, cmd, C_BLOCK))
+		return (g_signal_code = 105, ERR_MALLOC);
+	*i += j + 1;
+	return (1);
+}
+
 int	add_elem(t_command_line *queue, char *str, int *i)
 {
-	if (str[*i] == '"')
+	if (str[*i] == '(')
+		add_elem_for_parenthesis(queue, str, i);
+	else if (str[*i] == '"')
 		add_elem_for_quotes(queue, str, i);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
@@ -198,7 +226,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
