@@ -6,13 +6,14 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 17:21:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 19:00:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "environement/env.h"
 #include "receive_prompt/prompt.h"
+#include <stdio.h>
 
 int		g_signal_code = 0;
 
@@ -25,15 +26,23 @@ t_info	*info_in_static(t_info *info, int cas)
 	return (save);
 }
 
-void	minishell(t_info *info)
+void	minishell(t_info *info, char **envp)
 {
+	info->env = env_in_struct(envp);
+	if (!info->env)
+	{
+		ft_printf("%s: Error malloc with Environement variables\n",
+					info->name);
+		g_signal_code = 105;
+		return ;
+	}
 	info_in_static(info, INIT);
 	receive_prompt(info);
 	ft_printf("exit\n");
 	rl_clear_history();
 }
 
-void	subminishell(char **argv, t_info *info)
+void	subminishell(char **argv, t_info *info, char **envp)
 {
 	if (ft_strcmp(argv[1], "-c") != 0)
 	{
@@ -43,6 +52,14 @@ void	subminishell(char **argv, t_info *info)
 	}
 	if (argv[3])
 		info->name = argv[3];
+	info->env = env_in_struct(envp);
+	if (!info->env)
+	{
+		ft_printf("%s: Error malloc with Environement variables\n",
+					info->name);
+		g_signal_code = 105;
+		return ;
+	}
 	info_in_static(info, INIT);
 	receive_prompt_subminishell(argv[2], info);
 }
@@ -52,23 +69,14 @@ int	main(int argc, char **argv, char **envp)
 	t_info	info;
 	t_env	*buff;
 
+	(void)buff;
+	(void)envp;
 	sigaction_sigint();
-	info.env = env_in_struct(envp);
-	if (!info.env)
-		return (ft_printf("Error malloc with Environement variables\n"));
-	buff = info.env;
-	while (buff)
-	{
-		ft_printf("key = %s\n", buff->key);
-		ft_printf("value = %s\n", buff->value);
-		buff = buff->next;
-	}
-	free_env(info.env);
-	return (0);
 	info.name = "minishell";
 	if (argc == 1)
-		minishell(&info);
+		minishell(&info, envp);
 	else
-		subminishell(argv, &info);
+		subminishell(argv, &info, envp);
+	free_env(info.env);
 	return (g_signal_code);
 }

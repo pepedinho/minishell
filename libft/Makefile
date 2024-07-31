@@ -6,12 +6,12 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/23 16:07:55 by madamou           #+#    #+#              #
-#    Updated: 2024/07/29 19:38:38 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/31 18:25:39 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3
 
 OBJS_DIR = .objets/
 

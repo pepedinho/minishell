@@ -6,37 +6,44 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 17:40:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 18:53:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "env.h"
 
-t_env	*free_env(t_env *env)
+void	free_env(t_env *env)
 {
 	t_env	*buff;
 
-	if (!env)
-		return (NULL);
-	buff = env->next;
-	free(env->key);
-	free(env->value);
+	while (env)
+	{
+		buff = (env)->next;
+		ft_free_split(env->split);
+		free(env);
+		env = buff;
+	}
 	free(env);
-	return (free_env(buff));
+	env = NULL;
 }
 
 void	add_back_env(t_env **env, t_env *new)
 {
+	t_env	*buff;
+
+	buff = *env;
 	if (!(*env))
+	{
 		*env = new;
+		new->next = NULL;
+	}
 	else
 	{
-		while ((*env)->next)
-			*env = (*env)->next;
-		(*env)->next = new;
+		while (buff->next)
+			buff = buff->next;
+		buff->next = new;
 	}
-	new->next = NULL;
 }
 
 t_env	*init_env(char *envp)
@@ -52,8 +59,8 @@ t_env	*init_env(char *envp)
 		return (free(new), NULL);
 	new->key = split[0];
 	new->value = split[1];
+	new->split = split;
 	new->next = NULL;
-	free(split);
 	return (new);
 }
 
@@ -69,7 +76,7 @@ t_env	*env_in_struct(char **envp)
 	{
 		new = init_env(envp[i]);
 		if (!new)
-			return (free_env(env));
+			return (free_env(env), NULL);
 		add_back_env(&env, new);
 		i++;
 	}

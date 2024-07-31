@@ -107,7 +107,7 @@ void	print_proto(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-			current->redirect->content);
+				current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("                 [");
