@@ -48,6 +48,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	new->content = content;
 	new->next = NULL;
 	new->path = NULL;
+	new->file_fd = -1;
 	new->in_output = NULL;
 	new->before = NULL;
 	if (type == HU_TOKEN)
