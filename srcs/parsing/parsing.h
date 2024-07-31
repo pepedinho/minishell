@@ -38,6 +38,7 @@ typedef struct s_element
 	char				*content;
 	int					fd[2];
 	int					file_fd;
+	char				*env_value;
 	char				*path;
 	char				*in_output;
 	struct s_element	*next;
@@ -64,9 +65,9 @@ typedef struct s_command_line
 // queue functions
 t_command_line			*init_queue(void);
 t_element				*add_to_queue(t_command_line *queue, char *content,
-							int type);
+							int type, char *env_value);
 void					free_queue(t_command_line *queue);
-t_command_line			*parser(char *str);
+t_command_line			*parser(char *str, t_env *env);
 void					print_queue(t_command_line *queue);
 t_command_line			*queue_in_static(t_command_line *queue, int cas);
 

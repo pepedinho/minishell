@@ -43,6 +43,7 @@
 # define U_TOKEN 5
 # define HU_TOKEN 51
 # define C_BLOCK 6
+# define ENV 7
 
 # define INIT 0
 # define GET 1

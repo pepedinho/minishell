@@ -65,7 +65,7 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 		redirection[j] = str[*i + j];
 	redirection[j] = '\0';
 	type = assigne_type(redirection, queue);
-	add_to_queue(queue, redirection, type);
+	add_to_queue(queue, redirection, type, NULL);
 	*i += j;
 	return (1);
 }
@@ -94,7 +94,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 		j++;
 	}
 	cmd[j - 1] = '\0';
-	if (!add_to_queue(queue, cmd, 1))
+	if (!add_to_queue(queue, cmd, 1, NULL))
 		return (g_signal_code = 105, ERR_MALLOC);
 	*i += j;
 	return (1);
@@ -118,7 +118,7 @@ int	add_command(t_command_line *queue, char *str, int *i)
 		j++;
 	}
 	cmd[j] = '\0';
-	if (!add_to_queue(queue, cmd, 1))
+	if (!add_to_queue(queue, cmd, 1, NULL))
 		handle_malloc_error("commands");
 	*i += j;
 	return (1);
@@ -147,18 +147,48 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 		j++;
 	}
 	cmd[j - 1] = '\0';
-	if (!add_to_queue(queue, cmd, C_BLOCK))
+	if (!add_to_queue(queue, cmd, C_BLOCK, NULL))
 		return (g_signal_code = 105, ERR_MALLOC);
 	*i += j + 1;
 	return (1);
 }
 
-int	add_elem(t_command_line *queue, char *str, int *i)
+int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
+{
+	int		j;
+	char	*cmd;
+	t_env	*current;
+
+	j = 1;
+	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
+		j++;
+	cmd = ft_malloc(sizeof(char) * (j + 1));
+	if (!cmd)
+		handle_malloc_error("parenthesis");
+	j = 1;
+	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
+	{
+		cmd[j - 1] = str[*i + j];
+		j++;
+	}
+	cmd[j - 1] = '\0';
+	current = env;
+	while (current && ft_strcmp(current->key, cmd))
+		current = current->next;
+	if (!add_to_queue(queue, cmd, ENV, current->value))
+		return (g_signal_code = 105, ERR_MALLOC);
+	*i += j + 1;
+	return (1);
+}
+
+int	add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
 	else if (str[*i] == '"')
 		add_elem_for_quotes(queue, str, i);
+	else if (str[*i] == '$')
+		add_env_var(queue, str, i, env);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
@@ -172,7 +202,7 @@ void	skip_white_space(char *str, int *i)
 		++(*i);
 }
 
-t_command_line	*parser(char *str)
+t_command_line	*parser(char *str, t_env *env)
 {
 	int				i;
 	t_command_line	*queue;
@@ -182,7 +212,7 @@ t_command_line	*parser(char *str)
 	while (str[i])
 	{
 		skip_white_space(str, &i);
-		add_elem(queue, str, &i);
+		add_elem(queue, str, &i, env);
 	}
 	queue = queue_in_static(queue, INIT);
 	return (queue);
@@ -202,6 +232,9 @@ void	print_queue(t_command_line *queue)
 			printf("|\n");
 			printf("|__[%d]\n", i);
 			printf("|    |___[content] -> ['%s']\n", current->content);
+			if (current->type == ENV)
+				printf("|    |___[env content] -> ['%s']\n",
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -229,6 +262,8 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[List]\n");
 				else if (current->type == FILE)
 					printf("|             |____[File]\n");
+				else if (current->type == ENV)
+					printf("|             |____[Env arg]\n");
 			}
 		}
 		else
@@ -236,7 +271,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
