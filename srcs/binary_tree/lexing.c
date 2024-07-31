@@ -78,7 +78,8 @@ t_tree	*smart_agencement(t_command_line *queue)
 	current = queue->last;
 	while (current->before)
 	{
-		if (current->type == CMD || current->type == H_FILE)
+		if (current->type == CMD || current->type == H_FILE
+			|| current->type == C_BLOCK)
 			tmp = current;
 		if (is_a_redirect(current->type))
 		{
@@ -106,14 +107,16 @@ void	print_proto(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-				current->redirect->content);
+			current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("                 [");
 		if (!current->l_cmd)
 		{
 			first_cmd = current->first_cmd;
-			while (next_is_sfx(first_cmd))
+			if (first_cmd->type == C_BLOCK)
+				printf("(%s)", first_cmd->content);
+			while (first_cmd->type != C_BLOCK && next_is_sfx(first_cmd))
 			{
 				printf("%s ", first_cmd->content);
 				first_cmd = first_cmd->next;
@@ -123,7 +126,9 @@ void	print_proto(t_tree *tree)
 			printf("*");
 		printf("]     [");
 		current_rgt = current->r_cmd;
-		while (next_is_sfx(current_rgt))
+		if (current_rgt->type == C_BLOCK)
+			printf("(%s)", current_rgt->content);
+		while (current_rgt->type != C_BLOCK && next_is_sfx(current_rgt))
 		{
 			printf("%s ", current_rgt->content);
 			current_rgt = current_rgt->next;

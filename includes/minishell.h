@@ -40,6 +40,7 @@
 # define FILE 4
 # define H_FILE 41
 # define U_TOKEN 5
+# define C_BLOCK 6
 
 # define INIT 0
 # define GET 1
