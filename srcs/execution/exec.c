@@ -74,24 +74,41 @@ void	file(t_element *tmp)
 	}
 }
 
-void	open_file(t_command_line *queue)
+int	open_file(t_command_line *queue)
 {
 	t_element	*tmp;
 
 	tmp = queue->first;
 	while (tmp)
 	{
-		if (tmp->type == FILE)
-			file(tmp);
 		if (tmp->type == H_FILE)
 			here_doc(tmp);
 		tmp = tmp->next;
 	}
-	handle_unexpected_token(0, 0, GET);
+	tmp = queue->first;
+	if (queue->u_token_flag == 1)
+	{
+		while (tmp && tmp->type != U_TOKEN)
+			tmp = tmp->next;
+		handle_unexpected_token(tmp->content);
+		return (0);
+	}
+	else
+	{
+		while (tmp)
+		{
+			if (tmp->type == FILE)
+				file(tmp);
+			tmp = tmp->next;
+		}
+	}
+	return (1);
 }
 
-void	global_check(t_command_line *queue, t_tree *tree)
+int	global_check(t_command_line *queue, t_tree *tree)
 {
 	(void)tree;
-	open_file(queue);
+	if (!open_file(queue))
+		return (0);
+	return (1);
 }

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "parsing.h"
 
 int	is_a_separator(char c)
 {
@@ -19,7 +20,7 @@ int	is_a_separator(char c)
 	return (0);
 }
 
-int	assigne_type(char *redirection)
+int	assigne_type(char *redirection, t_command_line *queue)
 {
 	if (!ft_strcmp(redirection, "|"))
 		return (PIPE);
@@ -37,7 +38,7 @@ int	assigne_type(char *redirection)
 		return (AND);
 	if (!ft_strcmp(redirection, ";"))
 		return (LIST);
-	handle_unexpected_token(3, ';', INIT);
+	queue->u_token_flag = 1;
 	return (U_TOKEN);
 }
 
@@ -52,8 +53,8 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	j = 0;
 	while (str[*i + j] == symbol)
 		j++;
-	if (j > 2)
-		handle_unexpected_token(j, symbol, INIT);
+	//if (j > 2)
+	//	handle_unexpected_token(j, symbol, INIT);
 	redirection = ft_malloc(sizeof(char) * (j + 1));
 	if (!redirection)
 		handle_malloc_error("redirections");
@@ -61,7 +62,7 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	while (str[*i + ++j] == symbol)
 		redirection[j] = str[*i + j];
 	redirection[j] = '\0';
-	type = assigne_type(redirection);
+	type = assigne_type(redirection, queue);
 	add_to_queue(queue, redirection, type);
 	*i += j;
 	return (1);

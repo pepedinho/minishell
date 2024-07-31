@@ -45,13 +45,16 @@ void	receive_prompt(t_info *info)
 	{
 		command_line = readline("minishell > ");
 		if (!command_line)
+		{
+			g_signal_code = 0;
 			break ;
+		}
 		queue = parser(command_line);
 		print_queue(queue);
 		tree = smart_agencement(queue);
-		global_check(queue, tree);
 		add_history(command_line);
 		free(command_line);
+		global_check(queue, tree);
 		ft_free(DESTROY);
 	}
 }

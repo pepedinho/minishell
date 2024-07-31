@@ -53,6 +53,7 @@ typedef struct s_element
 typedef struct s_command_line
 {
 	int					heredoc_flag;
+	int					u_token_flag;
 	t_element			*first;
 	t_element			*last;
 }						t_command_line;

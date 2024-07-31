@@ -18,7 +18,7 @@
 # endif
 # include "../../includes/minishell.h"
 
-void	global_check(struct s_command_line *queue, t_tree *tree);
+int		global_check(struct s_command_line *queue, t_tree *tree);
 void	message_pipe(char *limiter);
 
 #endif // !EXEC_H
