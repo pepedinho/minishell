@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/30 17:03:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/31 21:23:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 
 void	message_pipe(char *limiter)
@@ -74,6 +75,15 @@ void	file(t_element *tmp)
 	}
 }
 
+void	unexpected_eof(void)
+{
+	t_info	*info;
+
+	info = info_in_static(NULL, GET);
+	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
+			info->name);
+}
+
 void	fill_open_quote(t_element *sfx)
 {
 	char	*line;
@@ -86,7 +96,10 @@ void	fill_open_quote(t_element *sfx)
 	{
 		line = readline("dquote> ");
 		if (!line)
+		{
+			unexpected_eof();
 			break ;
+		}
 		if (line[0] == '"')
 			break ;
 		len = ft_strlen(sfx->content);
