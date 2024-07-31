@@ -16,6 +16,7 @@
 # ifdef MINISHELL_H
 #  undef MINISHELL_H
 # endif
+
 # include "../../includes/minishell.h"
 
 int		global_check(struct s_command_line *queue, t_tree *tree);

@@ -76,7 +76,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	j = 1;
 	while (str[*i + j] && str[*i + j] != '"')
 		j++;
-	if (!str[*i + j])
+	if (!str[*i + j] && str[*i + j - 1] != '"')
 		return (NO_END_QUOTE); // handle when quote dosen't end
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
