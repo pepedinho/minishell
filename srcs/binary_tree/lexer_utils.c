@@ -14,8 +14,7 @@
 
 int	is_a_redirect(int type)
 {
-	if (type == PIPE || type == R_RED || type == L_RED || type == AND
-		|| type == OR || type == LIST || type == RR_RED || type == LL_RED)
+	if (type == PIPE || type == AND || type == OR || type == LIST)
 		return (1);
 	return (0);
 }
