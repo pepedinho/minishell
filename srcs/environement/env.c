@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 18:00:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 19:17:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ void	add_back_env(t_env **env, t_env *new)
 	}
 }
 
+char	**split_value(char *str)
+{
+	char	**tab;
+
+	tab = ft_split(str, ":");
+	if (!tab)
+		return (NULL);
+	return (tab);
+}
+
 t_env	*init_env(char *envp)
 {
 	t_env	*new;
@@ -60,6 +70,7 @@ t_env	*init_env(char *envp)
 	new->key = split[0];
 	new->value = split[1];
 	new->split = split;
+	new->split_value = split_value(new->value);
 	new->global = 1;
 	new->next = NULL;
 	return (new);

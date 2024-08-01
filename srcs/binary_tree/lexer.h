@@ -37,7 +37,7 @@
 
 typedef struct s_tree
 {
-	struct s_element			*first;
+	struct s_element	*first;
 }						t_tree;
 
 // lexing

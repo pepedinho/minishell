@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 19:20:45 by madamou          ###   ########.fr       */
+/*   Created: 2024/05/28 03:56:16 by itahri            #+#    #+#             */
+/*   Updated: 2024/08/01 18:59:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include "../../includes/minishell.h"
 
-# ifdef MINISHELL_H
-#  undef MINISHELL_H
-# endif
+int	ft_strlen_2d(char **str)
+{
+	int	i;
 
-# include "../../includes/minishell.h"
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
-int		global_check(struct s_command_line *queue);
-void	message_pipe(char *limiter);
-int		ft_fork(void);
-void	exec(t_element *node);
+void	ft_free_2d(char **split)
+{
+	int	i;
 
-// Path
-void	ft_free_2d(char **split);
-int		ft_strlen_2d(char **str);
-char	*find_path(char *command, t_info *info);
-
-#endif // !EXEC_H
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+	split = NULL;
+}

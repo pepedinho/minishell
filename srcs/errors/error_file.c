@@ -23,5 +23,3 @@ void	error_message(char *content)
 	free(message);
 	g_signal_code = 1;
 }
-
-

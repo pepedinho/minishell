@@ -42,7 +42,7 @@ typedef struct s_element
 	char				*path;
 	struct s_element	*left;
 	struct s_element	*right;
-	char *args;
+	char				*args;
 	char				*in_output;
 	struct s_element	*next;
 	struct s_element	*before;

@@ -66,17 +66,17 @@ t_tree	*init_tree(void)
 // 		current->first_cmd = first_cmd;
 // }
 
-t_tree *replace_submit(t_tree * tree, t_element *current)
+t_tree	*replace_submit(t_tree *tree, t_element *current)
 {
-	t_element *buff;
-	
+	t_element	*buff;
+
 	buff = tree->first;
 	tree->first = current;
 	current->left = buff;
 	return (tree);
 }
 
-void first_join(t_tree * tree, t_element *first)
+void	first_join(t_tree *tree, t_element *first)
 {
 	if (first->next)
 	{
@@ -84,11 +84,11 @@ void first_join(t_tree * tree, t_element *first)
 		tree->first->left = first;
 		tree->first->right = first->next->next;
 	}
-	else 
+	else
 		tree->first = first;
 }
 
-int check_type(t_element *first, t_element *current)
+int	check_type(t_element *first, t_element *current)
 {
 	if (current->type == CMD)
 		return (0);
@@ -97,9 +97,9 @@ int check_type(t_element *first, t_element *current)
 		// if (current->type == CMD)
 		// 	return (0);
 		// else if (current->type == AND || current->type == OR)
-			return (1);
+		return (1);
 	}
-	else 
+	else
 	{
 		if (current->type == PIPE)
 			return (0);
@@ -109,24 +109,24 @@ int check_type(t_element *first, t_element *current)
 	return (0);
 }
 
-void first_join_right(t_tree * tree, t_element *first)
+void	first_join_right(t_tree *tree, t_element *first)
 {
 	tree->first->right = first->next;
 	tree->first->right->left = first;
 	tree->first->right->right = first->next->next;
 }
 
-t_tree *replace_submit_right(t_tree * tree, t_element *current)
+t_tree	*replace_submit_right(t_tree *tree, t_element *current)
 {
-	t_element *buff;
-	
+	t_element	*buff;
+
 	buff = tree->first->right;
 	tree->first->right = current;
 	current->left = buff;
 	return (tree);
 }
 
-t_tree *fill_right(t_tree *tree, t_element **current)
+t_tree	*fill_right(t_tree *tree, t_element **current)
 {
 	first_join_right(tree, *current);
 	*current = (*current)->next->next;
@@ -134,7 +134,8 @@ t_tree *fill_right(t_tree *tree, t_element **current)
 	// 	replace_submit(tree, current);
 	// else
 	// 	return (tree);
-	while (*current && (*current)->next && check_type(tree->first, (*current)->next) == 0)
+	while (*current && (*current)->next && check_type(tree->first,
+			(*current)->next) == 0)
 	{
 		(*current)->next->right = (*current)->next->next;
 		*current = (*current)->next;
@@ -148,9 +149,9 @@ t_tree	*smart_agencement(t_command_line *queue)
 {
 	t_element	*current;
 	t_tree		*tree;
+
 	// t_element	*tmp;
 	// int cpt;
-
 	tree = init_tree();
 	if (!tree)
 		return (NULL);
@@ -174,22 +175,22 @@ t_tree	*smart_agencement(t_command_line *queue)
 			current = current->next;
 			tree = replace_submit(tree, current);
 			current = current->next;
-			continue;
+			continue ;
 		}
 		if (!current->next)
 			return (tree);
 		// {
 		// 	tree->first->right = current;
 		// 	current = current->next;
-		// 	continue;	
+		// 	continue ;
 		// }
 		if (check_type(tree->first, current->next) == 0)
 		{
 			tree = fill_right(tree, &current);
 			// if (current && current->next)
 			// 	current = current->next;
-			continue;
-		}	
+			continue ;
+		}
 	}
 	// {
 	// 	if (current->type == LIST)
