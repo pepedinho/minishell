@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 21:32:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 16:51:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,8 @@ int	open_file(t_command_line *queue)
 	return (1);
 }
 
-int	global_check(t_command_line *queue, t_tree *tree)
+int	global_check(t_command_line *queue)
 {
-	(void)tree;
 	if (!open_file(queue))
 		return (0);
 	return (1);

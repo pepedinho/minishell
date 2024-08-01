@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 01:24:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 18:00:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**t_env_to_envp(t_env *env)
 
 	i = 0;
 	len = ft_env_size(env);
-	envp = ft_malloc(sizeof(char) * (len + 1));
+	envp = malloc(sizeof(char *) * (len + 1));
 	if (!envp)
 		handle_malloc_error("envp");
 	while (i < len)

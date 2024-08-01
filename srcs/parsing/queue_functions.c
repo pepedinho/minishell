@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/31 19:45:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 17:36:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 	new->content = content;
 	new->next = NULL;
 	new->path = NULL;
+	new->args = content;
 	new->file_fd = -1;
 	new->in_output = NULL;
 	new->before = NULL;
