@@ -20,6 +20,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	char			**split;
+	char			**split_value;
 	char			**envp;
 	int				global;
 	struct s_env	*next;

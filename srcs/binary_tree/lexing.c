@@ -93,7 +93,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 		current = current->before;
 	}
 	add_first_cmd(tree, current);
-	print_proto(tree);
+	// print_proto(tree);
 	return (tree);
 }
 
@@ -107,7 +107,7 @@ void	print_proto(t_tree *tree)
 	while (current)
 	{
 		printf("                     [%s]                    \n",
-				current->redirect->content);
+			current->redirect->content);
 		printf("                    /    \\                  \n");
 		printf("                   /      \\                 \n");
 		printf("                 [");

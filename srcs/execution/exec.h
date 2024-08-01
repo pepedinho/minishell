@@ -21,6 +21,6 @@
 
 int		global_check(struct s_command_line *queue, t_tree *tree);
 void	message_pipe(char *limiter);
-void	exec(t_branch *branch, t_command_line *queue, t_info *info);
+void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag);
 
 #endif // !EXEC_H

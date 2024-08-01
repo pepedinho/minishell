@@ -27,6 +27,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/wait.h>
 
 # define CMD 1
 # define SFX 2

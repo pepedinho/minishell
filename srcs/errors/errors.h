@@ -13,7 +13,14 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
+# ifdef MINISHELL_H
+#  undef MINISHELL_H
+# endif
+
+# include "../../includes/minishell.h"
+
 void	error_message(char *content);
+void	close_fd(t_command_line *queue);
 void	handle_unexpected_token(char *token);
 void	handle_malloc_error(char *message);
 void	free_and_exit(void);

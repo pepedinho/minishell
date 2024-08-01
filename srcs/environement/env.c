@@ -46,6 +46,16 @@ void	add_back_env(t_env **env, t_env *new)
 	}
 }
 
+char	**split_value(char *str)
+{
+	char	**tab;
+
+	tab = ft_split(str, ":");
+	if (!tab)
+		return (NULL);
+	return (tab);
+}
+
 t_env	*init_env(char *envp)
 {
 	t_env	*new;
@@ -60,6 +70,7 @@ t_env	*init_env(char *envp)
 	new->key = split[0];
 	new->value = split[1];
 	new->split = split;
+	new->split_value = split_value(new->value);
 	new->global = 1;
 	new->next = NULL;
 	return (new);
@@ -115,6 +126,6 @@ t_env	*env_in_struct(char **envp)
 		add_back_env(&env, new);
 		i++;
 	}
-	env->envp = t_env_to_envp(env);
+	env->envp = envp;
 	return (env);
 }

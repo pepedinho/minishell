@@ -81,7 +81,7 @@ void	unexpected_eof(void)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
-			info->name);
+		info->name);
 }
 
 void	fill_open_quote(t_element *sfx)
@@ -175,10 +175,24 @@ int	open_file(t_command_line *queue)
 	return (1);
 }
 
+void	open_pipe(t_command_line *queue)
+{
+	t_element	*current;
+
+	current = queue->first;
+	while (current)
+	{
+		if (current->type == CMD || current->type == H_FILE)
+			pipe(current->fd);
+		current = current->next;
+	}
+}
+
 int	global_check(t_command_line *queue, t_tree *tree)
 {
 	(void)tree;
 	if (!open_file(queue))
 		return (0);
+	open_pipe(queue);
 	return (1);
 }

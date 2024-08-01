@@ -52,7 +52,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	g_signal_code = ERR_MALLOC;
 	free_and_exit();
 }
@@ -66,6 +66,8 @@ void	close_fd(t_command_line *queue)
 	{
 		if (buff->file_fd != -1)
 			close(buff->file_fd);
+		if (buff->type == CMD || buff->type == H_FILE)
+			(close(buff->fd[READ]), close(buff->fd[WRITE]));
 		buff = buff->next;
 	}
 }

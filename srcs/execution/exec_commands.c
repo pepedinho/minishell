@@ -18,11 +18,13 @@ char	*check_path(t_info *info, char *cmd)
 	int		i;
 	char	*path;
 
+	i = 0;
+	env = info->env;
 	while (env && ft_strcmp(env->key, "PATH"))
 		env = env->next;
-	while (env->split[i])
+	while (env->split_value[i])
 	{
-		path = ft_sprintf("%s%s", env->split[i], cmd);
+		path = ft_sprintf("%s/%s", env->split_value[i], cmd);
 		if (!path)
 			return (NULL);
 		if (access(path, F_OK) == 0)
@@ -40,42 +42,82 @@ char	**ready_to_exec(t_element *cmd)
 	int			i;
 
 	i = 0;
-	current = cmd->next;
-	while (current && current->type == SFX)
+	current = cmd;
+	while (current && !is_a_redirect(current->type))
 	{
 		i++;
 		current = current->next;
 	}
-	current = cmd->next;
+	current = cmd;
 	cmd_tab = ft_malloc(sizeof(char *) * (i + 1));
 	if (!cmd_tab)
 		return (NULL);
 	i = 0;
-	while (current && current->type == SFX)
+	while (current && !is_a_redirect(current->type))
 	{
 		cmd_tab[i] = current->content;
+		current = current->next;
 		i++;
 	}
 	cmd_tab[i] = NULL;
 	return (cmd_tab);
 }
 
-void	exec(t_branch *branch, t_command_line *queue, t_info *info)
+void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag)
 {
 	char	*path;
-	char	*cmd_tab;
+	char	**cmd_tab;
+	pid_t	pid;
+	int		i;
 
-	(void)queue;
-	if (!branch->l_cmd)
+	if (!branch)
 		return ;
 	if (branch->l_cmd)
-		exec(branch->l_cmd, queue, info);
+		exec(branch->l_cmd, queue, info, 0);
+	else if (!branch->l_cmd && flag == 0)
+		exec(branch, queue, info, 1);
 	path = check_path(info, branch->r_cmd->content);
+	// TODO: fd not close somewhere
 	if (path)
 	{
-		cmd_tab = ready_to_exec(branch->r_cmd);
-		if (!cmd_tab)
-			return ;
-		execve(path, cmd_tab, )
+		pid = fork();
+		if (pid == 0)
+		{
+			printf("pid\n");
+			if (!branch->l_cmd && flag == 1)
+			{
+				cmd_tab = ready_to_exec(branch->first_cmd);
+				i = -1;
+				while (cmd_tab[++i])
+					printf("debug[%d] : %s\n", i, cmd_tab[i]);
+				if (!cmd_tab)
+					return ;
+				printf("debug1 : %s\n", branch->r_cmd->content);
+				dup2(branch->first_cmd->fd[READ], STDIN_FILENO);
+				dup2(branch->r_cmd->fd[WRITE], STDOUT_FILENO);
+				(close(branch->first_cmd->fd[READ]),
+					close(branch->r_cmd->fd[WRITE]));
+				close_fd(queue);
+				if (!execve(path, cmd_tab, info->env->envp))
+					printf("error execve\n");
+				exit(EXIT_FAILURE);
+			}
+			else
+			{
+				cmd_tab = ready_to_exec(branch->r_cmd);
+				if (!cmd_tab)
+					return ;
+				printf("gg\n");
+				printf("debug2 : %s\n", branch->l_cmd->r_cmd->content);
+				dup2(branch->l_cmd->r_cmd->fd[READ], STDIN_FILENO);
+				dup2(branch->r_cmd->fd[WRITE], STDOUT_FILENO);
+				close_fd(queue);
+				if (!execve(path, cmd_tab, info->env->envp))
+					printf("error execve\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		close_fd(queue);
+		wait(NULL);
 	}
 }
