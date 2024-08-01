@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/01 16:29:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 21:00:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_element
 	struct s_element	*left;
 	struct s_element	*right;
 	char				*args;
-	char				*in_output;
+	char				*outfile;
 	struct s_element	*next;
 	struct s_element	*before;
 }						t_element;

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 17:47:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 22:33:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,22 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*next;
-	t_element	*before;
 
 	current = queue->first;
 	while (current)
 	{
-		before = current->before;
 		next = current->next;
 		if (current->type != CMD && current->type != PIPE
 			&& current->type != AND && current->type != OR)
 		{
-			before->next = next;
-			current = before;
+			if (current->before)
+				current->before->next = next;
+			else
+				queue->first = next;
+			if (next)
+				next->before = current->before;
 		}
-		current = current->next;
+		current = next;
 	}
 	return (queue);
 }
@@ -146,8 +148,12 @@ void	receive_prompt(t_info *info)
 		tree = smart_agencement(queue);
 		add_history(command_line);
 		free(command_line);
+		restore_sigint();
 		if (ft_fork() == 0)
+		{
 			exec(tree->first);
+		}
+		sigaction_signals();
 		wait(0);
 		free(prompt);
 		// ft_free(DESTROY);

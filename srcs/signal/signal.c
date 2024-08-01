@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/29 05:34:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 22:25:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,23 @@ void	handle_sigint(int num)
 	rl_redisplay();
 }
 
-void	sigaction_sigint(void)
+void	change_sigint(int num)
+{
+	g_signal_code = num + 128;
+	exit(g_signal_code);
+}
+
+void	restore_sigint(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_DFL;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+}
+
+void	sigaction_signals(void)
 {
 	struct sigaction	sa;
 	struct sigaction	sb;

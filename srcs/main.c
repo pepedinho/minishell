@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 20:14:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 21:53:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)buff;
 	(void)envp;
-	sigaction_sigint();
+	sigaction_signals();
 	info.name = "minishell";
 	if (argc == 1)
 		minishell(&info, envp);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 20:14:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 21:54:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	ft_pipe(t_element *node)
 	if (ft_fork() == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
+		(close(fd[0]), close(fd[1]));
 		exec(node->left);
 	}
 	if (ft_fork() == 0)
