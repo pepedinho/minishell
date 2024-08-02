@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 19:42:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 20:11:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,32 +148,18 @@ void	command(t_element *node)
 void	subshell(t_element *node)
 {
 	t_info	*info;
-	char	*argv;
 	char	**args;
-	char	**split;
-	int		i;
 
 	info = info_in_static(NULL, GET);
-	printf("oui\n");
-	argv = ft_sprintf("%s %s", "./minishell", "-c");
-	if (!argv)
-		handle_malloc_error("subshell");
-	printf("non\n");
-	split = ft_split(argv, " ");
-	if (!split)
-		(free(argv), handle_malloc_error("subshell"));
-	printf("oui\n");
 	args = ft_malloc(sizeof(char *) * 4);
 	if (!args)
 		handle_malloc_error("subshell");
-	ft_memset(args, 0, 4);
-	(ft_strcpy(args[0], split[0]), ft_strcpy(args[1], split[1]));
-	(ft_strcpy(args[2], node->content), ft_free_2d(split));
+	args[0] = ft_strdup("minishell");
+	args[1] = ft_strdup("-c");
+	args[2] = ft_strdup(node->content);
 	args[3] = NULL;
-	i = 0;
-	while (args[i])
-		printf("%s\n", args[i++]);
 	execve("./minishell", args, t_env_to_envp(info->env));
+	ft_free_2d(args);
 	free_and_exit(errno);
 }
 
@@ -211,6 +197,6 @@ void	execute_command_line(t_tree *tree)
 		exit(WEXITSTATUS(status));
 	}
 	waitpid(pid, &status, 0);
-	printf("echo $? == %d\n", WEXITSTATUS(status));
+	// printf("echo $? == %d\n", WEXITSTATUS(status));
 	g_signal_code = WEXITSTATUS(status);
 }

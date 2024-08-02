@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:36 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:11:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	open_file(t_command_line *queue)
 			tmp = tmp->next;
 		if (tmp)
 			fill_open_quote(tmp);
-		print_queue(queue);
+		// print_queue(queue);
 	}
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)

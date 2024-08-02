@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 19:41:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 20:24:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ char	**ready_to_exec(t_element *cmd)
 	i = 0;
 	while (current && !is_a_redirect(current->type))
 	{
+		if (current->type == R_RED || current->type == RR_RED
+			|| current->type == L_RED || current->type == LL_RED)
+		{
+			current = current->next->next;
+			continue ;
+		}
 		cmd_tab[i] = current->content;
 		current = current->next;
 		i++;
@@ -193,7 +199,7 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 
 	sigaction_signals();
 	queue = parser(command_line, info->env);
-	print_queue(queue);
+	// print_queue(queue);
 	global_check(queue);
 	queue = change_queue(queue);
 	queue = remove_in_queue(queue);
@@ -226,7 +232,7 @@ void	receive_prompt(t_info *info)
 			break ;
 		}
 		queue = parser(command_line, info->env);
-		print_queue(queue);
+		// print_queue(queue);
 		global_check(queue);
 		queue = change_queue(queue);
 		queue = remove_in_queue(queue);
