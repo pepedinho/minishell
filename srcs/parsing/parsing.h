@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 03:21:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 04:09:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_element
 	int					type;
 	int					relative_type;
 	char				*content;
-	int					fd[2];
 	int					infile;
 	char				*env_value;
 	char				*path;

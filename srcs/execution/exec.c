@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 03:21:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 04:10:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	message_pipe(char *limiter)
 void	here_doc(t_element *tmp)
 {
 	char	*line;
+	int		fd[2];
 
-	if (pipe(tmp->fd) == -1)
+	if (pipe(fd) == -1)
 		error_message("pipe");
 	while (1)
 	{
@@ -45,12 +46,12 @@ void	here_doc(t_element *tmp)
 			free(line);
 			break ;
 		}
-		write(tmp->fd[WRITE], line, ft_strlen(line));
-		write(tmp->fd[WRITE], "\n", 1);
+		write(fd[WRITE], line, ft_strlen(line));
+		write(fd[WRITE], "\n", 1);
 		free(line);
 	}
-	close(tmp->fd[WRITE]);
-	tmp->infile = tmp->fd[READ];
+	close(fd[WRITE]);
+	tmp->infile = fd[READ];
 }
 
 void	file(t_element *tmp)
