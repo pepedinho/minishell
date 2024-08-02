@@ -13,6 +13,10 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# ifdef MINISHELL_H
+#  undef MINISHELL_H
+# endif
+
 # include "../../includes/minishell.h"
 
 int		ft_cd(char *directory);

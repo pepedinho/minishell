@@ -31,7 +31,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 ERROR = $(addprefix errors/, error_file.c handle_functions.c)
 
-EXEC = $(addprefix execution/, exec.c exec_commands.c exec_utils.c)
+EXEC = $(addprefix execution/, check_cmd.c exec_commands.c exec_utils.c)
 
 SIGNALS = $(addprefix signal/, signal.c)
 
