@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 03:44:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 12:42:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@ int	ft_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		free_and_exit();
+		free_and_exit(g_signal_code);
+			// find the right signal code if fork fail;
 	return (pid);
 }
 
 void	ft_pipe(t_element *node)
 {
 	int	fd[2];
+	int	status;
 
 	if (pipe(fd) == -1)
-		free_and_exit();
+		free_and_exit(g_signal_code);
+			// find the right signal code if pipe fail;
 	if (ft_fork() == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
@@ -37,37 +40,50 @@ void	ft_pipe(t_element *node)
 	if (ft_fork() == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
+		(close(fd[0]), close(fd[1]));
 		exec(node->right);
 	}
-	close(fd[0]);
-	close(fd[1]);
-	wait(NULL);
-	wait(NULL);
-	exit(0);
+	(close(fd[0]), close(fd[1]));
+	(wait(NULL), wait(&status));
+	exit(status);
 }
 
 void and (t_element * node)
 {
-	if (ft_fork() == 0)
+	int	status;
+	int	pid;
+
+	pid = ft_fork();
+	if (pid == 0)
 		exec(node->left);
-	wait(NULL); // handle when the left part fail
-	if (ft_fork() == 0)
-		exec(node->right);
-	wait(NULL);
-	exit(0);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) == 0)
+	{
+		pid = ft_fork();
+		if (pid == 0)
+			exec(node->right);
+		waitpid(pid, &status, 0);
+	}
+	exit(WEXITSTATUS(status));
 }
 
 void or (t_element * node)
 {
-	if (ft_fork() == 0)
+	int	status;
+	int	pid;
+
+	pid = ft_fork();
+	if (pid == 0)
 		exec(node->left);
-	wait(NULL); // handle when the left part fail
-	if (ft_fork() == 0)
-		exec(node->right);
-	wait(NULL);
-	exit(0);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) != 0)
+	{
+		pid = ft_fork();
+		if (pid == 0)
+			exec(node->right);
+		waitpid(pid, &status, 0);
+	}
+	exit(WEXITSTATUS(status));
 }
 
 void	outfile(t_element *node, t_info *info)
@@ -120,24 +136,20 @@ void	command(t_element *node)
 		handle_malloc_error("path");
 	args = ft_split(node->args, " ");
 	if (!args)
-	{
-		free(path);
-		handle_malloc_error("args");
-	}
-	infile(node, info);
-	outfile(node, info);
+		(free(path), handle_malloc_error("args"));
+	(infile(node, info), outfile(node, info));
 	execve(path, args, t_env_to_envp(info->env));
 	if (errno == 2)
 		ft_fprintf(2, "%s: command not found\n", node->content);
 	else
 		perror(node->content);
 	free(path);
-	free_and_exit();
-	exit(0);
+	free_and_exit(errno);
 }
 
 void	exec(t_element *node)
 {
+	restore_sigint();
 	if (node->type == AND)
 		and(node);
 	if (node->type == OR)

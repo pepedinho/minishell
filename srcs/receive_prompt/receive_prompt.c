@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 03:48:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 12:44:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,10 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
+		sigaction_signals();
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
+		free(prompt);
 		if (!command_line)
 		{
 			g_signal_code = 0;
@@ -159,14 +161,9 @@ void	receive_prompt(t_info *info)
 		tree = smart_agencement(queue);
 		add_history(command_line);
 		free(command_line);
-		restore_sigint();
 		if (ft_fork() == 0)
-		{
 			exec(tree->first);
-		}
-		sigaction_signals();
 		wait(0);
-		free(prompt);
-		// ft_free(DESTROY);
+		ft_free(DESTROY);
 	}
 }
