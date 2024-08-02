@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 18:26:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 19:42:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,22 +130,50 @@ void	command(t_element *node)
 {
 	t_info	*info;
 	char	*path;
-	char	**args;
 
 	info = info_in_static(NULL, GET);
 	path = find_path(node->content, info);
 	if (!path)
 		handle_malloc_error("path");
-	args = ft_split(node->args, " ");
-	if (!args)
-		(free(path), handle_malloc_error("args"));
 	(infile(node, info), outfile(node, info));
-	execve(path, args, t_env_to_envp(info->env));
+	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
 		ft_fprintf(2, "%s: command not found\n", node->content);
 	else
 		perror(node->content);
 	free(path);
+	free_and_exit(errno);
+}
+
+
+void subshell(t_element *node)
+{
+	t_info *info;
+	char *argv;
+	char **args;
+	char **split;
+
+	info = info_in_static(NULL, GET);
+	printf("oui\n");
+	argv = ft_sprintf("%s %s", "./minishell", "-c");
+	if (!argv)
+		handle_malloc_error("subshell");
+	printf("non\n");
+	split = ft_split(argv, " ");
+	if (!split)
+		(free(argv), handle_malloc_error("subshell"));
+	printf("oui\n");
+	args = ft_malloc(sizeof(char *) * 4);
+	if (!args)
+		handle_malloc_error("subshell");
+	ft_memset(args, 0, 4);
+	(ft_strcpy(args[0], split[0]), ft_strcpy(args[1], split[1]));
+	(ft_strcpy(args[2], node->content), ft_free_2d(split));
+	args[3] = NULL;
+	int i = 0;
+	while (args[i])
+		printf("%s\n", args[i++]);
+	execve("./minishell", args, t_env_to_envp(info->env));
 	free_and_exit(errno);
 }
 
@@ -158,6 +186,8 @@ void	exec(t_element *node)
 		or (node);
 	if (node->type == PIPE)
 		ft_pipe(node);
+	if (node->type == C_BLOCK)
+		subshell(node);
 	if (node->type == CMD)
 		command(node);
 }

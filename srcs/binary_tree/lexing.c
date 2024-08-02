@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:41 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/02 18:43:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 	if (!tree)
 		return (NULL);
 	first_join(tree, queue->first);
-	if (tree->first->type == CMD)
+	if (tree->first->type == CMD || tree->first->type == C_BLOCK)
 		return (tree);
 	current = queue->first->next->next;
 	while (current)
