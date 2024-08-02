@@ -87,11 +87,15 @@ int	export(t_info *info, char **content)
 {
 	int	i;
 
-	i = 0;
-	return (0);
+	i = 1;
 	while (content[i])
 	{
-		add_in_list(info, content[i]);
+		if (add_in_list(info, content[i]) == -1)
+			;
+		return (-1);
 		i++;
 	}
+	if (i == 1)
+		print_env(info->env, 2);
+	return (0);
 }

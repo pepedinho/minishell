@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 19:04:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:38 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**split_value(char *str)
 {
 	char	**tab;
 
-	tab = split_first(str, ":");
+	tab = ft_split(str, ":");
 	if (!tab)
 		return (NULL);
 	return (tab);
@@ -64,7 +64,7 @@ t_env	*init_env(char *envp, int cas)
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	split = split_first(envp, "=");
+	split = ft_split(envp, "=");
 	if (!split)
 		return (free(new), NULL);
 	new->key = split[0];
@@ -97,7 +97,7 @@ char	**t_env_to_envp(t_env *env)
 
 	i = 0;
 	len = ft_env_size(env);
-	envp = ft_malloc(sizeof(char *) * (len + 1));
+	envp = malloc(sizeof(char *) * (len + 1));
 	if (!envp)
 		handle_malloc_error("envp");
 	while (i < len)
