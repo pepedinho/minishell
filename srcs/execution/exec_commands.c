@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 21:54:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:44:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,44 @@ void or (t_element * node)
 	exit(0);
 }
 
+void	outfile(t_element *node, t_info *info)
+{
+	int	outfile;
+
+	outfile = -1;
+	if (node->outfile)
+	{
+		if (node->file_mode == R_RED)
+		{
+			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (outfile == -1)
+				error_message(node->outfile);
+		}
+		else if (node->file_mode == RR_RED)
+		{
+			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (outfile == -1)
+				error_message(node->outfile);
+		}
+	}
+	if (outfile != -1)
+	{
+		if (dup2(outfile, STDOUT_FILENO) == -1)
+			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
+		close(outfile);
+	}
+}
+
+void	infile(t_element *node, t_info *info)
+{
+	if (node->infile != -1)
+	{
+		if (dup2(node->infile, STDIN_FILENO) == -1)
+			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
+		close(node->infile);
+	}
+}
+
 void	command(t_element *node)
 {
 	t_info	*info;
@@ -86,6 +124,8 @@ void	command(t_element *node)
 		free(path);
 		handle_malloc_error("args");
 	}
+	infile(node, info);
+	outfile(node, info);
 	execve(path, args, t_env_to_envp(info->env));
 	if (errno == 2)
 		ft_fprintf(2, "%s: command not found\n", node->content);

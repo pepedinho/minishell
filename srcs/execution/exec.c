@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 16:51:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:21:29 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,15 @@ void	here_doc(t_element *tmp)
 		free(line);
 	}
 	close(tmp->fd[WRITE]);
-	tmp->file_fd = tmp->fd[READ];
+	tmp->infile = tmp->fd[READ];
 }
 
 void	file(t_element *tmp)
 {
 	if (tmp->before && tmp->before->type == L_RED)
 	{
-		tmp->file_fd = open(tmp->content, O_RDONLY);
-		if (tmp->file_fd == -1)
-			error_message(tmp->content);
-	}
-	if (tmp->before && tmp->before->type == R_RED)
-	{
-		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (tmp->file_fd == -1)
-			error_message(tmp->content);
-	}
-	if (tmp->before && tmp->before->type == RR_RED)
-	{
-		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (tmp->file_fd == -1)
+		tmp->infile = open(tmp->content, O_RDONLY);
+		if (tmp->infile == -1)
 			error_message(tmp->content);
 	}
 }

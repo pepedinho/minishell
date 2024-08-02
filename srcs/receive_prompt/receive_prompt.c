@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 22:33:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 03:48:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,17 @@ t_command_line	*change_queue(t_command_line *queue)
 					ft_strcat(args, " ");
 					ft_strcat(args, current->content);
 					tmp->args = args;
+				}
+				else if (current->type == RR_RED || current->type == R_RED)
+				{
+					tmp->file_mode = current->type;
+					tmp->outfile = current->next->content;
+				}
+				else if (current->type == L_RED || current->type == LL_RED)
+				{
+					if (tmp->infile != -1)
+						close(tmp->infile);
+					tmp->infile = current->next->infile;
 				}
 				current = current->next;
 			}
