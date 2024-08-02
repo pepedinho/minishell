@@ -33,5 +33,7 @@ t_env				*env_in_struct(char **envp);
 void				free_env(t_env *env);
 char				**t_env_to_envp(t_env *env);
 char				**split_value(char *str);
+t_env				*init_env(char *envp, int cas);
+void				add_back_env(t_env **env, t_env *new);
 
 #endif // !ENV_H
