@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   receive_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 00:04:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:18 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ t_command_line	*queue_in_static(t_command_line *queue, int cas)
 void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
-	t_tree			*tree;
 	t_element		*tmp;
 
 	(void)info;
 	queue = parser(command_line, info->env);
 	print_queue(queue);
-	tree = smart_agencement(queue);
+	smart_agencement(queue);
 	if (queue->heredoc_flag == 1)
 	{
 		tmp = queue->first;
@@ -39,7 +38,7 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 		message_pipe(tmp->content);
 		(ft_free(DESTROY), exit(0));
 	}
-	global_check(queue, tree);
+	global_check(queue);
 	ft_free(DESTROY);
 }
 
@@ -58,8 +57,121 @@ char	*get_prompt(t_info *info)
 	while (current && ft_strcmp(current->key, "USER"))
 		current = current->next;
 	hostname = current->value;
-	prompt = ft_sprintf("\033[0;34m%s:\033[0;32m%s\033[0m$ ", hostname, pwd);
+	prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
+			hostname, pwd);
 	return (prompt);
+}
+
+t_command_line	*change_queue(t_command_line *queue)
+{
+	t_element	*current;
+	t_element	*tmp;
+	int			len;
+	char		*args;
+
+	current = queue->first;
+	while (current)
+	{
+		tmp = current;
+		if (current->type == CMD)
+		{
+			current = current->next;
+			while (current && current->type != PIPE && current->type != AND
+				&& current->type != OR && current->type != LIST)
+			{
+				if (current->type == SFX)
+				{
+					len = ft_strlen(current->content);
+					args = ft_malloc(sizeof(char) * (len + ft_strlen(tmp->args)
+								+ 2));
+					if (!args)
+						handle_malloc_error("queue");
+					args[0] = '\0';
+					ft_strcpy(args, tmp->args);
+					ft_strcat(args, " ");
+					ft_strcat(args, current->content);
+					tmp->args = args;
+				}
+				else if (current->type == RR_RED || current->type == R_RED)
+				{
+					tmp->file_mode = current->type;
+					tmp->outfile = current->next->content;
+				}
+				else if (current->type == L_RED || current->type == LL_RED)
+				{
+					if (tmp->infile != -1)
+						close(tmp->infile);
+					tmp->infile = current->next->infile;
+				}
+				current = current->next;
+			}
+		}
+		if (current)
+			current = current->next;
+	}
+	return (queue);
+}
+
+void	queue_add_back(t_command_line **queue, t_command_line *new)
+{
+	t_command_line	*buff;
+
+	buff = *queue;
+	while (buff->next)
+		buff = buff->next;
+	buff->next = new;
+	new->next = NULL;
+}
+
+t_command_line	*remove_in_queue(t_command_line *queue)
+{
+	t_element		*current;
+	t_element		*next;
+	t_command_line	*tmp_queue;
+
+	current = queue->first;
+	while (current)
+	{
+		next = current->next;
+		if (current->type != CMD && current->type != PIPE
+			&& current->type != AND && current->type != OR
+			&& current->type != LIST)
+		{
+			if (current->before)
+				current->before->next = next;
+			else
+				queue->first = next;
+			if (next)
+				next->before = current->before;
+		}
+		if (current->type == LIST)
+		{
+			tmp_queue = init_queue();
+			if (!tmp_queue)
+				handle_malloc_error("queue");
+			tmp_queue->first = current->next;
+			queue_add_back(&queue, tmp_queue);
+			current->before->next = NULL;
+		}
+		current = next;
+	}
+	return (queue);
+}
+
+void	tree_add_back(t_tree **tree, t_tree *new)
+{
+	t_tree	*buff;
+
+	if (*tree == NULL)
+		*tree = new;
+	else
+	{
+		buff = *tree;
+		while (buff->next)
+			buff = buff->next;
+		buff->next = new;
+	}
+	new->next = NULL;
 }
 
 void	receive_prompt(t_info *info)
@@ -71,8 +183,10 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
+		sigaction_signals();
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
+		free(prompt);
 		if (!command_line)
 		{
 			g_signal_code = 0;
@@ -80,15 +194,18 @@ void	receive_prompt(t_info *info)
 		}
 		queue = parser(command_line, info->env);
 		print_queue(queue);
-		tree = smart_agencement(queue);
+		global_check(queue);
+		queue = change_queue(queue);
+		queue = remove_in_queue(queue);
+		tree = NULL;
+		while (queue)
+		{
+			tree_add_back(&tree, smart_agencement(queue));
+			queue = queue->next;
+		}
 		add_history(command_line);
 		free(command_line);
-		if (global_check(queue, tree))
-		{
-			exec(tree->first, queue, info, 0);
-			close_fd(queue);
-		}
-		free(prompt);
+		execute_command_line(tree);
 		ft_free(DESTROY);
 	}
 }

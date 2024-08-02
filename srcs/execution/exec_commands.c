@@ -3,166 +3,181 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 00:25:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:30 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*check_path(t_info *info, char *cmd)
+int	ft_fork(void)
 {
-	t_env	*env;
-	int		i;
-	char	*path;
+	int	pid;
 
-	i = 0;
-	env = info->env;
-	while (env && ft_strcmp(env->key, "PATH"))
-		env = env->next;
-	while (env->split_value[i])
-	{
-		path = ft_sprintf("%s/%s", env->split_value[i], cmd);
-		if (!path)
-			return (NULL);
-		if (access(path, F_OK) == 0)
-			return (path);
-		ft_free(path);
-		i++;
-	}
-	return (NULL);
+	pid = fork();
+	if (pid == -1)
+		free_and_exit(g_signal_code);
+	// find the right signal code if fork fail;
+	return (pid);
 }
 
-char	**ready_to_exec(t_element *cmd)
+void	ft_pipe(t_element *node)
 {
-	char		**cmd_tab;
-	t_element	*current;
-	int			i;
+	int	fd[2];
+	int	status;
 
-	i = 0;
-	current = cmd;
-	while (current && !is_a_redirect(current->type))
+	if (pipe(fd) == -1)
+		free_and_exit(g_signal_code);
+	// find the right signal code if pipe fail;
+	if (ft_fork() == 0)
 	{
-		i++;
-		current = current->next;
+		dup2(fd[1], STDOUT_FILENO);
+		(close(fd[0]), close(fd[1]));
+		exec(node->left);
 	}
-	current = cmd;
-	cmd_tab = ft_malloc(sizeof(char *) * (i + 1));
-	if (!cmd_tab)
-		return (NULL);
-	i = 0;
-	while (current && !is_a_redirect(current->type))
+	if (ft_fork() == 0)
 	{
-		cmd_tab[i] = current->content;
-		current = current->next;
-		i++;
+		dup2(fd[0], STDIN_FILENO);
+		(close(fd[0]), close(fd[1]));
+		exec(node->right);
 	}
-	cmd_tab[i] = NULL;
-	return (cmd_tab);
+	(close(fd[0]), close(fd[1]));
+	(wait(NULL), wait(&status));
+	exit(status);
 }
 
-void	read_pipe_debug(int fd)
+void and (t_element * node)
 {
-	char	buff[100];
-	int		nb_read;
+	int	status;
+	int	pid;
 
-	nb_read = -1;
-	ft_printf("debug pipe content : \n");
-	while (nb_read != 0)
+	pid = ft_fork();
+	if (pid == 0)
+		exec(node->left);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) == 0)
 	{
-		nb_read = read(fd, buff, 100);
-		if (nb_read == -1)
-			return ;
-		ft_printf("%s", buff);
-	}
-}
-
-void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag)
-{
-	char	*path;
-	char	**cmd_tab;
-	pid_t	pid;
-
-	printf("non\n");
-	if (!branch)
-		return ;
-	if (branch->l_cmd)
-		exec(branch->l_cmd, queue, info, 0);
-	else if (!branch->l_cmd && flag == 0)
-		exec(branch, queue, info, 1);
-	if (!branch->l_cmd && flag == 1)
-		path = check_path(info, branch->first_cmd->content);
-	else
-		path = check_path(info, branch->r_cmd->content);
-	// TODO: fd not close somewhere
-	if (path)
-	{
-		pid = fork();
+		pid = ft_fork();
 		if (pid == 0)
+			exec(node->right);
+		waitpid(pid, &status, 0);
+	}
+	exit(WEXITSTATUS(status));
+}
+
+void or (t_element * node)
+{
+	int	status;
+	int	pid;
+
+	pid = ft_fork();
+	if (pid == 0)
+		exec(node->left);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) != 0)
+	{
+		pid = ft_fork();
+		if (pid == 0)
+			exec(node->right);
+		waitpid(pid, &status, 0);
+	}
+	exit(WEXITSTATUS(status));
+}
+
+void	outfile(t_element *node, t_info *info)
+{
+	int	outfile;
+
+	outfile = -1;
+	if (node->outfile)
+	{
+		if (node->file_mode == R_RED)
 		{
-			printf("pid\n");
-			if (!branch->l_cmd && flag == 1)
-			{
-				cmd_tab = ready_to_exec(branch->first_cmd);
-				if (!cmd_tab)
-					exit(EXIT_FAILURE);
-				printf("debug1 : %s\n", path);
-				// dup2(branch->first_cmd->fd[READ], STDIN_FILENO);
-				dup2(branch->r_cmd->fd[WRITE], STDOUT_FILENO);
-				// read_pipe_debug(branch->r_cmd->fd[WRITE]);
-				close_fd(queue);
-				if (!execve(path, cmd_tab, info->env->envp))
-					printf("error execve\n");
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				cmd_tab = ready_to_exec(branch->r_cmd);
-				if (!cmd_tab)
-					return ;
-				printf("debug2 : %s\n", path);
-				// read_pipe_debug(branch->l_cmd->r_cmd->fd[READ]);
-				if (!branch->l_cmd && branch->before)
-				{
-					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
-					dup2(branch->before->r_cmd->fd[WRITE], STDOUT_FILENO);
-				}
-				else if (branch->before)
-				{
-					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
-					dup2(branch->before->r_cmd->fd[WRITE], STDOUT_FILENO);
-				}
-				else
-				{
-					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
-				}
-				close_fd(queue);
-				if (!execve(path, cmd_tab, info->env->envp))
-					printf("error execve\n");
-				exit(EXIT_FAILURE);
-			}
+			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (outfile == -1)
+				error_message(node->outfile);
+		}
+		else if (node->file_mode == RR_RED)
+		{
+			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (outfile == -1)
+				error_message(node->outfile);
 		}
 	}
-	if (!branch->l_cmd && flag == 1)
+	if (outfile != -1)
 	{
-		close(branch->first_cmd->fd[READ]);
-		close(branch->first_cmd->fd[WRITE]);
-		//	close(branch->first_cmd->fd[READ]);
+		if (dup2(outfile, STDOUT_FILENO) == -1)
+			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
+		close(outfile);
 	}
+}
+
+void	infile(t_element *node, t_info *info)
+{
+	if (node->infile != -1)
+	{
+		if (dup2(node->infile, STDIN_FILENO) == -1)
+			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
+		close(node->infile);
+	}
+}
+
+void	command(t_element *node)
+{
+	t_info	*info;
+	char	*path;
+	char	**args;
+
+	info = info_in_static(NULL, GET);
+	path = find_path(node->content, info);
+	if (!path)
+		handle_malloc_error("path");
+	args = ft_split(node->args, " ");
+	if (!args)
+		(free(path), handle_malloc_error("args"));
+	(infile(node, info), outfile(node, info));
+	execve(path, args, t_env_to_envp(info->env));
+	if (errno == 2)
+		ft_fprintf(2, "%s: command not found\n", node->content);
 	else
+		perror(node->content);
+	free(path);
+	free_and_exit(errno);
+}
+
+void	exec(t_element *node)
+{
+	restore_sigint();
+	if (node->type == AND)
+		and(node);
+	if (node->type == OR)
+		or (node);
+	if (node->type == PIPE)
+		ft_pipe(node);
+	if (node->type == CMD)
+		command(node);
+}
+
+void	execute_command_line(t_tree *tree)
+{
+	int	status;
+	int	pid;
+
+	pid = ft_fork();
+	if (pid == 0)
 	{
-		if (!branch->l_cmd && branch->before)
+		while (tree)
 		{
-			close(branch->r_cmd->fd[READ]);
+			pid = ft_fork();
+			if (pid == 0)
+				exec(tree->first);
+			waitpid(pid, &status, 0);
+			tree = tree->next;
 		}
-		else if (branch->before)
-		{
-			close(branch->r_cmd->fd[READ]);
-		}
-		else
-			close_fd(queue);
+		exit(WEXITSTATUS(status));
 	}
-	wait(NULL);
+	waitpid(pid, &status, 0);
+	printf("echo $? == %d\n", WEXITSTATUS(status));
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/31 19:47:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:59:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,12 +196,6 @@ int	add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 	return (1);
 }
 
-void	skip_white_space(char *str, int *i)
-{
-	while (str[*i] == ' ')
-		++(*i);
-}
-
 t_command_line	*parser(char *str, t_env *env)
 {
 	int				i;
@@ -234,7 +228,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
+						current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -271,7 +265,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

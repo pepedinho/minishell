@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 13:20:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:42:31 by madamou          ###   ########.fr       */
+/*   Created: 2024/08/02 16:58:26 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/02 17:13:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include "../../includes/minishell.h"
 
-# ifdef MINISHELL_H
-#  undef MINISHELL_H
-# endif
+void	skip_white_space(char *str, int *i)
+{
+	while (str[*i] == ' ')
+		++(*i);
+}
 
-# include "../../includes/minishell.h"
+int	ft_strlen_2d(char **str)
+{
+	int	i;
 
-void	error_message(char *content);
-void	close_fd(t_command_line *queue);
-void	handle_unexpected_token(char *token);
-void	handle_malloc_error(char *message);
-void	free_and_exit(int status_code);
-void	message_pipe(char *limiter);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
-#endif // !ERRORS_H
+void	ft_free_2d(char **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+	split = NULL;
+}

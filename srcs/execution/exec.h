@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 00:04:17 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:22 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@
 
 # include "../../includes/minishell.h"
 
-int		global_check(struct s_command_line *queue, t_tree *tree);
-void	message_pipe(char *limiter);
-void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag);
+// Before exec
+int		global_check(struct s_command_line *queue);
+
+// Path
+char	*find_path(char *command, t_info *info);
+
+// Exec
+void	execute_command_line(t_tree *tree);
+int		ft_fork(void);
+void	exec(t_element *node);
 
 #endif // !EXEC_H

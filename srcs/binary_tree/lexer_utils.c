@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:02:31 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/29 09:56:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/01 20:22:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,3 @@ int	is_a_redirect(int type)
 		return (1);
 	return (0);
 }
-
-// TODO: add sfx in t_branch->r/l_sfx

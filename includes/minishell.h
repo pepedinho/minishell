@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/31 17:14:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:01:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "../srcs/parsing/parsing.h"
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/signal/signal.h"
+# include "../srcs/utils/utils.h"
+# include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>

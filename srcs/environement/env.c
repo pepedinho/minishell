@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 01:24:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:38 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**split_value(char *str)
 	return (tab);
 }
 
-t_env	*init_env(char *envp)
+t_env	*init_env(char *envp, int cas)
 {
 	t_env	*new;
 	char	**split;
@@ -71,7 +71,7 @@ t_env	*init_env(char *envp)
 	new->value = split[1];
 	new->split = split;
 	new->split_value = split_value(new->value);
-	new->global = 1;
+	new->global = cas;
 	new->next = NULL;
 	return (new);
 }
@@ -97,7 +97,7 @@ char	**t_env_to_envp(t_env *env)
 
 	i = 0;
 	len = ft_env_size(env);
-	envp = ft_malloc(sizeof(char) * (len + 1));
+	envp = malloc(sizeof(char *) * (len + 1));
 	if (!envp)
 		handle_malloc_error("envp");
 	while (i < len)
@@ -120,7 +120,7 @@ t_env	*env_in_struct(char **envp)
 	env = NULL;
 	while (envp && envp[i])
 	{
-		new = init_env(envp[i]);
+		new = init_env(envp[i], GLOBAL);
 		if (!new)
 			return (free_env(env), NULL);
 		add_back_env(&env, new);

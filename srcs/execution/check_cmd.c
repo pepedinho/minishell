@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 21:32:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:36 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,12 @@
 #include <time.h>
 #include <unistd.h>
 
-void	message_pipe(char *limiter)
-{
-	t_info	*info;
-
-	info = info_in_static(NULL, GET);
-	ft_printf("%s: warning: here-document at line 1 delimited ", info->name);
-	ft_printf("by end-of-file (wanted `%s')\n", limiter);
-}
-
 void	here_doc(t_element *tmp)
 {
 	char	*line;
+	int		fd[2];
 
-	if (pipe(tmp->fd) == -1)
+	if (pipe(fd) == -1)
 		error_message("pipe");
 	while (1)
 	{
@@ -45,32 +37,20 @@ void	here_doc(t_element *tmp)
 			free(line);
 			break ;
 		}
-		write(tmp->fd[WRITE], line, ft_strlen(line));
-		write(tmp->fd[WRITE], "\n", 1);
+		write(fd[WRITE], line, ft_strlen(line));
+		write(fd[WRITE], "\n", 1);
 		free(line);
 	}
-	// close(tmp->fd[WRITE]);
-	// tmp->file_fd = tmp->fd[READ];
+	close(fd[WRITE]);
+	tmp->infile = fd[READ];
 }
 
 void	file(t_element *tmp)
 {
 	if (tmp->before && tmp->before->type == L_RED)
 	{
-		tmp->file_fd = open(tmp->content, O_RDONLY);
-		if (tmp->file_fd == -1)
-			error_message(tmp->content);
-	}
-	if (tmp->before && tmp->before->type == R_RED)
-	{
-		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (tmp->file_fd == -1)
-			error_message(tmp->content);
-	}
-	if (tmp->before && tmp->before->type == RR_RED)
-	{
-		tmp->file_fd = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (tmp->file_fd == -1)
+		tmp->infile = open(tmp->content, O_RDONLY);
+		if (tmp->infile == -1)
 			error_message(tmp->content);
 	}
 }
@@ -81,7 +61,7 @@ void	unexpected_eof(void)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
-		info->name);
+			info->name);
 }
 
 void	fill_open_quote(t_element *sfx)
@@ -175,27 +155,9 @@ int	open_file(t_command_line *queue)
 	return (1);
 }
 
-void	open_pipe(t_command_line *queue)
+int	global_check(t_command_line *queue)
 {
-	t_element	*current;
-
-	current = queue->first;
-	while (current)
-	{
-		if (current->type == CMD || current->type == H_FILE)
-		{
-			if (pipe(current->fd))
-				ft_printf("pipe error\n");
-		}
-		current = current->next;
-	}
-}
-
-int	global_check(t_command_line *queue, t_tree *tree)
-{
-	(void)tree;
 	if (!open_file(queue))
 		return (0);
-	open_pipe(queue);
 	return (1);
 }
