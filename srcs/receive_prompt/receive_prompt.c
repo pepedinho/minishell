@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 21:39:21 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 22:17:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,19 +228,19 @@ void	receive_prompt(t_info *info)
 		if (ft_strcmp(command_line, "\n") == 0)
 			if_only_newline();
 		queue = parser(command_line, info->env);
-		// print_queue(queue);
+		print_queue(queue);
 		global_check(queue);
 		queue = change_queue(queue);
 		queue = remove_in_queue(queue);
 		tree = NULL;
-		while (queue->first)
+		while (queue && queue->first)
 		{
 			tree_add_back(&tree, smart_agencement(queue));
 			queue = queue->next;
 		}
 		add_history(command_line);
 		free(command_line);
-		execute_command_line(tree);
+		// execute_command_line(tree);
 		ft_free(DESTROY);
 	}
 }

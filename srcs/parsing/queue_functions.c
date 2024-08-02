@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 19:41:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 22:23:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 {
 	t_element	*new;
 	t_element	*current;
+	t_element	*tmp;
 
 	new = ft_malloc(sizeof(t_element));
 	if (!new)
@@ -78,9 +79,20 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 			new->type = H_FILE;
 			queue->heredoc_flag = 1;
 		}
-		else if (type == CMD && (current->type == CMD || current->type == SFX
-					|| current->type == H_FILE || current->type == FILE))
-			new->type = SFX;
+		else if (type == CMD)
+		{
+			tmp = current;
+			while (tmp && !is_a_redirect(tmp->type))
+			{
+				if (tmp->type == CMD)
+				{
+					new->type = SFX;
+					break;
+				}
+				new->type = CMD;
+				tmp = tmp->before;
+			}
+		}
 		new->before = current;
 		current->next = new;
 		queue->last = new;
