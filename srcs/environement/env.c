@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 15:18:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:38 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,6 @@ t_env	*env_in_struct(char **envp)
 		add_back_env(&env, new);
 		i++;
 	}
-	env->envp = t_env_to_envp(env);
+	env->envp = envp;
 	return (env);
 }

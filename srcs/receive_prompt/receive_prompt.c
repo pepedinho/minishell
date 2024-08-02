@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:57:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 18:26:17 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ char	*get_prompt(t_info *info)
 	while (current && ft_strcmp(current->key, "USER"))
 		current = current->next;
 	hostname = current->value;
-	prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-			hostname, pwd);
+	if (g_signal_code == 0)
+		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
+				hostname, pwd);
+	else
+		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
+				hostname, pwd);
 	return (prompt);
 }
 

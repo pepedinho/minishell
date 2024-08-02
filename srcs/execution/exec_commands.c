@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 18:23:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 18:26:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,4 +182,5 @@ void	execute_command_line(t_tree *tree)
 	}
 	waitpid(pid, &status, 0);
 	printf("echo $? == %d\n", WEXITSTATUS(status));
+	g_signal_code = WEXITSTATUS(status);
 }

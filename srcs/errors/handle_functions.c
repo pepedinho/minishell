@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:44:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:54:32 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	g_signal_code = ERR_MALLOC;
 	free_and_exit(g_signal_code);
 }
