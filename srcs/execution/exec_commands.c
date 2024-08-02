@@ -27,7 +27,7 @@ void	ft_pipe(t_element *node)
 {
 	int	fd[2];
 	int	status;
-	int pid[2];
+	int	pid[2];
 
 	if (pipe(fd) == -1)
 		free_and_exit(g_signal_code);
@@ -145,13 +145,13 @@ void	command(t_element *node)
 	free_and_exit(errno);
 }
 
-
-void subshell(t_element *node)
+void	subshell(t_element *node)
 {
-	t_info *info;
-	char *argv;
-	char **args;
-	char **split;
+	t_info	*info;
+	char	*argv;
+	char	**args;
+	char	**split;
+	int		i;
 
 	info = info_in_static(NULL, GET);
 	printf("oui\n");
@@ -170,7 +170,7 @@ void subshell(t_element *node)
 	(ft_strcpy(args[0], split[0]), ft_strcpy(args[1], split[1]));
 	(ft_strcpy(args[2], node->content), ft_free_2d(split));
 	args[3] = NULL;
-	int i = 0;
+	i = 0;
 	while (args[i])
 		printf("%s\n", args[i++]);
 	execve("./minishell", args, t_env_to_envp(info->env));

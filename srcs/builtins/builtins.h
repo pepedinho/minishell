@@ -19,7 +19,6 @@
 
 # include "../../includes/minishell.h"
 
-
 int		ft_cd(char *directory);
 void	ft_echo(char *command, int flag);
 void	env(void);

@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../srcs/binary_tree/lexer.h"
+# include "../srcs/builtins/builtins.h"
 # include "../srcs/environement/env.h"
 # include "../srcs/errors/errors.h"
 # include "../srcs/execution/exec.h"
@@ -23,7 +24,6 @@
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/signal/signal.h"
 # include "../srcs/utils/utils.h"
-# include "../srcs/builtins/builtins.h"
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>

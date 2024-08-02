@@ -37,7 +37,7 @@ void	minishell(t_info *info, char **envp)
 		rl_clear_history();
 		return ;
 	}
-	ft_printf("%s: Error malloc with Environement variables\n",	info->name);
+	ft_printf("%s: Error malloc with Environement variables\n", info->name);
 	g_signal_code = 105;
 }
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 16:59:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 19:53:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	j = 1;
 	while (str[*i + j] && str[*i + j] != '"')
 		j++;
-	if ((!str[*i + j] && str[*i + j - 1] != '"') || (str[*i + j - 1] == '"'
-			&& j == 1))
+	if ((!str[*i + j] && str[*i + j - 1] != '"'))
 	{
 		queue->open_quotes_flag = 1;
 		// return (NO_END_QUOTE); // handle when quote dosen't end
@@ -96,7 +95,7 @@ int	add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	cmd[j - 1] = '\0';
 	if (!add_to_queue(queue, cmd, 1, NULL))
 		return (g_signal_code = 105, ERR_MALLOC);
-	*i += j;
+	*i += j + 1;
 	return (1);
 }
 
@@ -108,6 +107,8 @@ int	add_command(t_command_line *queue, char *str, int *i)
 	j = 0;
 	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
 		j++;
+	if (j == 0)
+		return (1);
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
 		handle_malloc_error("commands");
