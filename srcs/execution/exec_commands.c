@@ -180,4 +180,5 @@ void	execute_command_line(t_tree *tree)
 	}
 	waitpid(pid, &status, 0);
 	printf("echo $? == %d\n", WEXITSTATUS(status));
+	g_signal_code = WEXITSTATUS(status);
 }
