@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 03:56:16 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/01 18:59:15 by madamou          ###   ########.fr       */
+/*   Created: 2024/08/02 16:58:52 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/02 17:14:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-int	ft_strlen_2d(char **str)
-{
-	int	i;
+void	skip_white_space(char *str, int *i);
+void	ft_free_2d(char **split);
+int		ft_strlen_2d(char **str);
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-void	ft_free_2d(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		free(split[i++]);
-	free(split);
-	split = NULL;
-}
+#endif

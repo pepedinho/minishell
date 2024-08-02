@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 14:42:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:39:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ char	*get_prompt(t_info *info)
 	while (current && ft_strcmp(current->key, "USER"))
 		current = current->next;
 	hostname = current->value;
-	prompt = ft_sprintf("\033[0;34m%s:\033[0;32m%s\033[0m$ ", hostname, pwd);
+	prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
+			hostname, pwd);
 	return (prompt);
 }
 
@@ -155,17 +156,6 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 		current = next;
 	}
 	return (queue);
-}
-
-void	execute_command_line(t_tree *tree)
-{
-	while (tree)
-	{
-		if (ft_fork() == 0)
-			exec(tree->first);
-		wait(0);
-		tree = tree->next;
-	}
 }
 
 void	tree_add_back(t_tree **tree, t_tree *new)

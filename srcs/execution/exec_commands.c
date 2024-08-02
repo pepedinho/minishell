@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 12:42:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:39:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,26 @@ void	exec(t_element *node)
 		ft_pipe(node);
 	if (node->type == CMD)
 		command(node);
+}
+
+void	execute_command_line(t_tree *tree)
+{
+	int	status;
+	int	pid;
+
+	pid = ft_fork();
+	if (pid == 0)
+	{
+		while (tree)
+		{
+			pid = ft_fork();
+			if (pid == 0)
+				exec(tree->first);
+			waitpid(pid, &status, 0);
+			tree = tree->next;
+		}
+		exit(WEXITSTATUS(status));
+	}
+	waitpid(pid, &status, 0);
+	printf("echo $? == %d\n", WEXITSTATUS(status));
 }

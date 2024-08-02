@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 03:14:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:59:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,6 @@ int	add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 	else
 		add_command(queue, str, i);
 	return (1);
-}
-
-void	skip_white_space(char *str, int *i)
-{
-	while (str[*i] == ' ')
-		++(*i);
 }
 
 t_command_line	*parser(char *str, t_env *env)

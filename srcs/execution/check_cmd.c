@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 04:10:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:43:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
-
-void	message_pipe(char *limiter)
-{
-	t_info	*info;
-
-	info = info_in_static(NULL, GET);
-	ft_printf("%s: warning: here-document at line 1 delimited ", info->name);
-	ft_printf("by end-of-file (wanted `%s')\n", limiter);
-}
 
 void	here_doc(t_element *tmp)
 {

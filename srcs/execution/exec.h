@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 19:20:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:42:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@
 
 # include "../../includes/minishell.h"
 
+// Before exec
 int		global_check(struct s_command_line *queue);
-void	message_pipe(char *limiter);
-int		ft_fork(void);
-void	exec(t_element *node);
 
 // Path
-void	ft_free_2d(char **split);
-int		ft_strlen_2d(char **str);
 char	*find_path(char *command, t_info *info);
+
+// Exec
+void	execute_command_line(t_tree *tree);
+int		ft_fork(void);
+void	exec(t_element *node);
 
 #endif // !EXEC_H

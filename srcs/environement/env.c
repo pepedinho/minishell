@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 19:17:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 15:18:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**split_value(char *str)
 	return (tab);
 }
 
-t_env	*init_env(char *envp)
+t_env	*init_env(char *envp, int cas)
 {
 	t_env	*new;
 	char	**split;
@@ -71,7 +71,7 @@ t_env	*init_env(char *envp)
 	new->value = split[1];
 	new->split = split;
 	new->split_value = split_value(new->value);
-	new->global = 1;
+	new->global = cas;
 	new->next = NULL;
 	return (new);
 }
@@ -120,7 +120,7 @@ t_env	*env_in_struct(char **envp)
 	env = NULL;
 	while (envp && envp[i])
 	{
-		new = init_env(envp[i]);
+		new = init_env(envp[i], GLOBAL);
 		if (!new)
 			return (free_env(env), NULL);
 		add_back_env(&env, new);
