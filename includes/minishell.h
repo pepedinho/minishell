@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 17:01:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:59:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../libft/libft.h"
 # include "../srcs/binary_tree/lexer.h"
-# include "../srcs/builtins/builtins.h"
 # include "../srcs/environement/env.h"
 # include "../srcs/errors/errors.h"
 # include "../srcs/execution/exec.h"
@@ -24,6 +23,7 @@
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/signal/signal.h"
 # include "../srcs/utils/utils.h"
+# include "../srcs/builtins/builtins.h"
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
