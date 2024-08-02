@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:30 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:11:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,27 @@ void	ft_pipe(t_element *node)
 {
 	int	fd[2];
 	int	status;
+	int	pid[2];
 
 	if (pipe(fd) == -1)
 		free_and_exit(g_signal_code);
-	// find the right signal code if pipe fail;
-	if (ft_fork() == 0)
+	pid[0] = ft_fork();
+	if (pid[0] == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		(close(fd[0]), close(fd[1]));
 		exec(node->left);
 	}
-	if (ft_fork() == 0)
+	pid[1] = ft_fork();
+	if (pid[1] == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		(close(fd[0]), close(fd[1]));
 		exec(node->right);
 	}
 	(close(fd[0]), close(fd[1]));
-	(wait(NULL), wait(&status));
-	exit(status);
+	(waitpid(pid[0], &status, 0), waitpid(pid[1], &status, 0));
+	exit(WEXITSTATUS(status));
 }
 
 void and (t_element * node)
@@ -128,22 +130,36 @@ void	command(t_element *node)
 {
 	t_info	*info;
 	char	*path;
-	char	**args;
 
 	info = info_in_static(NULL, GET);
 	path = find_path(node->content, info);
 	if (!path)
 		handle_malloc_error("path");
-	args = ft_split(node->args, " ");
-	if (!args)
-		(free(path), handle_malloc_error("args"));
 	(infile(node, info), outfile(node, info));
-	execve(path, args, t_env_to_envp(info->env));
+	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
 		ft_fprintf(2, "%s: command not found\n", node->content);
 	else
 		perror(node->content);
 	free(path);
+	free_and_exit(errno);
+}
+
+void	subshell(t_element *node)
+{
+	t_info	*info;
+	char	**args;
+
+	info = info_in_static(NULL, GET);
+	args = ft_malloc(sizeof(char *) * 4);
+	if (!args)
+		handle_malloc_error("subshell");
+	args[0] = ft_strdup("minishell");
+	args[1] = ft_strdup("-c");
+	args[2] = ft_strdup(node->content);
+	args[3] = NULL;
+	execve("./minishell", args, t_env_to_envp(info->env));
+	ft_free_2d(args);
 	free_and_exit(errno);
 }
 
@@ -156,6 +172,8 @@ void	exec(t_element *node)
 		or (node);
 	if (node->type == PIPE)
 		ft_pipe(node);
+	if (node->type == C_BLOCK)
+		subshell(node);
 	if (node->type == CMD)
 		command(node);
 }
@@ -179,6 +197,6 @@ void	execute_command_line(t_tree *tree)
 		exit(WEXITSTATUS(status));
 	}
 	waitpid(pid, &status, 0);
-	printf("echo $? == %d\n", WEXITSTATUS(status));
+	// printf("echo $? == %d\n", WEXITSTATUS(status));
 	g_signal_code = WEXITSTATUS(status);
 }

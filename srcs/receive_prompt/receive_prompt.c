@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   receive_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:18 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/02 20:24:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,6 @@ t_command_line	*queue_in_static(t_command_line *queue, int cas)
 	if (cas == INIT)
 		save = queue;
 	return (save);
-}
-
-void	receive_prompt_subminishell(char *command_line, t_info *info)
-{
-	t_command_line	*queue;
-	t_element		*tmp;
-
-	(void)info;
-	queue = parser(command_line, info->env);
-	print_queue(queue);
-	smart_agencement(queue);
-	if (queue->heredoc_flag == 1)
-	{
-		tmp = queue->first;
-		while (tmp->type != H_FILE)
-			tmp = tmp->next;
-		message_pipe(tmp->content);
-		(ft_free(DESTROY), exit(0));
-	}
-	global_check(queue);
-	ft_free(DESTROY);
 }
 
 char	*get_prompt(t_info *info)
@@ -59,19 +38,53 @@ char	*get_prompt(t_info *info)
 	hostname = current->value;
 	if (g_signal_code == 0)
 		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-				hostname, pwd);
+							hostname,
+							pwd);
 	else
 		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-				hostname, pwd);
+							hostname,
+							pwd);
 	return (prompt);
+}
+
+char	**ready_to_exec(t_element *cmd)
+{
+	char		**cmd_tab;
+	t_element	*current;
+	int			i;
+
+	i = 0;
+	current = cmd;
+	while (current && !is_a_redirect(current->type))
+	{
+		i++;
+		current = current->next;
+	}
+	current = cmd;
+	cmd_tab = ft_malloc(sizeof(char *) * (i + 1));
+	if (!cmd_tab)
+		return (NULL);
+	i = 0;
+	while (current && !is_a_redirect(current->type))
+	{
+		if (current->type == R_RED || current->type == RR_RED
+			|| current->type == L_RED || current->type == LL_RED)
+		{
+			current = current->next->next;
+			continue ;
+		}
+		cmd_tab[i] = current->content;
+		current = current->next;
+		i++;
+	}
+	cmd_tab[i] = NULL;
+	return (cmd_tab);
 }
 
 t_command_line	*change_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*tmp;
-	int			len;
-	char		*args;
 
 	current = queue->first;
 	while (current)
@@ -79,24 +92,25 @@ t_command_line	*change_queue(t_command_line *queue)
 		tmp = current;
 		if (current->type == CMD)
 		{
+			current->args = ready_to_exec(current);
 			current = current->next;
 			while (current && current->type != PIPE && current->type != AND
 				&& current->type != OR && current->type != LIST)
 			{
-				if (current->type == SFX)
-				{
-					len = ft_strlen(current->content);
-					args = ft_malloc(sizeof(char) * (len + ft_strlen(tmp->args)
-								+ 2));
-					if (!args)
-						handle_malloc_error("queue");
-					args[0] = '\0';
-					ft_strcpy(args, tmp->args);
-					ft_strcat(args, " ");
-					ft_strcat(args, current->content);
-					tmp->args = args;
-				}
-				else if (current->type == RR_RED || current->type == R_RED)
+				// if (current->type == SFX)
+				// {
+				// 	len = ft_strlen(current->content);
+				// 	args = ft_malloc(sizeof(char) * (len + ft_strlen(tmp->args)
+				// 				+ 2));
+				// 	if (!args)
+				// 		handle_malloc_error("queue");
+				// 	args[0] = '\0';
+				// 	ft_strcpy(args, tmp->args);
+				// 	ft_strcat(args, " ");
+				// 	ft_strcat(args, current->content);
+				// 	tmp->args = args;
+				// }
+				if (current->type == RR_RED || current->type == R_RED)
 				{
 					tmp->file_mode = current->type;
 					tmp->outfile = current->next->content;
@@ -139,7 +153,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 		next = current->next;
 		if (current->type != CMD && current->type != PIPE
 			&& current->type != AND && current->type != OR
-			&& current->type != LIST)
+			&& current->type != LIST && current->type != C_BLOCK)
 		{
 			if (current->before)
 				current->before->next = next;
@@ -178,6 +192,27 @@ void	tree_add_back(t_tree **tree, t_tree *new)
 	new->next = NULL;
 }
 
+void	receive_prompt_subminishell(char *command_line, t_info *info)
+{
+	t_command_line	*queue;
+	t_tree			*tree;
+
+	sigaction_signals();
+	queue = parser(command_line, info->env);
+	// print_queue(queue);
+	global_check(queue);
+	queue = change_queue(queue);
+	queue = remove_in_queue(queue);
+	tree = NULL;
+	while (queue)
+	{
+		tree_add_back(&tree, smart_agencement(queue));
+		queue = queue->next;
+	}
+	execute_command_line(tree);
+	ft_free(DESTROY);
+}
+
 void	receive_prompt(t_info *info)
 {
 	char			*command_line;
@@ -197,7 +232,7 @@ void	receive_prompt(t_info *info)
 			break ;
 		}
 		queue = parser(command_line, info->env);
-		print_queue(queue);
+		// print_queue(queue);
 		global_check(queue);
 		queue = change_queue(queue);
 		queue = remove_in_queue(queue);

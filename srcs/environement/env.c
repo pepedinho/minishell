@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:38 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/02 19:04:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**t_env_to_envp(t_env *env)
 
 	i = 0;
 	len = ft_env_size(env);
-	envp = malloc(sizeof(char *) * (len + 1));
+	envp = ft_malloc(sizeof(char *) * (len + 1));
 	if (!envp)
 		handle_malloc_error("envp");
 	while (i < len)
