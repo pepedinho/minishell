@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/01 20:22:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 14:23:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_tree	*init_tree(void)
 	if (!new)
 		return (NULL);
 	new->first = NULL;
+	new->next = NULL;
 	return (new);
 }
 

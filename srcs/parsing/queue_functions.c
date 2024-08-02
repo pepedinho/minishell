@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 03:20:21 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 14:28:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_command_line	*init_queue(void)
 	if (!new)
 		handle_malloc_error("queues");
 	new->first = NULL;
+	new->next = NULL;
 	new->heredoc_flag = 0;
 	new->u_token_flag = 0;
 	new->u_heredoc_token_flag = 0;

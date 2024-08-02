@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 12:44:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 14:42:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			current = current->next;
 			while (current && current->type != PIPE && current->type != AND
-				&& current->type != OR)
+				&& current->type != OR && current->type != LIST)
 			{
 				if (current->type == SFX)
 				{
@@ -111,17 +111,30 @@ t_command_line	*change_queue(t_command_line *queue)
 	return (queue);
 }
 
+void	queue_add_back(t_command_line **queue, t_command_line *new)
+{
+	t_command_line	*buff;
+
+	buff = *queue;
+	while (buff->next)
+		buff = buff->next;
+	buff->next = new;
+	new->next = NULL;
+}
+
 t_command_line	*remove_in_queue(t_command_line *queue)
 {
-	t_element	*current;
-	t_element	*next;
+	t_element		*current;
+	t_element		*next;
+	t_command_line	*tmp_queue;
 
 	current = queue->first;
 	while (current)
 	{
 		next = current->next;
 		if (current->type != CMD && current->type != PIPE
-			&& current->type != AND && current->type != OR)
+			&& current->type != AND && current->type != OR
+			&& current->type != LIST)
 		{
 			if (current->before)
 				current->before->next = next;
@@ -130,9 +143,45 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			if (next)
 				next->before = current->before;
 		}
+		if (current->type == LIST)
+		{
+			tmp_queue = init_queue();
+			if (!tmp_queue)
+				handle_malloc_error("queue");
+			tmp_queue->first = current->next;
+			queue_add_back(&queue, tmp_queue);
+			current->before->next = NULL;
+		}
 		current = next;
 	}
 	return (queue);
+}
+
+void	execute_command_line(t_tree *tree)
+{
+	while (tree)
+	{
+		if (ft_fork() == 0)
+			exec(tree->first);
+		wait(0);
+		tree = tree->next;
+	}
+}
+
+void	tree_add_back(t_tree **tree, t_tree *new)
+{
+	t_tree	*buff;
+
+	if (*tree == NULL)
+		*tree = new;
+	else
+	{
+		buff = *tree;
+		while (buff->next)
+			buff = buff->next;
+		buff->next = new;
+	}
+	new->next = NULL;
 }
 
 void	receive_prompt(t_info *info)
@@ -158,12 +207,15 @@ void	receive_prompt(t_info *info)
 		global_check(queue);
 		queue = change_queue(queue);
 		queue = remove_in_queue(queue);
-		tree = smart_agencement(queue);
+		tree = NULL;
+		while (queue)
+		{
+			tree_add_back(&tree, smart_agencement(queue));
+			queue = queue->next;
+		}
 		add_history(command_line);
 		free(command_line);
-		if (ft_fork() == 0)
-			exec(tree->first);
-		wait(0);
+		execute_command_line(tree);
 		ft_free(DESTROY);
 	}
 }

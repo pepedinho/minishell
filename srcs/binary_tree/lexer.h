@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:19:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/01 12:10:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 13:47:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 typedef struct s_tree
 {
 	struct s_element	*first;
+	struct s_tree		*next;
 }						t_tree;
 
 // lexing

@@ -19,7 +19,7 @@ int	ft_fork(void)
 	pid = fork();
 	if (pid == -1)
 		free_and_exit(g_signal_code);
-			// find the right signal code if fork fail;
+	// find the right signal code if fork fail;
 	return (pid);
 }
 
@@ -30,7 +30,7 @@ void	ft_pipe(t_element *node)
 
 	if (pipe(fd) == -1)
 		free_and_exit(g_signal_code);
-			// find the right signal code if pipe fail;
+	// find the right signal code if pipe fail;
 	if (ft_fork() == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
