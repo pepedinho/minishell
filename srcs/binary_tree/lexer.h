@@ -30,8 +30,8 @@ typedef struct s_branch
 {
 	struct s_element	*redirect;
 	struct s_element	*r_cmd;
-	struct s_sfx		*r_sfx;
 	struct s_branch		*l_cmd;
+	struct s_branch		*before;
 	struct s_element	*first_cmd;
 }						t_branch;
 

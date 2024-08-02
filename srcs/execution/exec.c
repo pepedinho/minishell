@@ -49,8 +49,8 @@ void	here_doc(t_element *tmp)
 		write(tmp->fd[WRITE], "\n", 1);
 		free(line);
 	}
-	close(tmp->fd[WRITE]);
-	tmp->file_fd = tmp->fd[READ];
+	// close(tmp->fd[WRITE]);
+	// tmp->file_fd = tmp->fd[READ];
 }
 
 void	file(t_element *tmp)
@@ -183,7 +183,10 @@ void	open_pipe(t_command_line *queue)
 	while (current)
 	{
 		if (current->type == CMD || current->type == H_FILE)
-			pipe(current->fd);
+		{
+			if (pipe(current->fd))
+				ft_printf("pipe error\n");
+		}
 		current = current->next;
 	}
 }

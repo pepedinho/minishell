@@ -63,20 +63,39 @@ char	**ready_to_exec(t_element *cmd)
 	return (cmd_tab);
 }
 
+void	read_pipe_debug(int fd)
+{
+	char	buff[100];
+	int		nb_read;
+
+	nb_read = -1;
+	ft_printf("debug pipe content : \n");
+	while (nb_read != 0)
+	{
+		nb_read = read(fd, buff, 100);
+		if (nb_read == -1)
+			return ;
+		ft_printf("%s", buff);
+	}
+}
+
 void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag)
 {
 	char	*path;
 	char	**cmd_tab;
 	pid_t	pid;
-	int		i;
 
+	printf("non\n");
 	if (!branch)
 		return ;
 	if (branch->l_cmd)
 		exec(branch->l_cmd, queue, info, 0);
 	else if (!branch->l_cmd && flag == 0)
 		exec(branch, queue, info, 1);
-	path = check_path(info, branch->r_cmd->content);
+	if (!branch->l_cmd && flag == 1)
+		path = check_path(info, branch->first_cmd->content);
+	else
+		path = check_path(info, branch->r_cmd->content);
 	// TODO: fd not close somewhere
 	if (path)
 	{
@@ -87,16 +106,12 @@ void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag)
 			if (!branch->l_cmd && flag == 1)
 			{
 				cmd_tab = ready_to_exec(branch->first_cmd);
-				i = -1;
-				while (cmd_tab[++i])
-					printf("debug[%d] : %s\n", i, cmd_tab[i]);
 				if (!cmd_tab)
-					return ;
-				printf("debug1 : %s\n", branch->r_cmd->content);
-				dup2(branch->first_cmd->fd[READ], STDIN_FILENO);
+					exit(EXIT_FAILURE);
+				printf("debug1 : %s\n", path);
+				// dup2(branch->first_cmd->fd[READ], STDIN_FILENO);
 				dup2(branch->r_cmd->fd[WRITE], STDOUT_FILENO);
-				(close(branch->first_cmd->fd[READ]),
-					close(branch->r_cmd->fd[WRITE]));
+				// read_pipe_debug(branch->r_cmd->fd[WRITE]);
 				close_fd(queue);
 				if (!execve(path, cmd_tab, info->env->envp))
 					printf("error execve\n");
@@ -107,17 +122,47 @@ void	exec(t_branch *branch, t_command_line *queue, t_info *info, int flag)
 				cmd_tab = ready_to_exec(branch->r_cmd);
 				if (!cmd_tab)
 					return ;
-				printf("gg\n");
-				printf("debug2 : %s\n", branch->l_cmd->r_cmd->content);
-				dup2(branch->l_cmd->r_cmd->fd[READ], STDIN_FILENO);
-				dup2(branch->r_cmd->fd[WRITE], STDOUT_FILENO);
+				printf("debug2 : %s\n", path);
+				// read_pipe_debug(branch->l_cmd->r_cmd->fd[READ]);
+				if (!branch->l_cmd && branch->before)
+				{
+					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
+					dup2(branch->before->r_cmd->fd[WRITE], STDOUT_FILENO);
+				}
+				else if (branch->before)
+				{
+					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
+					dup2(branch->before->r_cmd->fd[WRITE], STDOUT_FILENO);
+				}
+				else
+				{
+					dup2(branch->r_cmd->fd[READ], STDIN_FILENO);
+				}
 				close_fd(queue);
 				if (!execve(path, cmd_tab, info->env->envp))
 					printf("error execve\n");
 				exit(EXIT_FAILURE);
 			}
 		}
-		close_fd(queue);
-		wait(NULL);
 	}
+	if (!branch->l_cmd && flag == 1)
+	{
+		close(branch->first_cmd->fd[READ]);
+		close(branch->first_cmd->fd[WRITE]);
+		//	close(branch->first_cmd->fd[READ]);
+	}
+	else
+	{
+		if (!branch->l_cmd && branch->before)
+		{
+			close(branch->r_cmd->fd[READ]);
+		}
+		else if (branch->before)
+		{
+			close(branch->r_cmd->fd[READ]);
+		}
+		else
+			close_fd(queue);
+	}
+	wait(NULL);
 }

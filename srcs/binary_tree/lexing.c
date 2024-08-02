@@ -44,6 +44,7 @@ void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *m_cmd)
 	new->l_cmd = NULL;
 	new->r_cmd = r_cmd;
 	new->redirect = m_cmd;
+	new->before = NULL;
 	if (!tree->first)
 		tree->first = new;
 	else
@@ -51,6 +52,7 @@ void	assemble_in_tree(t_tree *tree, t_element *r_cmd, t_element *m_cmd)
 		current = tree->first;
 		while (current->l_cmd)
 			current = current->l_cmd;
+		new->before = current;
 		current->l_cmd = new;
 	}
 }

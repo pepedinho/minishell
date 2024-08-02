@@ -79,13 +79,12 @@ void	receive_prompt(t_info *info)
 			break ;
 		}
 		queue = parser(command_line, info->env);
-		// print_queue(queue);
+		print_queue(queue);
 		tree = smart_agencement(queue);
 		add_history(command_line);
 		free(command_line);
 		if (global_check(queue, tree))
 		{
-			printf("oui\n");
 			exec(tree->first, queue, info, 0);
 			close_fd(queue);
 		}
