@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 18:29:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 01:07:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_echo(char **args)
 		i = 2;
 		while (args[i])
 		{
-			ft_printf("%s");
+			ft_printf("%s", args[i]);
 			if (args[i + 1])
 				ft_printf(" ");
 			i++;
@@ -32,7 +32,7 @@ void	ft_echo(char **args)
 		i = 1;
 		while (args[i])
 		{
-			ft_printf("%s");
+			ft_printf("%s", args[i]);
 			if (args[i + 1])
 				ft_printf(" ");
 			i++;
