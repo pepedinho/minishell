@@ -238,7 +238,7 @@ void	receive_prompt(t_info *info)
 		}
 		add_history(command_line);
 		free(command_line);
-		// execute_command_line(tree);
+		execute_command_line(tree);
 		ft_free(DESTROY);
 	}
 }

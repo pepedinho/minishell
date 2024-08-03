@@ -12,12 +12,23 @@
 
 #include "../../includes/minishell.h"
 
+int	check_built_in(char *command)
+{
+	if (ft_strcmp(command, "export") == 0)
+		return (1);
+	else if (ft_strcmp(command, "env") == 0)
+		return (1);
+	return (0);
+}
+
 char	*find_path(char *command, t_info *info)
 {
 	t_env	*env;
 	int		i;
 	char	*path;
 
+	if (check_built_in(command))
+		return (BUILT_IN);
 	i = 0;
 	env = info->env;
 	while (env && ft_strcmp(env->key, "PATH"))

@@ -22,6 +22,7 @@
 int		ft_cd(char *directory);
 void	ft_echo(char *command, int flag);
 void	env(void);
+int		ft_export(t_info *info, char **content);
 void	print_env(t_env *env, int cas);
 
 #endif // !BUILTINS_H

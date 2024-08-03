@@ -17,6 +17,8 @@
 #  undef MINISHELL_H
 # endif
 
+# define BUILT_IN ((void *)-1)
+
 # include "../../includes/minishell.h"
 
 // Before exec

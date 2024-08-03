@@ -13,7 +13,6 @@
 #include "../includes/minishell.h"
 #include "environement/env.h"
 #include "receive_prompt/prompt.h"
-#include <stdio.h>
 
 int		g_signal_code = 0;
 
@@ -54,8 +53,7 @@ void	subminishell(char **argv, t_info *info, char **envp)
 	info->env = env_in_struct(envp);
 	if (!info->env)
 	{
-		ft_printf("%s: Error malloc with Environement variables\n",
-					info->name);
+		ft_printf("%s: Error malloc with Environement variables\n", info->name);
 		g_signal_code = 105;
 		return ;
 	}

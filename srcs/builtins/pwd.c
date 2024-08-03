@@ -13,6 +13,7 @@
 #include "../../includes/minishell.h"
 #include <string.h>
 
+/*
 void	ft_pwd(void)
 {
 	char	*buffer;
@@ -21,3 +22,4 @@ void	ft_pwd(void)
 	size = 100;
 	buffer = ft_malloc(sizeof(char) * size);
 }
+*/

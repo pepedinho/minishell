@@ -126,6 +126,15 @@ void	infile(t_element *node, t_info *info)
 	}
 }
 
+void	exec_built_in(t_element *node, t_info *info)
+{
+	if (ft_strcmp(node->content, "export") == 0)
+		ft_export(info, node->args);
+	if (ft_strcmp(node->content, "env") == 0)
+		print_env(info->env, 1);
+	exit(EXIT_SUCCESS);
+}
+
 void	command(t_element *node)
 {
 	t_info	*info;
@@ -133,8 +142,10 @@ void	command(t_element *node)
 
 	info = info_in_static(NULL, GET);
 	path = find_path(node->content, info);
-	if (!path)
+	if (path == NULL)
 		handle_malloc_error("path");
+	else if (path == BUILT_IN)
+		exec_built_in(node, info);
 	(infile(node, info), outfile(node, info));
 	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
