@@ -132,7 +132,8 @@ void	exec_built_in(t_element *node, t_info *info)
 		ft_export(info, node->args);
 	if (ft_strcmp(node->content, "env") == 0)
 		print_env(info->env, 1);
-	exit(EXIT_SUCCESS);
+	if (ft_strcmp(node->content, "cd") == 0)
+		ft_cd(node->args[1]);
 }
 
 void	command(t_element *node)
@@ -145,7 +146,7 @@ void	command(t_element *node)
 	if (path == NULL)
 		handle_malloc_error("path");
 	else if (path == BUILT_IN)
-		exec_built_in(node, info);
+		return (exec_built_in(node, info));
 	(infile(node, info), outfile(node, info));
 	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
@@ -189,24 +190,23 @@ void	exec(t_element *node)
 		command(node);
 }
 
-// TODO: exec built_in func in parent process
+// TODO: dup2 buit in stdout
 void	execute_command_line(t_tree *tree)
 {
 	int	status;
 	int	pid;
 
-	pid = ft_fork();
-	if (pid == 0)
+	while (tree)
 	{
-		while (tree)
+		if (check_built_in(tree->first->content))
+			exec(tree->first);
+		else
 		{
 			pid = ft_fork();
 			if (pid == 0)
 				exec(tree->first);
-			waitpid(pid, &status, 0);
-			tree = tree->next;
 		}
-		exit(WEXITSTATUS(status));
+		tree = tree->next;
 	}
 	waitpid(pid, &status, 0);
 	// printf("echo $? == %d\n", WEXITSTATUS(status));

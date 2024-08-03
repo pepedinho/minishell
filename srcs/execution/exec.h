@@ -32,5 +32,6 @@ void	execute_command_line(t_tree *tree);
 int		ft_fork(void);
 void	exec(t_element *node);
 char	**ready_to_exec(t_element *cmd);
+int		check_built_in(char *command);
 
 #endif // !EXEC_H

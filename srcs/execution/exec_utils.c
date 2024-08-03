@@ -18,6 +18,8 @@ int	check_built_in(char *command)
 		return (1);
 	else if (ft_strcmp(command, "env") == 0)
 		return (1);
+	else if (ft_strcmp(command, "cd") == 0)
+		return (1);
 	return (0);
 }
 
