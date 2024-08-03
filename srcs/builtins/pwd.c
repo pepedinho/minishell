@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 17:58:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 23:38:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 
 void	error_pwd(char *buffer)
 {
-	t_info	*info;
-
 	free(buffer);
-	info = info_in_static(NULL, GET);
 	if (errno == ENOENT)
 	{
 		ft_fprintf(2, "pwd: error retrieving current directory: ");

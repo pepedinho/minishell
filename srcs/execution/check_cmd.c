@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 20:11:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 23:54:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void	here_doc(t_element *tmp)
 {
 	char	*line;
 	int		fd[2];
+	int		save_stdout;
 
 	if (pipe(fd) == -1)
 		error_message("pipe");
+	save_stdout = dup(STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -37,10 +40,10 @@ void	here_doc(t_element *tmp)
 			free(line);
 			break ;
 		}
-		write(fd[WRITE], line, ft_strlen(line));
-		write(fd[WRITE], "\n", 1);
+		(write(fd[WRITE], line, ft_strlen(line)), write(fd[WRITE], "\n", 1));
 		free(line);
 	}
+	dup2(save_stdout, STDOUT_FILENO);
 	close(fd[WRITE]);
 	tmp->infile = fd[READ];
 }

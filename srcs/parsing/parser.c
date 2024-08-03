@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/03 15:54:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 23:36:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,8 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 	int		j;
 	char	*cmd;
 	t_env	*current;
-	char	*rest;
 
+	// char	*rest;
 	j = 0;
 	while (j < (int)ft_strlen(str))
 	{
@@ -203,8 +203,8 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 		}
 		cmd[j - 1] = '\0';
 		if (str[j + 1] != ' ')
-			rest = get_rest(str, &j);
-		current = env;
+			// rest = get_rest(str, &j);
+			current = env;
 		while (current && ft_strcmp(current->key, cmd))
 			current = current->next;
 		if (!add_to_queue(queue, cmd, ENV, current->value))
