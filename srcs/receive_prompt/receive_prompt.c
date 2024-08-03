@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 20:24:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/02 22:17:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,6 @@ t_command_line	*change_queue(t_command_line *queue)
 			while (current && current->type != PIPE && current->type != AND
 				&& current->type != OR && current->type != LIST)
 			{
-				// if (current->type == SFX)
-				// {
-				// 	len = ft_strlen(current->content);
-				// 	args = ft_malloc(sizeof(char) * (len + ft_strlen(tmp->args)
-				// 				+ 2));
-				// 	if (!args)
-				// 		handle_malloc_error("queue");
-				// 	args[0] = '\0';
-				// 	ft_strcpy(args, tmp->args);
-				// 	ft_strcat(args, " ");
-				// 	ft_strcat(args, current->content);
-				// 	tmp->args = args;
-				// }
 				if (current->type == RR_RED || current->type == R_RED)
 				{
 					tmp->file_mode = current->type;
@@ -211,6 +198,13 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	ft_free(DESTROY);
 }
 
+void	if_only_newline(void)
+{
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 void	receive_prompt(t_info *info)
 {
 	char			*command_line;
@@ -229,20 +223,22 @@ void	receive_prompt(t_info *info)
 			g_signal_code = 0;
 			break ;
 		}
+		if (ft_strcmp(command_line, "\n") == 0)
+			if_only_newline();
 		queue = parser(command_line, info->env);
-		// print_queue(queue);
+		print_queue(queue);
 		global_check(queue);
 		queue = change_queue(queue);
 		queue = remove_in_queue(queue);
 		tree = NULL;
-		while (queue)
+		while (queue && queue->first)
 		{
 			tree_add_back(&tree, smart_agencement(queue));
 			queue = queue->next;
 		}
 		add_history(command_line);
 		free(command_line);
-		execute_command_line(tree);
+		// execute_command_line(tree);
 		ft_free(DESTROY);
 	}
 }
