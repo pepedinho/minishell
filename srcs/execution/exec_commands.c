@@ -189,6 +189,7 @@ void	exec(t_element *node)
 		command(node);
 }
 
+// TODO: exec built_in func in parent process
 void	execute_command_line(t_tree *tree)
 {
 	int	status;
