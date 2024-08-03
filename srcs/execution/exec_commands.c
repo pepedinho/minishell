@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 14:55:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:12:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ void or (t_element * node)
 	int	status;
 	int	pid;
 
-	if (check_built_in(node->left->content))
-		only_builtin(node->left);
-	else if (check_if_fork(node->left))
+	if (check_if_fork(node->left))
 	{
 		pid = ft_fork();
 		if (pid == 0)
@@ -111,9 +109,7 @@ void or (t_element * node)
 		exec(node->left);
 	if (g_signal_code != 0)
 	{
-		if (check_built_in(node->right->content))
-			only_builtin(node->right);
-		else if (check_if_fork(node->right))
+		if (check_if_fork(node->right))
 		{
 			pid = ft_fork();
 			if (pid == 0)
@@ -171,7 +167,7 @@ void	exec_built_in(t_element *node, t_info *info)
 	if (ft_strcmp(node->content, "env") == 0)
 		print_env(info->env, 1);
 	if (ft_strcmp(node->content, "cd") == 0)
-		ft_cd(node->args[1]);
+		g_signal_code = ft_cd(node->args[1]);
 }
 
 void	command(t_element *node)
@@ -183,8 +179,6 @@ void	command(t_element *node)
 	path = find_path(node->content, info);
 	if (path == NULL)
 		handle_malloc_error("path");
-	else if (path == BUILT_IN)
-		(exec_built_in(node, info), exit(EXIT_SUCCESS));
 	(infile(node, info), outfile(node, info));
 	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
@@ -224,7 +218,9 @@ void	exec(t_element *node)
 		ft_pipe(node);
 	if (node->type == C_BLOCK)
 		subshell(node);
-	if (node->type == CMD)
+	if (node->type == CMD && check_built_in(node->content))
+		only_builtin(node);
+	if (node->type == CMD && !check_built_in(node->content))
 		command(node);
 }
 
@@ -240,7 +236,6 @@ void	only_builtin(t_element *node)
 	(infile(node, info), outfile(node, info));
 	exec_built_in(node, info);
 	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
-	g_signal_code = EXIT_SUCCESS;
 }
 
 // TODO: dup2 buit in stdout
@@ -251,7 +246,7 @@ void	execute_command_line(t_tree *tree)
 
 	while (tree)
 	{
-		if (tree->first->type == CMD)
+		if (tree->first->type == CMD && !check_built_in(tree->first->content))
 		{
 			pid = ft_fork();
 			if (pid == 0)
