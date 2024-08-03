@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:30:58 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 11:50:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:06:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	print_env(t_env *env, int cas)
 			ft_printf("\n");
 		env = env->next;
 	}
+	g_signal_code = EXIT_SUCCESS;
 }
 
 void	env(void)

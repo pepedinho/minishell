@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 22:17:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 13:39:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,38 @@ t_command_line	*change_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*tmp;
+	t_element	*last_operator;
+	int			file_mode;
+	char		*output;
+	int			infile;
 
+	infile = -1;
+	output = NULL;
+	file_mode = 0;
 	current = queue->first;
+	last_operator = NULL;
 	while (current)
 	{
+		while (current && current->type != CMD)
+		{
+			if (current->type == RR_RED || current->type == R_RED)
+			{
+				file_mode = current->type;
+				output = current->next->content;
+			}
+			else if (current->type == L_RED || current->type == LL_RED)
+			{
+				if (infile != -1)
+					close(infile);
+				infile = current->next->infile;
+			}
+			current = current->next;
+		}
 		tmp = current;
-		if (current->type == CMD)
+		tmp->infile = infile;
+		tmp->outfile = output;
+		tmp->file_mode = file_mode;
+		if (current && current->type == CMD)
 		{
 			current->args = ready_to_exec(current);
 			current = current->next;
