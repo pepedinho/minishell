@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/03 15:48:41 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/03 15:54:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 char	*get_rest(char *str, int *j)
 {
 	int		i;
-	int		k;
 	char	*rest;
 
 	i = 1;
@@ -184,7 +183,8 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 	t_env	*current;
 	char	*rest;
 
-	while (j < ft_strlen(str))
+	j = 0;
+	while (j < (int)ft_strlen(str))
 	{
 		j = 1;
 		while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])
@@ -262,7 +262,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
+						current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -299,7 +299,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

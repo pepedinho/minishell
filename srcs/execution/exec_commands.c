@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 15:33:21 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:19:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,11 @@ void	infile(t_element *node, t_info *info)
 void	exec_built_in(t_element *node, t_info *info)
 {
 	if (ft_strcmp(node->content, "export") == 0)
-		ft_export(info, node->args);
+		g_signal_code = ft_export(info, node->args);
 	if (ft_strcmp(node->content, "env") == 0)
 		print_env(info->env, 1);
+	if (ft_strcmp(node->content, "pwd") == 0)
+		ft_pwd();
 	if (ft_strcmp(node->content, "cd") == 0)
 		g_signal_code = ft_cd(node->args[1]);
 }

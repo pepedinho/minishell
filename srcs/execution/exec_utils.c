@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 11:57:56 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:13:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_built_in(char *command)
 	else if (ft_strcmp(command, "env") == 0)
 		return (1);
 	else if (ft_strcmp(command, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(command, "pwd") == 0)
 		return (1);
 	return (0);
 }
