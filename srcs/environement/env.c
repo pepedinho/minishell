@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 18:11:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 18:15:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_env(t_env *env)
 		free(env);
 		env = buff;
 	}
-	free_null(env);
+	free(env);
 }
 
 void	add_back_env(t_env **env, t_env *new)

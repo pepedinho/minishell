@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:17:37 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 16:44:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 18:24:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "../../includes/minishell.h"
 
 int		ft_cd(char *directory);
-void	ft_echo(char *command, int flag);
+void	ft_echo(char **args);
 void	env(void);
 int		ft_export(t_info *info, char **content);
 void	print_env(t_env *env, int cas);
