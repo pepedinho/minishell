@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 15:12:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:33:21 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ void	ft_pipe(t_element *node)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		(close(fd[0]), close(fd[1]));
-		exec(node->left);
+		(exec(node->left), exit(g_signal_code));
 	}
 	pid[1] = ft_fork();
 	if (pid[1] == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		(close(fd[0]), close(fd[1]));
-		exec(node->right);
+		(exec(node->right), exit(g_signal_code));
 	}
 	(close(fd[0]), close(fd[1]));
 	(waitpid(pid[0], &status, 0), waitpid(pid[1], &status, 0));
-	exit(WEXITSTATUS(status));
+	g_signal_code = WEXITSTATUS(status);
 }
 
 int	check_if_fork(t_element *node)
