@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 13:24:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 14:55:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,46 @@ void	ft_pipe(t_element *node)
 	exit(WEXITSTATUS(status));
 }
 
+int	check_if_fork(t_element *node)
+{
+	if ((node->type == CMD && !check_built_in(node->content))
+		|| node->type == PIPE)
+		return (1);
+	return (0);
+}
+
 void and (t_element * node)
 {
 	int	status;
 	int	pid;
 
-	pid = ft_fork();
-	if (pid == 0)
-		exec(node->left);
-	waitpid(pid, &status, 0);
-	if (WEXITSTATUS(status) == 0)
+	if (check_built_in(node->left->content))
+		only_builtin(node->left);
+	else if (check_if_fork(node->left))
 	{
 		pid = ft_fork();
 		if (pid == 0)
-			exec(node->right);
+			exec(node->left);
 		waitpid(pid, &status, 0);
+		g_signal_code = WEXITSTATUS(status);
 	}
-	exit(WEXITSTATUS(status));
+	else
+		exec(node->left);
+	if (g_signal_code == 0)
+	{
+		if (check_built_in(node->right->content))
+			only_builtin(node->right);
+		else if (check_if_fork(node->right))
+		{
+			pid = ft_fork();
+			if (pid == 0)
+				exec(node->right);
+			waitpid(pid, &status, 0);
+			g_signal_code = WEXITSTATUS(status);
+		}
+		else
+			exec(node->right);
+	}
 }
 
 void or (t_element * node)
@@ -74,18 +97,33 @@ void or (t_element * node)
 	int	status;
 	int	pid;
 
-	pid = ft_fork();
-	if (pid == 0)
-		exec(node->left);
-	waitpid(pid, &status, 0);
-	if (WEXITSTATUS(status) != 0)
+	if (check_built_in(node->left->content))
+		only_builtin(node->left);
+	else if (check_if_fork(node->left))
 	{
 		pid = ft_fork();
 		if (pid == 0)
-			exec(node->right);
+			exec(node->left);
 		waitpid(pid, &status, 0);
+		g_signal_code = WEXITSTATUS(status);
 	}
-	exit(WEXITSTATUS(status));
+	else
+		exec(node->left);
+	if (g_signal_code != 0)
+	{
+		if (check_built_in(node->right->content))
+			only_builtin(node->right);
+		else if (check_if_fork(node->right))
+		{
+			pid = ft_fork();
+			if (pid == 0)
+				exec(node->right);
+			waitpid(pid, &status, 0);
+			g_signal_code = WEXITSTATUS(status);
+		}
+		else
+			exec(node->right);
+	}
 }
 
 void	outfile(t_element *node, t_info *info)
@@ -190,7 +228,7 @@ void	exec(t_element *node)
 		command(node);
 }
 
-void	only_builtin(t_tree *tree)
+void	only_builtin(t_element *node)
 {
 	int		save_stdin;
 	int		save_stdout;
@@ -199,8 +237,8 @@ void	only_builtin(t_tree *tree)
 	info = info_in_static(NULL, GET);
 	save_stdin = dup(STDIN_FILENO);
 	save_stdout = dup(STDOUT_FILENO);
-	(infile(tree->first, info), outfile(tree->first, info));
-	exec_built_in(tree->first, info);
+	(infile(node, info), outfile(node, info));
+	exec_built_in(node, info);
 	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
 	g_signal_code = EXIT_SUCCESS;
 }
@@ -208,14 +246,12 @@ void	only_builtin(t_tree *tree)
 // TODO: dup2 buit in stdout
 void	execute_command_line(t_tree *tree)
 {
-	int	status;
 	int	pid;
+	int	status;
 
 	while (tree)
 	{
-		if (check_built_in(tree->first->content))
-			only_builtin(tree);
-		else
+		if (tree->first->type == CMD)
 		{
 			pid = ft_fork();
 			if (pid == 0)
@@ -223,6 +259,8 @@ void	execute_command_line(t_tree *tree)
 			waitpid(pid, &status, 0);
 			g_signal_code = WEXITSTATUS(status);
 		}
+		else
+			exec(tree->first);
 		tree = tree->next;
 	}
 	// printf("echo $? == %d\n", WEXITSTATUS(status));
