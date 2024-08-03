@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 13:09:56 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 13:24:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,14 +192,15 @@ void	exec(t_element *node)
 
 void	only_builtin(t_tree *tree)
 {
-	int	save_stdin;
-	int	save_stdout;
+	int		save_stdin;
+	int		save_stdout;
+	t_info	*info;
 
+	info = info_in_static(NULL, GET);
 	save_stdin = dup(STDIN_FILENO);
 	save_stdout = dup(STDOUT_FILENO);
-	infile(tree->first, info_in_static(NULL, GET));
-	outfile(tree->first, info_in_static(NULL, GET));
-	exec_built_in(tree->first, info_in_static(NULL, GET));
+	(infile(tree->first, info), outfile(tree->first, info));
+	exec_built_in(tree->first, info);
 	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
 	g_signal_code = EXIT_SUCCESS;
 }
@@ -213,19 +214,16 @@ void	execute_command_line(t_tree *tree)
 	while (tree)
 	{
 		if (check_built_in(tree->first->content))
-		{
 			only_builtin(tree);
-			return ;
-		}
 		else
 		{
 			pid = ft_fork();
 			if (pid == 0)
 				exec(tree->first);
 			waitpid(pid, &status, 0);
+			g_signal_code = WEXITSTATUS(status);
 		}
 		tree = tree->next;
 	}
 	// printf("echo $? == %d\n", WEXITSTATUS(status));
-	g_signal_code = WEXITSTATUS(status);
 }

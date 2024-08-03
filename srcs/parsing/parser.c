@@ -162,7 +162,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 1;
 	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
-	// TODO keep the command after ':'
+		// TODO keep the command after ':'
 		j++;
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
