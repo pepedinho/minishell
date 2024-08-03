@@ -154,32 +154,63 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	return (1);
 }
 
+char	*get_rest(char *str, int *j)
+{
+	int		i;
+	int		k;
+	char	*rest;
+
+	i = 1;
+	while (str[i + *j] && str[i + *j] != ' ' && !is_a_separator(str[i + *j])
+		&& str[i + *j] != ':')
+		i++;
+	rest = ft_malloc(sizeof(char) * i + 1);
+	if (!rest)
+		return (NULL);
+	i = 1;
+	while (str[i + *j] && str[i + *j] != ' ' && !is_a_separator(str[i + *j])
+		&& str[i + *j] != ':')
+	{
+		rest[i - 1] = str[*j + i];
+		i++;
+	}
+	return (rest);
+}
+
 int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*cmd;
 	t_env	*current;
+	char	*rest;
 
-	j = 1;
-	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
-	// TODO keep the command after ':'
-		j++;
-	cmd = ft_malloc(sizeof(char) * (j + 1));
-	if (!cmd)
-		handle_malloc_error("parenthesis");
-	j = 1;
-	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
+	while (j < ft_strlen(str))
 	{
-		cmd[j - 1] = str[*i + j];
-		j++;
+		j = 1;
+		while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])
+				&& str[*i] != ':'))
+			// TODO keep the command after ':'
+			j++;
+		cmd = ft_malloc(sizeof(char) * (j + 1));
+		if (!cmd)
+			handle_malloc_error("parenthesis");
+		j = 1;
+		while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])
+				&& str[*i + j] != ':'))
+		{
+			cmd[j - 1] = str[*i + j];
+			j++;
+		}
+		cmd[j - 1] = '\0';
+		if (str[j + 1] != ' ')
+			rest = get_rest(str, &j);
+		current = env;
+		while (current && ft_strcmp(current->key, cmd))
+			current = current->next;
+		if (!add_to_queue(queue, cmd, ENV, current->value))
+			return (g_signal_code = 105, ERR_MALLOC);
+		*i += 1;
 	}
-	cmd[j - 1] = '\0';
-	current = env;
-	while (current && ft_strcmp(current->key, cmd))
-		current = current->next;
-	if (!add_to_queue(queue, cmd, ENV, current->value))
-		return (g_signal_code = 105, ERR_MALLOC);
-	*i += 1;
 	return (1);
 }
 
@@ -231,7 +262,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-						current->env_value);
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -268,7 +299,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
