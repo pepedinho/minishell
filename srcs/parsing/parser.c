@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 20:06:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:50:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 1;
 	while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i])))
+	// TODO keep the command after ':'
 		j++;
 	cmd = ft_malloc(sizeof(char) * (j + 1));
 	if (!cmd)
@@ -204,6 +205,7 @@ t_command_line	*parser(char *str, t_env *env)
 
 	queue = init_queue();
 	i = 0;
+	// TODO keep the command after ':'
 	while (str[i])
 	{
 		skip_white_space(str, &i);

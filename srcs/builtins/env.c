@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:30:58 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 16:55:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 11:50:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 void	print_env(t_env *env, int cas)
 {
-	if (cas == 1)
+	while (env && env->global == GLOBAL)
 	{
-		while (env && env->global == GLOBAL)
+		if (ft_printf("%s", env->key) == -1)
+			handle_malloc_error("printf env");
+		if (env->value)
 		{
-			if (ft_printf("%s=%s\n", env->key, env->value) == -1)
-				handle_malloc_error("printf env");
-			env = env->next;
+			if (cas == 1)
+			{
+				if (ft_printf("=%s\n", env->value) == -1)
+					handle_malloc_error("printf env");
+			}
+			else if (cas == 2)
+			{
+				if (ft_printf("=\"%s\"\n", env->value) == -1)
+					handle_malloc_error("printf env");
+			}
 		}
-	}
-	else if (cas == 2)
-	{
-		while (env && env->global == GLOBAL)
-		{
-			if (ft_printf("%s=\"%s\"\n", env->key, env->value) == -1)
-				handle_malloc_error("printf env");
-			env = env->next;
-		}
+		else
+			ft_printf("\n");
+		env = env->next;
 	}
 }
 

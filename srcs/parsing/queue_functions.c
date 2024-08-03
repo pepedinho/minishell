@@ -87,7 +87,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 				if (tmp->type == CMD)
 				{
 					new->type = SFX;
-					break;
+					break ;
 				}
 				new->type = CMD;
 				tmp = tmp->before;

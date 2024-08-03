@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 21:14:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 13:09:56 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	command(t_element *node)
 	if (path == NULL)
 		handle_malloc_error("path");
 	else if (path == BUILT_IN)
-		return (exec_built_in(node, info));
+		(exec_built_in(node, info), exit(EXIT_SUCCESS));
 	(infile(node, info), outfile(node, info));
 	execve(path, node->args, t_env_to_envp(info->env));
 	if (errno == 2)
@@ -190,6 +190,20 @@ void	exec(t_element *node)
 		command(node);
 }
 
+void	only_builtin(t_tree *tree)
+{
+	int	save_stdin;
+	int	save_stdout;
+
+	save_stdin = dup(STDIN_FILENO);
+	save_stdout = dup(STDOUT_FILENO);
+	infile(tree->first, info_in_static(NULL, GET));
+	outfile(tree->first, info_in_static(NULL, GET));
+	exec_built_in(tree->first, info_in_static(NULL, GET));
+	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
+	g_signal_code = EXIT_SUCCESS;
+}
+
 // TODO: dup2 buit in stdout
 void	execute_command_line(t_tree *tree)
 {
@@ -199,16 +213,19 @@ void	execute_command_line(t_tree *tree)
 	while (tree)
 	{
 		if (check_built_in(tree->first->content))
-			exec(tree->first);
+		{
+			only_builtin(tree);
+			return ;
+		}
 		else
 		{
 			pid = ft_fork();
 			if (pid == 0)
 				exec(tree->first);
+			waitpid(pid, &status, 0);
 		}
 		tree = tree->next;
 	}
-	waitpid(pid, &status, 0);
 	// printf("echo $? == %d\n", WEXITSTATUS(status));
 	g_signal_code = WEXITSTATUS(status);
 }
