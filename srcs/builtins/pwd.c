@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 16:40:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 17:58:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	error_pwd(char *buffer)
 	g_signal_code = 1;
 }
 
-void	ft_pwd(void)
+char	*ft_pwd(int cas)
 {
 	char	*buffer;
 	size_t	size;
@@ -49,9 +49,11 @@ void	ft_pwd(void)
 		else if (!check && errno != ERANGE)
 		{
 			error_pwd(buffer);
-			return ;
+			return (NULL);
 		}
 	}
-	(ft_printf("%s\n", buffer), free(buffer));
+	if (cas == PRINT)
+		(ft_printf("%s\n", buffer), free(buffer));
 	g_signal_code = 0;
+	return (buffer);
 }

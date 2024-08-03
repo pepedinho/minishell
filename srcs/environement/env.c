@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:54:38 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/03 18:11:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	free_env(t_env *env)
 	{
 		buff = (env)->next;
 		ft_free_split(env->split);
+		ft_free_split(env->split_value);
 		free(env);
 		env = buff;
 	}
-	free(env);
-	env = NULL;
+	free_null(env);
 }
 
 void	add_back_env(t_env **env, t_env *new)

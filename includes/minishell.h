@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 17:59:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:43:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 
 # define INIT 0
 # define GET 1
+# define PRINT 2
 
 // PIPE
 # define READ 0

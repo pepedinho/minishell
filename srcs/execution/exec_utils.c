@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 16:13:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 17:38:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_path(char *command, t_info *info)
 			handle_malloc_error("path");
 		if (access(path, F_OK) == 0)
 			return (path);
-		ft_free(path);
+		free(path);
 		i++;
 	}
 	return (ft_strdup(command));

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 16:19:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:45:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	exec_built_in(t_element *node, t_info *info)
 	if (ft_strcmp(node->content, "env") == 0)
 		print_env(info->env, 1);
 	if (ft_strcmp(node->content, "pwd") == 0)
-		ft_pwd();
+		ft_pwd(PRINT);
 	if (ft_strcmp(node->content, "cd") == 0)
 		g_signal_code = ft_cd(node->args[1]);
 }
