@@ -2,3 +2,6 @@
 .objets/
 minishell
 libft.a
+shell_comparison/
+shell_goodman.sh
+test_commands.txt
