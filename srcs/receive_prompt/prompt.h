@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:02:19 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/31 17:25:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 16:51:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 typedef struct s_info
 {
 	char			*name;
-	char			*path;
 	struct s_env	*env;
 }					t_info;
 

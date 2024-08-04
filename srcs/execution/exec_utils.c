@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 15:38:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 17:11:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		free_and_exit(g_signal_code);
+		free_and_exit(-1);
 	// find the right signal code if fork fail;
 	return (pid);
 }
@@ -89,6 +89,4 @@ void	exec_built_in(t_element *node, t_info *info)
 		ft_echo(node->args);
 	if (ft_strcmp(node->content, "cd") == 0)
 		g_signal_code = ft_cd(node->args[1]);
-	if (ft_strcmp(node->content, "exit") == 0)
-		ft_exit(node->args);
 }

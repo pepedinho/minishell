@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:01:48 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/31 20:20:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 16:37:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_malloc(long int t)
 	static t_garbage	*garbage;
 	void				*ptr;
 
-	if (!garbage)
+	if (!garbage && t != -1)
 		garbage = init_garbage();
 	if (t == -1)
 	{

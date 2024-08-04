@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/04 15:38:45 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/04 16:58:23 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 
 BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c)
 
-ENV = $(addprefix environement/, env.c)
+ENV = $(addprefix environement/, environement_varables.c)
 
 UTILS = $(addprefix utils/, utils.c)
 
@@ -103,7 +103,7 @@ message :
 	@echo "$(BLUE)🔩compiling minishell🔩$(END)"
 	
 leak : all
-	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=.supp.supp ./minishell
+	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=.supp.supp ./minishell
 
 push: fclean
 	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.h | norminette | grep Error

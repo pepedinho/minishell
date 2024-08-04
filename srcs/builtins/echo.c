@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 01:07:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 16:05:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_echo(char **args)
 			i++;
 		}
 	}
+	if (ft_strcmp(args[1], "$?") == 0)
+		printf("%d\n", g_signal_code);
 	else
 	{
 		i = 1;
