@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 18:24:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 14:35:47 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,19 @@ char	*find_path(char *command, t_info *info)
 	t_env	*env;
 	int		i;
 	char	*path;
+	char	**tmp;
 
-	if (check_built_in(command))
-		return (BUILT_IN);
 	i = 0;
 	env = info->env;
+	if (access(command, F_OK) == 0)
+		return (ft_strdup(command));
 	while (env && ft_strcmp(env->key, "PATH"))
 		env = env->next;
 	if (!env)
 		return (ft_strdup(command));
+	tmp = env->split_value;
+	env->split_value = split_value(env->value);
+	ft_free_2d(tmp);
 	while (env->split_value[i])
 	{
 		path = ft_sprintf("%s/%s", env->split_value[i], command);

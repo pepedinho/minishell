@@ -18,5 +18,3 @@ int	is_a_redirect(int type)
 		return (1);
 	return (0);
 }
-
-

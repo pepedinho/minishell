@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/03 23:36:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 14:02:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
+						current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -400,6 +400,8 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[Suffix]\n");
 				else if (current->type == H_FILE)
 					printf("|             |____[Heredoc]\n");
+				else if (current->type == C_BLOCK)
+					printf("|             |____[Subshell]\n");
 				else if (current->type == PIPE)
 					printf("|             |____[Pipe]\n");
 				else if (current->type == OR)
@@ -427,7 +429,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
