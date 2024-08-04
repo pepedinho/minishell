@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/04 17:47:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 19:07:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,18 @@ char	*concatenate_var(char *key, char *str, int *i, t_env *env)
 char	*add_more(char *str1, char *str2)
 {
 	char	*result;
+	char	*tmp;
 
 	if (!str1)
 		return (str2);
 	if (!str2)
 		return (str1);
-	result = ft_sprintf("%s%s", str2, str1);
+	tmp = ft_sprintf("%s%s", str2, str1);
+	result = ft_malloc(sizeof(char) * (ft_strlen(tmp) + 1));
+	if (!result)
+		(free(tmp), handle_malloc_error("env"));
+	ft_strcpy(result, tmp);
+	free(tmp);
 	(free(str1), free(str2));
 	return (result);
 }
@@ -391,7 +397,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
+						current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -430,7 +436,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

@@ -28,7 +28,7 @@ int	ft_is_numeric(char *nb)
 
 void	ft_exit(char **args)
 {
-	t_info *info;
+	t_info	*info;
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "exit\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/20 15:12:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 19:00:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,20 +114,25 @@ char	**ft_split(char *s, char *c)
 	return (split);
 }
 
-/*int	main(void)
-{
-	char **test;
-	int i;
+// int	main(void)
+// {
+// 	char **test;
+// 	int i;
 
-	i = 0;
-	test = ft_split("je suis représentée comme tout!", " e");
-	if (test == NULL)
-	{
-		printf("tout est null\n");
-		return (0);
-	}
-	while (test[i])
-		printf("%s\n", test[i++]);
-	if (test[i] == NULL)
-		printf("%u", 42);
-}*/
+// 	i = 0;
+// 	test = ft_split("KEY=VALUE", "=");
+// 	if (test == NULL)
+// 	{
+// 		printf("tout est null\n");
+// 		return (0);
+// 	}
+// 	char *oui = test[0];
+// 	char *non = test[1];
+// 	if (test[i] == NULL)
+// 		printf("%u", 42);
+// 	free(test);
+// 	printf("oui == %s\n", oui);
+// 	printf("non == %s\n", non);
+// 	free(oui);
+// 	free(non);
+// }

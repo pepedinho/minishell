@@ -231,7 +231,7 @@ t_tree	*ast(t_command_line *queue)
 	}
 	return (tree);
 }
-void reprompt(char *command_line)
+void	reprompt(char *command_line)
 {
 	add_history(command_line);
 	ft_free(DESTROY);
@@ -280,7 +280,6 @@ char	*ft_readline(t_info *info)
 	return (prompt);
 }
 
-
 void	receive_prompt(t_info *info)
 {
 	t_command_line	*queue;
@@ -295,7 +294,7 @@ void	receive_prompt(t_info *info)
 		if (!queue)
 		{
 			reprompt(command_line);
-			continue;
+			continue ;
 		}
 		tree = ast(queue);
 		execute_command_line(tree);

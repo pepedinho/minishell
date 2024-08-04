@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   environement_varables.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 18:15:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 19:02:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_env(t_env *env)
 		buff = (env)->next;
 		free(env->value);
 		free(env->key);
-		free(env->split);
 		ft_free_2d(env->split_value);
 		free(env);
 		env = buff;
@@ -69,9 +68,18 @@ t_env	*init_env(char *envp, int cas)
 	split = ft_split(envp, "=");
 	if (!split)
 		return (free(new), NULL);
-	new->key = split[0];
-	new->value = split[1];
-	new->split = split;
+	new->key = ft_strdup(split[0]);
+	if (!new->key)
+		return (free(new), ft_free_2d(split), NULL);
+	if (split[1])
+	{
+		new->value = ft_strdup(split[1]);
+		if (!new->value)
+			return (free(new->value), ft_free_2d(split), free(new), NULL);
+	}
+	else
+		new->value = NULL;
+	ft_free_2d(split);
 	new->split_value = split_value(new->value);
 	new->global = cas;
 	new->next = NULL;
