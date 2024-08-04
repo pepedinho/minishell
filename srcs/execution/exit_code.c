@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 16:17:37 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 15:37:17 by madamou          ###   ########.fr       */
+/*   Created: 2024/08/04 14:56:43 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/04 15:19:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../../includes/minishell.h"
 
-# ifdef MINISHELL_H
-#  undef MINISHELL_H
-# endif
-
-# include "../../includes/minishell.h"
-
-int		ft_cd(char *directory);
-void	ft_echo(char **args);
-void	env(void);
-int		ft_export(t_info *info, char **content);
-void	print_env(t_env *env, int cas);
-char	*ft_pwd(int cas);
-void	ft_exit(char **args);
-
-#endif // !BUILTINS_H
+void	exit_status(int status)
+{
+	if (WIFEXITED(status))
+		g_signal_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_signal_code = WTERMSIG(status);
+	else if (WIFSTOPPED(status))
+		g_signal_code = WSTOPSIG(status);
+}

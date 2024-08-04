@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/02 17:50:14 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/04 15:38:45 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 ERROR = $(addprefix errors/, error_file.c handle_functions.c)
 
-EXEC = $(addprefix execution/, check_cmd.c exec_commands.c exec_utils.c)
+EXEC = $(addprefix execution/, check_cmd.c exec_commands.c exec_utils.c operator.c redirections.c exit_code.c)
 
 SIGNALS = $(addprefix signal/, signal.c)
 
@@ -39,7 +39,7 @@ BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
 
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c)
 
-BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c)
+BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c)
 
 ENV = $(addprefix environement/, env.c)
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 17:13:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 15:29:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_free_2d(char **split)
 	int i;
 
 	i = 0;
-	while (split[i])
+	while (split && split[i])
 		free(split[i++]);
 	free(split);
 	split = NULL;
