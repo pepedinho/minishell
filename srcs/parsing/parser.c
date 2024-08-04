@@ -85,7 +85,7 @@ char	*concatenate_var(char *key, char *str, int *i, t_env *env)
 	{
 		rest = ft_malloc(sizeof(char) * j + 1);
 		if (!rest)
-			return (NULL);
+			return (ft_free(key), NULL);
 		j = 0;
 		while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i + j])
 				&& str[*i + j] != '$'))
@@ -98,7 +98,7 @@ char	*concatenate_var(char *key, char *str, int *i, t_env *env)
 		while (current && ft_strcmp(current->key, key))
 			current = current->next;
 		result = ft_sprintf("%s%s", current->value, rest);
-		ft_free(rest);
+		(ft_free(rest), ft_free(key));
 		*i += j;
 	}
 	else
@@ -149,6 +149,7 @@ char	*fill_before(char *str, int *i, int *cnt, t_env *env)
 		*i += j;
 		content = concatenate_var(get_key(str, i), str, i, env);
 		final = ft_sprintf("%s%s", result, content);
+		(free(result), free(content));
 		*cnt += 1;
 		return (final);
 	}
@@ -390,7 +391,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-						current->env_value);
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -429,7 +430,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)
