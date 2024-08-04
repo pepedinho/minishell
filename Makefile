@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/04 16:58:23 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/04 19:16:15 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,8 @@ leak : all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=.supp.supp ./minishell
 
 push: fclean
-	@python3 -m c_formatter_42 */*.c */*.h */*/*.c */*/*.h | norminette | grep Error
+	@python3 -m c_formatter_42 $(addprefix $(SRCS_DIR), main.c $(PARSING) $(PROMPT) $(SIGNALS) \
+	 $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS)) | norminette | grep Error
 	@git add .
 	@echo -n "$(BLUE)Enter your commit message: $(END)"
 	@read commit_message; \
