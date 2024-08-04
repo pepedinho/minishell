@@ -20,8 +20,10 @@ void	free_env(t_env *env)
 	while (env)
 	{
 		buff = (env)->next;
-		ft_free_split(env->split);
-		ft_free_split(env->split_value);
+		free(env->value);
+		free(env->key);
+		free(env->split);
+		ft_free_2d(env->split_value);
 		free(env);
 		env = buff;
 	}

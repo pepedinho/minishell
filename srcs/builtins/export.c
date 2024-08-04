@@ -57,7 +57,6 @@ int	add_in_list(t_info *info, char *content)
 	char	**key;
 	t_env	*current;
 	t_env	*new;
-	char	*tmp;
 	int		flag;
 
 	flag = 0;
@@ -71,13 +70,7 @@ int	add_in_list(t_info *info, char *content)
 		{
 			// print_env(info->env, 1);
 			// printf("-------------------------------------------------------\n");
-			tmp = current->value;
-			printf("debug tmp : %p\n", tmp);
-			printf("debug current->vlaue : %p\n", current->value);
-			printf("debug key[1] : %p\n", key[1]);
 			current->value = ft_strdup(key[1]);
-			printf("debug current->value after assign : %p\n", current->value);
-			free(tmp);
 			flag = 1;
 			// print_env(info->env, 1);
 		}
