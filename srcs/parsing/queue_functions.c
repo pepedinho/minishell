@@ -79,7 +79,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 			new->type = H_FILE;
 			queue->heredoc_flag = 1;
 		}
-		else if (type == CMD)
+		else if (type == CMD || type == ENV)
 		{
 			tmp = current;
 			while (tmp && !is_a_redirect(tmp->type))
@@ -89,7 +89,8 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type,
 					new->type = SFX;
 					break ;
 				}
-				new->type = CMD;
+				else
+					new->type = CMD;
 				tmp = tmp->before;
 			}
 		}
