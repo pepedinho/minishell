@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 23:54:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 17:39:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,17 @@ int	open_file(t_command_line *queue)
 	i = 0;
 	j = 0;
 	tmp = queue->first;
+	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
+	{
+		handle_unexpected_token(tmp->content, 2);
+		return (0);
+	}
 	if (queue->open_quotes_flag == 1)
 	{
 		while (tmp && tmp->type != SFX)
 			tmp = tmp->next;
 		if (tmp)
 			fill_open_quote(tmp);
-		// print_queue(queue);
 	}
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)
@@ -132,7 +136,7 @@ int	open_file(t_command_line *queue)
 			i++;
 		}
 		if (tmp)
-			handle_unexpected_token(tmp->content);
+			handle_unexpected_token(tmp->content, 1);
 	}
 	tmp = queue->first;
 	while (tmp)

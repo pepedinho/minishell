@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 16:52:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 17:38:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_index(char token, int *i)
 		*i = 2;
 }
 
-void	handle_unexpected_token(char *token)
+void	handle_unexpected_token(char *token, int cas)
 {
 	t_info	*info;
 	int		i;
@@ -40,8 +40,17 @@ void	handle_unexpected_token(char *token)
 	info = info_in_static(NULL, GET);
 	init_index(token[0], &i);
 	ft_fprintf(2, "%s: syntax error near unexpected token `", info->name);
-	while (token[i + j] && j < 3)
-		write(2, &token[i + j++], 1);
+	if (cas == 1)
+	{
+		while (token[i + j] && j < 3)
+			write(2, &token[i + j++], 1);
+	}
+	if (cas == 2)
+	{
+		i = 0;
+		while (token[i + j] && j < 2)
+			write(2, &token[i + j++], 1);
+	}
 	write(2, "'\n", 2);
 	g_signal_code = 2;
 }

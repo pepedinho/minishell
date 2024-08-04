@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 16:52:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 18:04:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,23 +206,49 @@ void	tree_add_back(t_tree **tree, t_tree *new)
 	new->next = NULL;
 }
 
+t_command_line	*parsing(char *command_line, t_info *info)
+{
+	t_command_line	*queue;
+
+	queue = parser(command_line, info->env);
+	print_queue(queue);
+	if (global_check(queue) == 0)
+		return (NULL);
+	queue = change_queue(queue);
+	queue = remove_in_queue(queue);
+	return (queue);
+}
+
+t_tree	*ast(t_command_line *queue)
+{
+	t_tree	*tree;
+
+	tree = NULL;
+	while (queue && queue->first)
+	{
+		tree_add_back(&tree, smart_agencement(queue));
+		queue = queue->next;
+	}
+	return (tree);
+}
+void reprompt(char *command_line)
+{
+	add_history(command_line);
+	ft_free(DESTROY);
+	queue_in_static(NULL, INIT);
+}
+
 void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
 	t_tree			*tree;
 
 	sigaction_signals();
-	queue = parser(command_line, info->env);
-	// print_queue(queue);
-	global_check(queue);
-	queue = change_queue(queue);
-	queue = remove_in_queue(queue);
+	queue = parsing(command_line, info);
+	if (!queue)
+		return ;
 	tree = NULL;
-	while (queue)
-	{
-		tree_add_back(&tree, smart_agencement(queue));
-		queue = queue->next;
-	}
+	tree = ast(queue);
 	execute_command_line(tree);
 	ft_free(DESTROY);
 }
@@ -254,30 +280,6 @@ char	*ft_readline(t_info *info)
 	return (prompt);
 }
 
-t_command_line	*parsing(char *command_line, t_info *info)
-{
-	t_command_line	*queue;
-
-	queue = parser(command_line, info->env);
-	print_queue(queue);
-	global_check(queue);
-	queue = change_queue(queue);
-	queue = remove_in_queue(queue);
-	return (queue);
-}
-
-t_tree	*ast(t_command_line *queue)
-{
-	t_tree	*tree;
-
-	tree = NULL;
-	while (queue && queue->first)
-	{
-		tree_add_back(&tree, smart_agencement(queue));
-		queue = queue->next;
-	}
-	return (tree);
-}
 
 void	receive_prompt(t_info *info)
 {
@@ -290,10 +292,13 @@ void	receive_prompt(t_info *info)
 		sigaction_signals();
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
+		if (!queue)
+		{
+			reprompt(command_line);
+			continue;
+		}
 		tree = ast(queue);
 		execute_command_line(tree);
-		add_history(command_line);
-		ft_free(DESTROY);
-		queue_in_static(NULL, INIT);
+		reprompt(command_line);
 	}
 }

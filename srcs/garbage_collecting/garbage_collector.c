@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:01:48 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/04 16:37:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 17:42:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void	*ft_malloc(long int t)
 
 void	ft_free(void *ptr)
 {
-	static int			i;
+	static int			i = -1;
 	static t_garbage	*garbage;
 
-	i = -1;
 	if (ptr == DESTROY)
 	{
 		i = -1;

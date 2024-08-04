@@ -1,0 +1,18 @@
+# This file contains the commands to be tested in minishell.
+# Add one command per line.
+# Lines starting with # are comments and will be ignored. Empty lines will be ignored.
+
+# The file is named test_commands.txt, the script checks for its name so do not rename it.
+# Adding 'remove' as the last line will make the script remove it after it is done running. 
+# Otherwise, the file will remain in the working directory and can be editted at will between runs.
+
+# The script will NOT remove any files your minishell has created unless specified in the cleanup() function. By default, it will try to rm output1.txt up to output4.txt.
+
+# The script does not handle commands that expect errors to be printed as error messages are typically custom.
+# The script will run once you exit vim.
+
+# Example commands:
+echo "Hello, World!"
+ls -l
+pwd
+cat Makefile | grep SRC | wc -l
