@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_queue_funcs.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:12:38 by itahri            #+#    #+#             */
-/*   Updated: 2024/07/23 15:57:11 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/04 16:32:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,21 @@ void	destroy_all(t_garbage *garbage)
 	t_to_destroy	*current;
 	t_to_destroy	*next;
 
-	if (!garbage->first)
+	if (garbage)
 	{
-		free(garbage);
-		return ;
-	}
-	current = garbage->first;
-	while (current)
-	{
-		next = current->next;
-		free(current->to_destroy);
-		free(current);
-		current = next;
+		if (!garbage->first)
+		{
+			free(garbage);
+			return ;
+		}
+		current = garbage->first;
+		while (current)
+		{
+			next = current->next;
+			free(current->to_destroy);
+			free(current);
+			current = next;
+		}
 	}
 	free(garbage);
 }
