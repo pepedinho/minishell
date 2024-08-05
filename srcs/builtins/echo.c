@@ -27,7 +27,7 @@ void	ft_echo(char **args)
 			i++;
 		}
 	}
-	if (ft_strcmp(args[1], "$?") == 0)
+	if (ft_strcmp(args[1], "?") == 0)
 		printf("%d\n", g_signal_code);
 	else
 	{
