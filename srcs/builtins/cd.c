@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:55:44 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:04:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	change_pwd_in_env(t_info *info)
 	{
 		free(env->value);
 		env->value = ft_pwd(GET, info);
-		env->split[1] = env->value;
 	}
 	else
 	{
@@ -50,7 +49,9 @@ int	ft_cd(char *directory)
 
 	info = info_in_static(NULL, GET);
 	info->signal_code = 0;
-	if (chdir(directory) == -1)
+	if (!directory)
+		directory = getenv("HOME");
+	if (!directory || chdir(directory) == -1)
 	{
 		message = ft_sprintf("%s: %s", info->name, directory);
 		if (!message)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:58:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 15:29:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/05 20:17:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	skip_white_space(char *str, int *i)
 {
-	while (str[*i] == ' ')
+	while (str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13))
 		++(*i);
 }
 
