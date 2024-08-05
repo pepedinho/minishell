@@ -6,14 +6,14 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 23:38:38 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:55:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <string.h>
 
-void	error_pwd(char *buffer)
+void	error_pwd(char *buffer, t_info *info)
 {
 	free(buffer);
 	if (errno == ENOENT)
@@ -22,10 +22,10 @@ void	error_pwd(char *buffer)
 		ft_fprintf(2, "getcwd: cannot access parent directories: ");
 	}
 	perror("pwd");
-	g_signal_code = 1;
+	info->signal_code = 1;
 }
 
-char	*ft_pwd(int cas)
+char	*ft_pwd(int cas, t_info *info)
 {
 	char	*buffer;
 	size_t	size;
@@ -45,12 +45,12 @@ char	*ft_pwd(int cas)
 			free(buffer);
 		else if (!check && errno != ERANGE)
 		{
-			error_pwd(buffer);
+			error_pwd(buffer, info);
 			return (NULL);
 		}
 	}
 	if (cas == PRINT)
 		(ft_printf("%s\n", buffer), free(buffer));
-	g_signal_code = 0;
+	info->signal_code = 0;
 	return (buffer);
 }

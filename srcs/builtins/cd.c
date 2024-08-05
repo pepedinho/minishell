@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 18:11:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:55:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	change_pwd_in_env(t_info *info)
 	if (env)
 	{
 		free(env->value);
-		env->value = ft_pwd(GET);
+		env->value = ft_pwd(GET, info);
 		env->split[1] = env->value;
 	}
 	else
 	{
-		pwd = ft_pwd(GET);
+		pwd = ft_pwd(GET, info);
 		if (!pwd)
 			envp = ft_sprintf("PWD=\0");
 		else
@@ -49,7 +49,7 @@ int	ft_cd(char *directory)
 	char	*message;
 
 	info = info_in_static(NULL, GET);
-	g_signal_code = 0;
+	info->signal_code = 0;
 	if (chdir(directory) == -1)
 	{
 		message = ft_sprintf("%s: %s", info->name, directory);
@@ -57,9 +57,9 @@ int	ft_cd(char *directory)
 			handle_malloc_error("cd");
 		perror(message);
 		free(message);
-		g_signal_code = 1;
+		info->signal_code = 1;
 	}
-	if (g_signal_code == 0)
+	if (info->signal_code == 0)
 		change_pwd_in_env(info);
-	return (g_signal_code);
+	return (info->signal_code);
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:23:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/01 21:52:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 22:44:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // Signals
 void	sigaction_signals(void);
-void	restore_sigint(void);
+void	kill_if_sigint(void);
 void	handle_sigint(int num);
 
 #endif // !SIGNAL_H

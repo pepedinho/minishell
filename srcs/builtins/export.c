@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 19:09:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:54:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ int	ft_export(t_info *info, char **content)
 		i++;
 	}
 	if (i == 1)
-		print_env(info->env, 2);
+		print_env(info->env, 2, info);
 	return (0);
 }

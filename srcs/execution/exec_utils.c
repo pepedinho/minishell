@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 17:11:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/05 19:33:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,29 @@ int	ft_fork(void)
 {
 	int	pid;
 
+	kill_if_sigint();
 	pid = fork();
 	if (pid == -1)
 		free_and_exit(-1);
 	// find the right signal code if fork fail;
+	if (pid > 0)
+	{
+		g_sigint_received = 1;
+		sigaction_signals();
+	}
 	return (pid);
 }
 
 void	exec_built_in(t_element *node, t_info *info)
 {
 	if (ft_strcmp(node->content, "export") == 0)
-		g_signal_code = ft_export(info, node->args);
+		info->signal_code = ft_export(info, node->args);
 	if (ft_strcmp(node->content, "env") == 0)
-		print_env(info->env, 1);
+		print_env(info->env, 1, info);
 	if (ft_strcmp(node->content, "pwd") == 0)
-		ft_pwd(PRINT);
+		ft_pwd(PRINT, info);
 	if (ft_strcmp(node->content, "echo") == 0)
-		ft_echo(node->args);
+		ft_echo(node->args, info);
 	if (ft_strcmp(node->content, "cd") == 0)
-		g_signal_code = ft_cd(node->args[1]);
+		info->signal_code = ft_cd(node->args[1]);
 }

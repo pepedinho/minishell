@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:02:19 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 16:51:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:33:46 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_info
 {
 	char			*name;
 	struct s_env	*env;
+	int signal_code;
 }					t_info;
 
 // Prompt

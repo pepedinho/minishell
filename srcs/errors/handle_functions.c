@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 17:38:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:41:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_unexpected_token(char *token, int cas)
 			write(2, &token[i + j++], 1);
 	}
 	write(2, "'\n", 2);
-	g_signal_code = 2;
+	info->signal_code = 2;
 }
 
 void	handle_malloc_error(char *message)
@@ -62,8 +62,8 @@ void	handle_malloc_error(char *message)
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
 			message);
-	g_signal_code = ERR_MALLOC;
-	free_and_exit(g_signal_code);
+	info->signal_code = ERR_MALLOC;
+	free_and_exit(info->signal_code);
 }
 
 void	close_fd(t_command_line *queue)

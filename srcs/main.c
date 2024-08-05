@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/02 18:34:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/05 19:22:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "environement/env.h"
 #include "receive_prompt/prompt.h"
 
-int		g_signal_code = 0;
+volatile sig_atomic_t g_sigint_received = 0;
 
 t_info	*info_in_static(t_info *info, int cas)
 {
@@ -37,14 +37,14 @@ void	minishell(t_info *info, char **envp)
 		return ;
 	}
 	ft_printf("%s: Error malloc with Environement variables\n", info->name);
-	g_signal_code = 105;
+	info->signal_code = 105;
 }
 
 void	subminishell(char **argv, t_info *info, char **envp)
 {
 	if (ft_strcmp(argv[1], "-c") != 0)
 	{
-		g_signal_code = 2;
+		info->signal_code = 2;
 		ft_fprintf(STDERR_FILENO, "minishell: %s: invalid option\n", argv[1]);
 		return ;
 	}
@@ -54,7 +54,7 @@ void	subminishell(char **argv, t_info *info, char **envp)
 	if (!info->env)
 	{
 		ft_printf("%s: Error malloc with Environement variables\n", info->name);
-		g_signal_code = 105;
+		info->signal_code = 105;
 		return ;
 	}
 	info_in_static(info, INIT);
@@ -66,11 +66,12 @@ int	main(int argc, char **argv, char **envp)
 	t_info	info;
 
 	sigaction_signals();
+	info.signal_code = 0;
 	info.name = "minishell";
 	if (argc == 1)
 		minishell(&info, envp);
 	else
 		subminishell(argv, &info, envp);
 	free_env(info.env);
-	return (g_signal_code);
+	return (info.signal_code);
 }

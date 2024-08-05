@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 18:04:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/05 19:33:56 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_prompt(t_info *info)
 	while (current && ft_strcmp(current->key, "USER"))
 		current = current->next;
 	hostname = current->value;
-	if (g_signal_code == 0)
+	if (info->signal_code == 0)
 		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
 							hostname,
 							pwd);
@@ -265,13 +265,20 @@ char	*ft_readline(t_info *info)
 	char	*prompt;
 	char	*command_line;
 
-	prompt = get_prompt(info);
-	command_line = readline(prompt);
-	free(prompt);
-	if (!command_line)
-		ft_exit(NULL);
-	if (ft_strcmp(command_line, "\n") == 0)
-		(free(command_line), if_only_newline());
+
+	while (1)
+	{
+		g_sigint_received = 0;
+		prompt = get_prompt(info);
+		command_line = readline(prompt);
+		free(prompt);
+		if (!command_line)
+			ft_exit(NULL);
+		else if (ft_strcmp(command_line, "") == 0)
+			(free(command_line));
+		else
+			break;	
+	}
 	prompt = ft_malloc(sizeof(char) * (ft_strlen(command_line) + 1));
 	if (!prompt)
 		handle_malloc_error("readline");

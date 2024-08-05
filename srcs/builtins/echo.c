@@ -6,13 +6,13 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 16:05:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/04 21:53:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_echo(char **args)
+void	ft_echo(char **args, t_info *info)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ void	ft_echo(char **args)
 		}
 	}
 	if (ft_strcmp(args[1], "$?") == 0)
-		printf("%d\n", g_signal_code);
+		printf("%d\n", info->signal_code);
 	else
 	{
 		i = 1;
@@ -40,5 +40,5 @@ void	ft_echo(char **args)
 			i++;
 		}
 	}
-	g_signal_code = 0;
+	info->signal_code = 0;
 }
