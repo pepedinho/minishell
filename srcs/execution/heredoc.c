@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 00:36:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 01:11:47 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,16 @@ char	*ft_parse_line(char *line)
 	if (!dest)
 		return (line);
 	dest = ft_is_evn_variable(line, envp);
+	ft_free_2d(envp);
 	if (!dest)
 		handle_malloc_error("heredoc");
 	return (free(line), dest);
 }
 
-void	here_doc(t_element *tmp)
+void heredoc_bis(t_element *tmp, int *fd)
 {
 	char	*line;
-	int		fd[2];
-	int		save_stdout;
-	int		save_stderr;
-
-	if (pipe(fd) == -1)
-		error_message("pipe");
-	save_stdout = dup(STDOUT_FILENO);
-	save_stderr = dup(STDERR_FILENO);
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	close(STDERR_FILENO);
+	
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -61,9 +53,21 @@ void	here_doc(t_element *tmp)
 		(write(fd[WRITE], line, ft_strlen(line)), write(fd[WRITE], "\n", 1));
 		free(line);
 	}
-	dup2(save_stdout, STDOUT_FILENO);
-	dup2(save_stderr, STDERR_FILENO);
-	close(save_stderr);
-	(close(save_stdout), close(fd[WRITE]));
+}
+
+void	here_doc(t_element *tmp)
+{
+	int		fd[2];
+	int		save[3];
+
+	if (pipe(fd) == -1)
+		error_message("pipe");
+	save[1] = dup(STDOUT_FILENO);
+	save[2] = dup(STDERR_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	close(STDERR_FILENO);
+	heredoc_bis(tmp, fd);
+	(dup2(save[1], STDOUT_FILENO), dup2(save[2], STDERR_FILENO));
+	(close(save[1]), close(save[2]), close(fd[WRITE]));
 	tmp->infile = fd[READ];
 }

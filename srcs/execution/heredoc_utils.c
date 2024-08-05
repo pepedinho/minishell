@@ -6,26 +6,11 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:01:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 01:13:08 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*ft_limiter_newline(char *limiter)
-{
-	char	*dest;
-	int		i;
-
-	i = ft_strlen(limiter);
-	dest = malloc(sizeof(char) * (i + 2));
-	if (!dest)
-		return (NULL);
-	ft_strcpy(dest, limiter);
-	dest[i++] = '\n';
-	dest[i] = '\0';
-	return (dest);
-}
 
 char	*ft_normal_format(char *line, char *dest, int *i)
 {
@@ -54,7 +39,7 @@ char	*ft_create_variable(char *line, int i)
 
 	j = 0;
 	while (line[i + j] && line[i + j] != ' ' && (line[i + j] < 9 || line[i
-			+ j] > 13) && line[i + j] != ':' && line[i + j] != '"')
+			+ j] > 13) && line[i + j] != ':' && line[i + j] != '"' && line[i + j] != '\'')
 		j++;
 	var = malloc(sizeof(char) * (j + 2));
 	if (!var)
