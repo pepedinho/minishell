@@ -72,8 +72,8 @@ void	exec(t_element *node, t_info *info)
 
 void	only_builtin(t_element *node, t_info *info)
 {
-	int		save_stdin;
-	int		save_stdout;
+	int	save_stdin;
+	int	save_stdout;
 
 	(infile(node, info), outfile(node, info));
 	if (ft_strcmp(node->content, "exit") == 0)
@@ -87,9 +87,9 @@ void	only_builtin(t_element *node, t_info *info)
 
 void	execute_command_line(t_tree *tree)
 {
-	int	pid;
-	int	status;
-	t_info *info;
+	int		pid;
+	int		status;
+	t_info	*info;
 
 	info = info_in_static(NULL, GET);
 	while (tree)

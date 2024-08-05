@@ -265,7 +265,6 @@ char	*ft_readline(t_info *info)
 	char	*prompt;
 	char	*command_line;
 
-
 	while (1)
 	{
 		g_sigint_received = 0;
@@ -277,7 +276,7 @@ char	*ft_readline(t_info *info)
 		else if (ft_strcmp(command_line, "") == 0)
 			(free(command_line));
 		else
-			break;	
+			break ;
 	}
 	prompt = ft_malloc(sizeof(char) * (ft_strlen(command_line) + 1));
 	if (!prompt)

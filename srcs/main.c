@@ -14,7 +14,7 @@
 #include "environement/env.h"
 #include "receive_prompt/prompt.h"
 
-volatile sig_atomic_t g_sigint_received = 0;
+volatile sig_atomic_t	g_sigint_received = 0;
 
 t_info	*info_in_static(t_info *info, int cas)
 {

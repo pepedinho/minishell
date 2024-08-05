@@ -17,7 +17,7 @@
 
 void	handle_sigint(int num)
 {
-	t_info *info;
+	t_info	*info;
 
 	info = info_in_static(NULL, GET);
 	info->signal_code = num + 128;
@@ -26,7 +26,7 @@ void	handle_sigint(int num)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();	
+		rl_redisplay();
 	}
 }
 
