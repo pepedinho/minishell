@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/05 19:07:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 01:29:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	command(t_element *node, t_info *info)
 	envp = t_env_to_envp(info->env);
 	if (!envp)
 		handle_malloc_error("envp");
-	path = find_path(node->content, info);
+	path = find_path(node->content);
 	if (path == NULL)
 		handle_malloc_error("path");
 	(infile(node, info), outfile(node, info));
@@ -99,11 +99,11 @@ void	execute_command_line(t_tree *tree)
 			pid = ft_fork();
 			if (pid == 0)
 				exec(tree->first, info);
+			close(tree->first->infile);
 			(waitpid(pid, &status, 0), exit_status(status, info));
 		}
 		else
 			exec(tree->first, info);
 		tree = tree->next;
 	}
-	// printf("echo $? == %d\n", WEXITSTATUS(status));
 }

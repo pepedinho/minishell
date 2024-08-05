@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 19:02:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 01:24:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_env(t_env *env)
 		buff = (env)->next;
 		free(env->value);
 		free(env->key);
-		ft_free_2d(env->split_value);
 		free(env);
 		env = buff;
 	}
@@ -45,16 +44,6 @@ void	add_back_env(t_env **env, t_env *new)
 			buff = buff->next;
 		buff->next = new;
 	}
-}
-
-char	**split_value(char *str)
-{
-	char	**tab;
-
-	tab = ft_split(str, ":");
-	if (!tab)
-		return (NULL);
-	return (tab);
 }
 
 t_env	*init_env(char *envp, int cas)
@@ -80,7 +69,6 @@ t_env	*init_env(char *envp, int cas)
 	else
 		new->value = NULL;
 	ft_free_2d(split);
-	new->split_value = split_value(new->value);
 	new->global = cas;
 	new->next = NULL;
 	return (new);

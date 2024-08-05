@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/05 19:33:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 01:25:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,33 @@ int	check_built_in(char *command)
 	return (0);
 }
 
-char	*find_path(char *command, t_info *info)
+char	*find_path(char *command)
 {
-	t_env	*env;
 	int		i;
 	char	*path;
+	char *envp;
+	char **split;
 
 	i = 0;
-	env = info->env;
 	if (access(command, F_OK) == 0)
 		return (ft_strdup(command));
-	while (env && ft_strcmp(env->key, "PATH"))
-		env = env->next;
-	if (!env)
+	envp = getenv("PATH");
+	if (!envp)
 		return (ft_strdup(command));
-	ft_free_2d(env->split_value);
-	env->split_value = split_value(env->value);
-	while (env->split_value[i])
+	split = ft_split(envp, ":");
+	if (!split)
+		handle_malloc_error("path");
+	while (split[i])
 	{
-		path = ft_sprintf("%s/%s", env->split_value[i], command);
+		path = ft_sprintf("%s/%s", split[i], command);
 		if (!path)
-			handle_malloc_error("path");
+			(ft_free_2d(split), handle_malloc_error("path"));
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (ft_free_2d(split), path);
 		free(path);
 		i++;
 	}
-	return (ft_strdup(command));
+	return (ft_free_2d(split), ft_strdup(command));
 }
 
 int	check_if_fork(t_element *node)
