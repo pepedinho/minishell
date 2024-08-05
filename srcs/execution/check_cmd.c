@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 20:53:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 00:22:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
-
-void	here_doc(t_element *tmp)
-{
-	char	*line;
-	int		fd[2];
-	int		save_stdout;
-
-	if (pipe(fd) == -1)
-		error_message("pipe");
-	save_stdout = dup(STDOUT_FILENO);
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	close(STDERR_FILENO);
-	while (1)
-	{
-		line = readline("heredoc> ");
-		if (!line)
-		{
-			message_pipe(tmp->content);
-			break ;
-		}
-		if (ft_strcmp(line, tmp->content) == 0)
-		{
-			free(line);
-			break ;
-		}
-		(write(fd[WRITE], line, ft_strlen(line)), write(fd[WRITE], "\n", 1));
-		free(line);
-	}
-	dup2(save_stdout, STDOUT_FILENO);
-	close(save_stdout);
-	close(fd[WRITE]);
-	tmp->infile = fd[READ];
-}
 
 void	file(t_element *tmp)
 {

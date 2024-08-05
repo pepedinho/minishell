@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:50:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/06 00:28:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ char	*find_path(char *command, t_info *info);
 // Exec
 void	execute_command_line(t_tree *tree);
 void	exec(t_element *node, t_info *info);
+
+// Heredoc
+void	here_doc(t_element *tmp);
+char	*ft_parse_line(char *line);
+char	*ft_is_evn_variable(char *line, char **envp);
 
 // Utils
 int		check_if_fork(t_element *node);

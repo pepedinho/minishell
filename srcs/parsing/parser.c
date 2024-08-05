@@ -300,7 +300,8 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 0;
 	k = 0;
-	while (str[*i + j] && (str[*i + j] != ' ' || (str[*i] >= 9 && str[*i] <= 13)) && !is_a_separator(str[*i + j]))
+	while (str[*i + j] && (str[*i + j] != ' ' || (str[*i] >= 9
+				&& str[*i] <= 13)) && !is_a_separator(str[*i + j]))
 		j++;
 	if (j == 0)
 		return (1);
