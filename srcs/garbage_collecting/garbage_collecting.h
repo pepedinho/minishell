@@ -23,6 +23,7 @@ typedef struct s_to_destroy
 {
 	void				*to_destroy;
 	struct s_to_destroy	*next;
+	struct s_to_destroy	*before;
 }						t_to_destroy;
 
 typedef struct s_garbage
@@ -35,7 +36,7 @@ typedef struct s_garbage
 // garbage queue functions
 t_to_destroy			*push_to_garbage(t_garbage *garbage, void *ptr);
 t_garbage				*init_garbage(void);
-void					destroy(t_garbage *garbage, t_to_destroy *elem);
+void					destroy(t_garbage *garbage, void *elem);
 void					destroy_all(t_garbage *garbage);
 
 // garbage collector functions

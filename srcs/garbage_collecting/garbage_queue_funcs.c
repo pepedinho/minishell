@@ -35,6 +35,7 @@ t_to_destroy	*push_to_garbage(t_garbage *garbage, void *ptr)
 		return (NULL);
 	new->to_destroy = ptr;
 	new->next = NULL;
+	new->before = NULL;
 	if (!garbage->first)
 		garbage->first = new;
 	else
@@ -43,29 +44,48 @@ t_to_destroy	*push_to_garbage(t_garbage *garbage, void *ptr)
 		while (current->next)
 			current = current->next;
 		current->next = new;
+		new->before = current;
 	}
 	return (new);
 }
 
-void	destroy(t_garbage *garbage, t_to_destroy *elem)
+int	is_in_garbage(t_garbage *garbage, void *elem)
 {
 	t_to_destroy	*current;
-	t_to_destroy	*tmp_n;
-	t_to_destroy	*tmp_b;
+
+	current = garbage->first;
+	while (current->next)
+	{
+		if (current->to_destroy == elem)
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
+void	destroy(t_garbage *garbage, void *elem)
+{
+	t_to_destroy	*current;
 
 	if (!garbage)
 		return ;
-	current = garbage->first;
-	tmp_b = current;
-	while (current && current->to_destroy != elem)
+	if (!is_in_garbage(garbage, elem))
 	{
-		tmp_b = current;
+		write(STDERR_FILENO, "debug\n", 6);
+		free(elem);
+		return ;
+	}
+	current = garbage->first;
+	while (current->next && current->to_destroy != elem)
+	{
 		current = current->next;
 	}
 	if (current && current->to_destroy == elem)
 	{
-		tmp_n = current->next;
-		tmp_b->next = tmp_n;
+		if (current->before)
+			current->before->next = current->next;
+		else
+			garbage->first = current->next;
 		(free(current->to_destroy), free(current));
 	}
 }

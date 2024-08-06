@@ -56,4 +56,7 @@ void or (t_element * node, t_info *info);
 void and (t_element * node, t_info *info);
 void	ft_pipe(t_element *node, t_info *info);
 
+// quotes gesture
+char	*fill_open_quote(char *str);
+
 #endif // !EXEC_H

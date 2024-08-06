@@ -57,4 +57,5 @@ void	ft_free(void *ptr)
 		return ;
 	}
 	destroy(garbage, ptr);
+	garbage->total_free++;
 }
