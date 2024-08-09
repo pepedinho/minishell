@@ -33,8 +33,8 @@ char	*find_path(char *command)
 {
 	int		i;
 	char	*path;
-	char *envp;
-	char **split;
+	char	*envp;
+	char	**split;
 
 	i = 0;
 	if (access(command, F_OK) == 0)

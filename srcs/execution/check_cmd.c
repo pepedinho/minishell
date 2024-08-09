@@ -33,7 +33,7 @@ void	unexpected_eof(void)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
-			info->name);
+		info->name);
 }
 
 void	fill_open_quote(t_element *sfx)

@@ -10,6 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
+BLACK=	$(shell tput -Txterm setaf 0)
+RED= 	$(shell tput -Txterm setaf 1)
+GREEN= 	$(shell tput -Txterm setaf 2)
+WHITE= 	$(shell tput -Txterm setaf 7)
+YELLOW=	$(shell tput -Txterm setaf 3)
+BLUE=	$(shell tput -Txterm setaf 6)
+PURPLE			=	\033[0;35m
+END= 	$(shell tput -Txterm sgr0)
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 
@@ -41,8 +50,8 @@ OBJS_BONUS = $(SRCS_BONUS:./%.c=$(OBJS_DIR)/%.o)
 
 DIR_DUP = mkdir -p $(@D)
 
-G				= \e[92m
-X 				= \e[0m
+G				= $(GREEN)
+X 				= $(END)
 BAR_SIZE		= 50
 
 TOTAL_FILES		:= $(words $(SRCS))
