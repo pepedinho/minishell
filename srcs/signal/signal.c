@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/05 19:37:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 17:35:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,18 @@ void	handle_sigint(int num)
 	}
 }
 
-// void	kill_child(int num)
-// {
-// 	t_info *info;
-
-// 	info = info_in_static(NULL, GET);
-// 	info->signal_code = num + 128;
-// 	if (g_is_child == 1)
-// 	{
-// 		exit(num);
-// 	}
-// 	else
-// 	{
-// 		write(STDERR_FILENO, "\n", 1);
-// 	}
-// }
-
 void	kill_if_sigint(void)
 {
 	struct sigaction	sa;
+	struct sigaction	sb;
 
 	sa.sa_handler = SIG_DFL;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
+	sb.sa_handler = SIG_DFL;
+	sigemptyset(&sb.sa_mask);
+	sigaction(SIGQUIT, &sb, NULL);
 }
 
 void	sigaction_signals(void)
