@@ -357,6 +357,7 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	if (!str[*i + j] && str[*i + j - 1] != ')')
 	{
 		queue->open_parenthesis_flag = 1;
+		*i += j;
 		return (NO_END_QUOTE); // handle when quote dosen't end
 	}
 	cmd = ft_malloc(sizeof(char) * (j + 1));
