@@ -66,6 +66,8 @@ int	quote_len(char *line)
 	return (i - cnt);
 }
 
+
+
 char	*fill_open_quote(char *str)
 {
 	char	*line;
