@@ -38,12 +38,10 @@ char	*get_prompt(t_info *info)
 	hostname = current->value;
 	if (info->signal_code == 0)
 		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-							hostname,
-							pwd);
+				hostname, pwd);
 	else
 		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-							hostname,
-							pwd);
+				hostname, pwd);
 	return (prompt);
 }
 
@@ -211,6 +209,9 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	t_command_line	*queue;
 
 	queue = parser(command_line, info->env);
+	// TODO: add error message like bash
+	if (!queue)
+		return (NULL);
 	print_queue(queue);
 	if (global_check(queue) == 0)
 		return (NULL);
