@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 19:47:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 20:09:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	kill_if_sigint(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	sb.sa_handler = SIG_DFL;
+	sb.sa_flags = 0;
 	sigemptyset(&sb.sa_mask);
 	sigaction(SIGQUIT, &sb, NULL);
 }

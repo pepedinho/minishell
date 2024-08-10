@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:29:00 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 20:14:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	execute_command_line(t_tree *tree)
 	info = info_in_static(NULL, GET);
 	while (tree)
 	{
-		if (tree->first->type == CMD && !check_built_in(tree->first->content))
+		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
+			|| tree->first->type == C_BLOCK)
 		{
 			pid = ft_fork();
 			if (pid == 0)
