@@ -357,6 +357,7 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	if (!str[*i + j] && str[*i + j - 1] != ')')
 	{
 		queue->open_parenthesis_flag = 1;
+		*i += j;
 		return (NO_END_QUOTE); // handle when quote dosen't end
 	}
 	cmd = ft_malloc(sizeof(char) * (j + 1));
@@ -399,6 +400,8 @@ t_command_line	*parser(char *str, t_env *env)
 	int				i;
 	t_command_line	*queue;
 
+	if (!str[0])
+		return (NULL);
 	queue = init_queue();
 	i = 0;
 	// TODO keep the command after ':'
@@ -427,7 +430,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-						current->env_value);
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -466,7 +469,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

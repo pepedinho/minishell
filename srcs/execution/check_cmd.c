@@ -123,6 +123,11 @@ int	open_file(t_command_line *queue)
 	i = 0;
 	j = 0;
 	tmp = queue->first;
+	if (queue->open_parenthesis_flag == 1)
+	{
+		ft_printf("expected close parenthesis : ')'\n");
+		return (0);
+	}
 	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
 	{
 		handle_unexpected_token(tmp->content, 2);
