@@ -261,6 +261,17 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	return (1);
 }
 
+char	*add_nl(char *str)
+{
+	int		i;
+	char	*result;
+
+	i = 0;
+	result = ft_sprintf("%s\n", str);
+	// ft_free(str);
+	return (result);
+}
+
 char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 {
 	int		j;
@@ -271,6 +282,7 @@ char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 		j++;
 	if (!str[*i + j])
 	{
+		str = add_nl(str);
 		if (str[*i + j - 1] != '"')
 		{
 			str = fill_open_quote(str);
