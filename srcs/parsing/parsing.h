@@ -76,4 +76,7 @@ t_command_line				*parser(char *str, t_env *env);
 void						print_queue(t_command_line *queue);
 t_command_line				*queue_in_static(t_command_line *queue, int cas);
 
+// utils
+int							is_a_separator(char c);
+
 #endif

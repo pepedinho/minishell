@@ -36,7 +36,37 @@ void	unexpected_eof(void)
 		info->name);
 }
 
-void	fill_open_quote(t_element *sfx)
+int	find_in_str(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	quote_len(char *line)
+{
+	int	i;
+	int	cnt;
+
+	i = 0;
+	cnt = 0;
+	while (line[i])
+	{
+		if (line[i] == '"')
+			cnt++;
+		i++;
+	}
+	return (i - cnt);
+}
+
+char	*fill_open_quote(char *str)
 {
 	char	*line;
 	char	*realloc_str;
@@ -54,25 +84,34 @@ void	fill_open_quote(t_element *sfx)
 		}
 		if (line[0] == '"')
 		{
-			free(line);
+			realloc_str[i] = '\n';
+			realloc_str[i + 1] = '"';
+			realloc_str[i + 2] = '\0';
 			break ;
 		}
-		len = ft_strlen(sfx->content);
-		realloc_str = ft_malloc(sizeof(char) * (len + ft_strlen(line) + 2));
+		len = ft_strlen(str);
+		realloc_str = ft_malloc(sizeof(char) * (len + quote_len(line) + 3));
 		if (!realloc_str)
 			break ;
 		i = -1;
 		j = 0;
-		while (sfx->content[++i])
-			realloc_str[i] = sfx->content[i];
+		while (str[++i])
+			realloc_str[i] = str[i];
 		while (line[j])
 			realloc_str[i++] = line[j++];
 		realloc_str[i] = '\n';
 		realloc_str[i + 1] = '\0';
-		ft_free(sfx->content);
-		sfx->content = realloc_str;
+		// ft_free(str);
+		str = realloc_str;
+		if (find_in_str(line, '"'))
+		{
+			printf("debug fill : %s\n", str);
+			realloc_str[i] = '\0';
+			break ;
+		}
 		free(line);
 	}
+	return (free(line), str);
 }
 
 int	open_file(t_command_line *queue)
@@ -89,13 +128,13 @@ int	open_file(t_command_line *queue)
 		handle_unexpected_token(tmp->content, 2);
 		return (0);
 	}
-	if (queue->open_quotes_flag == 1)
+	/*if (queue->open_quotes_flag == 1)
 	{
 		while (tmp && tmp->type != SFX)
 			tmp = tmp->next;
 		if (tmp)
 			fill_open_quote(tmp);
-	}
+	}*/
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)
 	{
