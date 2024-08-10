@@ -41,7 +41,7 @@ void	ft_pipe(t_element *node, t_info *info)
 	exit_status(status, info);
 }
 
-void fork_because_mandatory(t_element *node, t_info *info)
+void	fork_because_mandatory(t_element *node, t_info *info)
 {
 	int	pid;
 	int	status;
@@ -50,7 +50,7 @@ void fork_because_mandatory(t_element *node, t_info *info)
 	if (pid == 0)
 		exec(node, info);
 	close(node->infile);
-	(waitpid(pid, &status, 0), exit_status(status, info));	
+	(waitpid(pid, &status, 0), exit_status(status, info));
 }
 
 void and (t_element * node, t_info *info)

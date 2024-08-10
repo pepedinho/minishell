@@ -39,7 +39,8 @@ char	*ft_create_variable(char *line, int i)
 
 	j = 0;
 	while (line[i + j] && line[i + j] != ' ' && (line[i + j] < 9 || line[i
-			+ j] > 13) && line[i + j] != ':' && line[i + j] != '"' && line[i + j] != '\'')
+			+ j] > 13) && line[i + j] != ':' && line[i + j] != '"' && line[i
+		+ j] != '\'')
 		j++;
 	var = malloc(sizeof(char) * (j + 2));
 	if (!var)

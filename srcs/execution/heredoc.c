@@ -32,10 +32,10 @@ char	*ft_parse_line(char *line)
 	return (free(line), dest);
 }
 
-void heredoc_bis(t_element *tmp, int *fd)
+void	heredoc_bis(t_element *tmp, int *fd)
 {
 	char	*line;
-	
+
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -57,8 +57,8 @@ void heredoc_bis(t_element *tmp, int *fd)
 
 void	here_doc(t_element *tmp)
 {
-	int		fd[2];
-	int		save[3];
+	int	fd[2];
+	int	save[3];
 
 	if (pipe(fd) == -1)
 		error_message("pipe");

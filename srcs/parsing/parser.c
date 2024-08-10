@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/05 20:21:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/09 21:16:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	is_a_separator(char c)
 {
-	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';')
+	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';' || c == '\n')
 		return (1);
 	return (0);
 }
@@ -229,7 +229,7 @@ int	assigne_type(char *redirection, t_command_line *queue)
 		return (LL_RED);
 	if (!ft_strcmp(redirection, "&&"))
 		return (AND);
-	if (!ft_strcmp(redirection, ";"))
+	if (!ft_strcmp(redirection, ";") || !ft_strcmp(redirection, "\n"))
 		return (LIST);
 	queue->u_token_flag = 1;
 	if (redirection[0] == '<')
@@ -248,8 +248,6 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	j = 0;
 	while (str[*i + j] == symbol)
 		j++;
-	// if (j > 2)
-	//	handle_unexpected_token(j, symbol, INIT);
 	redirection = ft_malloc(sizeof(char) * (j + 1));
 	if (!redirection)
 		handle_malloc_error("redirections");
@@ -309,8 +307,8 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 0;
 	k = 0;
-	while (str[*i + j] && (str[*i + j] != ' ' || (str[*i] >= 9
-				&& str[*i] <= 13)) && !is_a_separator(str[*i + j]))
+	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
+		&& !is_a_separator(str[*i + j]))
 		j++;
 	if (j == 0)
 		return (1);

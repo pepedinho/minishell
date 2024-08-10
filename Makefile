@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/06 00:29:44 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/09 21:09:05 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ GREEN= 	$(shell tput -Txterm setaf 2)
 WHITE= 	$(shell tput -Txterm setaf 7)
 YELLOW=	$(shell tput -Txterm setaf 3)
 BLUE=	$(shell tput -Txterm setaf 6)
-PURPLE			=	\033[0;35m
+PURPLE=	$(shell tput -Txterm setaf 5)
 END= 	$(shell tput -Txterm sgr0)
 
 CC = cc
@@ -57,7 +57,7 @@ OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 DIR_DUP = mkdir -p $(@D)
 
 G				= $(BLUE)
-X 				= \e[0m
+X 				= $(END)
 BAR_SIZE		= 50
 
 TOTAL_FILES		:= $(words $(SRCS))
