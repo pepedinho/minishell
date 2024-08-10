@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 20:26:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 22:42:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,26 @@ char	*get_prompt(t_info *info)
 	char	*hostname;
 	char	*prompt;
 
-	current = info->env;
-	while (current && ft_strcmp(current->key, "PWD"))
-		current = current->next;
-	pwd = current->value;
-	current = info->env;
-	while (current && ft_strcmp(current->key, "USER"))
-		current = current->next;
-	hostname = current->value;
-	if (info->signal_code == 0)
-		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-				hostname, pwd);
-	else
-		prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-				hostname, pwd);
-	return (prompt);
+	if (info->env && search_in_env("PWD") && search_in_env("USER"))
+	{
+		current = info->env;
+		while (current && ft_strcmp(current->key, "PWD"))
+			current = current->next;
+		
+		pwd = current->value;
+		current = info->env;
+		while (current && ft_strcmp(current->key, "USER"))
+			current = current->next;
+		hostname = current->value;
+		if (info->signal_code == 0)
+			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
+					hostname, pwd);
+		else
+			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
+					hostname, pwd);
+		return (prompt);
+	}
+	return (ft_sprintf("minishell> "));
 }
 
 char	**ready_to_exec(t_element *cmd)
@@ -232,10 +237,9 @@ t_tree	*ast(t_command_line *queue)
 	}
 	return (tree);
 }
-void	reprompt(char *command_line)
+void	reprompt(void)
 {
-	add_history(command_line);
-	ft_free(DESTROY);
+	// ft_free(DESTROY);
 	queue_in_static(NULL, INIT);
 }
 
@@ -297,14 +301,15 @@ void	receive_prompt(t_info *info)
 	{
 		sigaction_signals();
 		command_line = ft_readline(info);
+		add_history(command_line);
 		queue = parsing(command_line, info);
 		if (!queue)
 		{
-			reprompt(command_line);
+			reprompt();
 			continue ;
 		}
 		tree = ast(queue);
 		execute_command_line(tree);
-		reprompt(command_line);
+		reprompt();
 	}
 }

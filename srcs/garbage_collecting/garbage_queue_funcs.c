@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:12:38 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/04 16:32:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 23:00:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	destroy(t_garbage *garbage, void *elem)
 		return ;
 	if (!is_in_garbage(garbage, elem))
 	{
-		write(STDERR_FILENO, "debug\n", 6);
+		// write(STDERR_FILENO, "debug\n", 6);
 		free(elem);
 		return ;
 	}

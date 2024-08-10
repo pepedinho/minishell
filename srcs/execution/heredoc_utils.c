@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:13:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 22:59:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ char	*ft_create_variable(char *line, int i)
 	char	*var;
 
 	j = 0;
-	while (line[i + j] && line[i + j] != ' ' && (line[i + j] < 9 || line[i
-			+ j] > 13) && line[i + j] != ':' && line[i + j] != '"' && line[i
-		+ j] != '\'')
+	while (line[i + j] && ft_isalnum(line[i + j]) != 0)
 		j++;
 	var = malloc(sizeof(char) * (j + 2));
 	if (!var)

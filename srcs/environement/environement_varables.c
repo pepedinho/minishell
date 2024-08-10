@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:24:27 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 22:32:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ void	free_env(t_env *env)
 	free(env);
 }
 
+t_env *search_in_env(char *key)
+{
+	t_info *info;
+	t_env *tmp;
+
+	info = info_in_static(NULL, GET);
+	tmp = info->env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+			break;
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
+
+
 void	add_back_env(t_env **env, t_env *new)
 {
 	t_env	*buff;
@@ -38,10 +55,20 @@ void	add_back_env(t_env **env, t_env *new)
 		*env = new;
 		new->next = NULL;
 	}
+	else if (search_in_env(new->key))
+	{
+		buff = search_in_env(new->key);
+		ft_free(buff->value);
+		buff->value = new->value;
+		ft_free(new->key);
+		ft_free(new);
+	}
 	else
 	{
 		while (buff->next)
+		{
 			buff = buff->next;
+		}
 		buff->next = new;
 	}
 }
@@ -124,6 +151,5 @@ t_env	*env_in_struct(char **envp)
 		add_back_env(&env, new);
 		i++;
 	}
-	env->envp = envp;
 	return (env);
 }

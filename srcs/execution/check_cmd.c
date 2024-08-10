@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 00:22:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 21:47:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,14 @@ int	open_file(t_command_line *queue)
 	t_element	*tmp;
 	int			i;
 	int			j;
+	t_info *info;
 
+	info = info_in_static(NULL, GET);
 	i = 0;
 	j = 0;
 	tmp = queue->first;
+	if (!tmp)
+		return (0);
 	if (queue->open_parenthesis_flag == 1)
 	{
 		ft_printf("expected close parenthesis : ')'\n");
@@ -141,6 +145,20 @@ int	open_file(t_command_line *queue)
 			fill_open_quote(tmp);
 	}*/
 	tmp = queue->first;
+	while (tmp)
+	{
+		if (tmp->type == C_BLOCK)
+		{
+			if (tmp->content[0] == '\0')
+			{
+				ft_printf("%s: syntax error near unexpected token `)'\n", info->name);
+				queue->u_token_flag = 1;
+				tmp->type = U_TOKEN;
+			}
+		}
+		tmp = tmp->next;
+	}
+	tmp = queue->first;
 	if (queue->u_token_flag == 1)
 	{
 		while (tmp && tmp->type != U_TOKEN)
@@ -148,7 +166,7 @@ int	open_file(t_command_line *queue)
 			tmp = tmp->next;
 			i++;
 		}
-		if (tmp)
+		if (tmp && tmp->content[0])
 			handle_unexpected_token(tmp->content, 1);
 	}
 	tmp = queue->first;
@@ -166,6 +184,8 @@ int	open_file(t_command_line *queue)
 			j++;
 	}
 	tmp = queue->first;
+	if (queue->u_token_flag == 1)
+		return (0);
 	while (tmp)
 	{
 		if (tmp->type == FILE)

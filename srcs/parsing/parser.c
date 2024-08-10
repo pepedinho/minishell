@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/09 21:16:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/10 22:30:17 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,26 @@ char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	return (str);
 }
 
+int check_local_var(char *str)
+{
+	t_info *info;
+	t_env *new;
+
+	info = info_in_static(NULL, GET);
+	if (ft_strchr(str, '='))
+	{
+		str = ft_parse_line(str);
+		if (!str)
+			handle_malloc_error("local variable");
+		new = init_env(str, 0);
+		if (!new)
+			handle_malloc_error("local variable");
+		add_back_env(&info->env, new);
+		return (1);
+	}
+	return (0);
+}
+
 int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
@@ -319,6 +339,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 0;
 	k = 0;
+	
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
 		&& !is_a_separator(str[*i + j]))
 		j++;
@@ -334,6 +355,8 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 		j++;
 	}
 	cmd[j] = '\0';
+	if (check_local_var(str))
+		return (*i += j, 1);
 	if (check_for_var(cmd))
 	{
 		add_env_var(queue, cmd, &k, env);
