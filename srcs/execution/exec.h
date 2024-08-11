@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:23:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 18:18:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "../../includes/minishell.h"
 
 // Before exec
-int		global_check(struct s_command_line *queue);
+int		global_check(struct s_command_line *queue, t_info *info);
 
 // Path
 char	*find_path(char *command);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 18:18:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,20 @@ int	open_file(t_command_line *queue)
 	info = info_in_static(NULL, GET);
 	i = 0;
 	j = 0;
-	tmp = queue->first;
-	if (!tmp)
-		return (0);
 	if (queue->open_parenthesis_flag == 1)
 	{
 		ft_printf("expected close parenthesis : ')'\n");
 		return (0);
 	}
+	tmp = queue->first;
+	if (!tmp)
+		return (0);
+	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
+	{
+		handle_unexpected_token(tmp->content, 2);
+		return (0);
+	}
+	tmp = queue->last;
 	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
 	{
 		handle_unexpected_token(tmp->content, 2);
@@ -196,9 +202,12 @@ int	open_file(t_command_line *queue)
 	return (1);
 }
 
-int	global_check(t_command_line *queue)
+int	global_check(t_command_line *queue, t_info *info)
 {
 	if (!open_file(queue))
+	{
+		info->signal_code = 2;
 		return (0);
+	}
 	return (1);
 }
