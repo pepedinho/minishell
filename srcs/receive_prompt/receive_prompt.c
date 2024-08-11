@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 17:25:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 17:54:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	t_command_line	*queue;
 
 	queue = parser(command_line, info->env);
-	// TODO: add error message like bash
 	if (!queue)
 		return (NULL);
 	// print_queue(queue);

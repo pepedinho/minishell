@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 17:54:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,10 +370,20 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 {
 	int		j;
 	char	*cmd;
+	int open_parenthesis;
 
 	j = 1;
-	while (str[*i + j] && str[*i + j] != ')')
+	open_parenthesis = 1;
+	while (str[*i + j])
+	{
+		if (str[*i + j] == '(')
+			open_parenthesis++;
+		if (str[*i + j] == ')')
+			open_parenthesis--;
+		if (open_parenthesis == 0)
+			break;
 		j++;
+	}
 	if (!str[*i + j] && str[*i + j - 1] != ')')
 	{
 		queue->open_parenthesis_flag = 1;
@@ -384,9 +394,16 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	if (!cmd)
 		handle_malloc_error("parenthesis");
 	j = 1;
-	while (str[*i + j] && str[*i + j] != ')')
+	open_parenthesis = 1;
+	while (str[*i + j])
 	{
 		cmd[j - 1] = str[*i + j];
+		if (str[*i + j] == '(')
+			open_parenthesis++;
+		if (str[*i + j] == ')')
+			open_parenthesis--;
+		if (open_parenthesis == 0)
+			break;
 		j++;
 	}
 	cmd[j - 1] = '\0';
