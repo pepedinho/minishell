@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/16 05:59:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:37:08 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ char	*ft_realloc(char *ptr, int len_realloc)
 	int		i;
 
 	i = ft_strlen(ptr);
-	tmp = malloc(sizeof(char) * (i + len_realloc + 1));
+	tmp = ft_malloc(sizeof(char) * (i + len_realloc + 1));
 	if (!tmp)
 	{
-		free(ptr);
+		// ft_free(ptr);
 		return (NULL);
 	}
 	tmp[0] = '\0';
 	tmp = ft_strcpy(tmp, ptr);
-	free(ptr);
+	// ft_free(ptr);
 	return (tmp);
 }

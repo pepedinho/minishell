@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:27:18 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/24 18:03:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:11:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_unsigned(char *print, unsigned int nb)
 	if (!print)
 		return (NULL);
 	print = ft_strcatt(print, result);
-	return (free(result), print);
+	return (/*ft_free(result), */print);
 }
 
 char	*ft_hexa_lowercase(char *print, unsigned int nb, int cas)
@@ -66,7 +66,7 @@ char	*ft_hexa_lowercase(char *print, unsigned int nb, int cas)
 	if (cas == 2)
 		print = ft_strcatt(print, "0x");
 	print = ft_strcatt(print, result);
-	return (free(result), print);
+	return (/*ft_free(result), */print);
 }
 
 char	*ft_hexa_uppercase(char *print, unsigned int nb, int cas)
@@ -90,5 +90,5 @@ char	*ft_hexa_uppercase(char *print, unsigned int nb, int cas)
 	if (cas == 2)
 		print = ft_strcatt(print, "0X");
 	print = ft_strcatt(print, result);
-	return (free(result), print);
+	return (/*ft_free(result), */print);
 }

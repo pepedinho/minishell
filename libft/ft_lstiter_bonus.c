@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 20:10:14 by madamou           #+#    #+#             */
-/*   Updated: 2024/03/25 23:52:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list) * 1);
+	new = ft_malloc(sizeof(t_list) * 1);
 	if (!new)
 		return (NULL);
 	new->content = content;

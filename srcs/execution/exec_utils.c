@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/06 01:25:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:39:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ char	*find_path(char *command)
 	{
 		path = ft_sprintf("%s/%s", split[i], command);
 		if (!path)
-			(ft_free_2d(split), handle_malloc_error("path"));
+			handle_malloc_error("path");
 		if (access(path, F_OK) == 0)
-			return (ft_free_2d(split), path);
-		free(path);
+			return (/*ft_free_2d(split), */path);
+		// ft_free(path);
 		i++;
 	}
-	return (ft_free_2d(split), ft_strdup(command));
+	return (ft_strdup(command));
 }
 
 int	check_if_fork(t_element *node)

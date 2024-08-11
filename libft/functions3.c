@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:02:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/24 18:06:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:12:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_itoa_long_long(unsigned long long int nb, char *base)
 
 	len_base = ft_strlen1(base);
 	size = ft_size_malloc_long(nb, len_base);
-	result = malloc(sizeof(char) * (size + 1));
+	result = ft_malloc(sizeof(char) * (size + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_fill_itoa(result, nb, size, base);
@@ -55,7 +55,7 @@ char	*ft_pointer(char *print, void *ptr)
 	{
 		print = ft_reallocc(print, ft_strlen1(result) + 2);
 		if (!print)
-			return (free(result), NULL);
+			return (/*ft_free(result), */NULL);
 		print = ft_strcatt(print, "0x");
 		print = ft_strcatt(print, result);
 	}
@@ -63,8 +63,8 @@ char	*ft_pointer(char *print, void *ptr)
 	{
 		print = ft_reallocc(print, 5);
 		if (!print)
-			return (free(result), NULL);
+			return (/*ft_free(result), */NULL);
 		print = ft_strcatt(print, "(nil)");
 	}
-	return (free(result), print);
+	return (/*ft_free(result), */print);
 }

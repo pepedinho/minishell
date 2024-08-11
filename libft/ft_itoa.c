@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:05:39 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/23 15:07:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_itoa(int n)
 
 	nb = n;
 	size = ft_size_malloc(nb);
-	result = malloc(sizeof(char) * (size + 1));
+	result = ft_malloc(sizeof(char) * (size + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_norminette(result, nb, size);

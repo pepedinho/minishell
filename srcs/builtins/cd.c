@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/05 21:04:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	change_pwd_in_env(t_info *info)
 		env = env->next;
 	if (env)
 	{
-		free(env->value);
+		ft_free(env->value);
 		env->value = ft_pwd(GET, info);
 	}
 	else
@@ -57,7 +57,7 @@ int	ft_cd(char *directory)
 		if (!message)
 			handle_malloc_error("cd");
 		perror(message);
-		free(message);
+		ft_free(message);
 		info->signal_code = 1;
 	}
 	if (info->signal_code == 0)

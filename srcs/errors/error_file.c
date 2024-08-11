@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:18:55 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:41:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	error_message(char *content)
 	info = info_in_static(NULL, GET);
 	message = ft_sprintf("%s: %s", info->name, content);
 	perror(message);
-	free(message);
+	ft_free(message);
 	info->signal_code = 1;
 	free_and_exit(info->signal_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 23:00:58 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/06 11:36:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_list(t_list *lst) {
 }
 
 void	del_content(void *content) {
-	free(content);
+	ft_free(content);
 }
 
 int	main(void) {

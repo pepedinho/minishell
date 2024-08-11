@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 22:32:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:17:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	free_env(t_env *env)
 	while (env)
 	{
 		buff = (env)->next;
-		free(env->value);
-		free(env->key);
-		free(env);
+		ft_free(env->value);
+		ft_free(env->key);
+		ft_free(env);
 		env = buff;
 	}
-	free(env);
+	ft_free(env);
 }
 
 t_env *search_in_env(char *key)
@@ -78,24 +78,26 @@ t_env	*init_env(char *envp, int cas)
 	t_env	*new;
 	char	**split;
 
-	new = malloc(sizeof(t_env));
+	new = ft_malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
 	split = ft_split(envp, "=");
 	if (!split)
-		return (free(new), NULL);
-	new->key = ft_strdup(split[0]);
-	if (!new->key)
-		return (free(new), ft_free_2d(split), NULL);
-	if (split[1])
-	{
-		new->value = ft_strdup(split[1]);
-		if (!new->value)
-			return (free(new->value), ft_free_2d(split), free(new), NULL);
-	}
-	else
-		new->value = NULL;
-	ft_free_2d(split);
+		return (ft_free(new), NULL);
+	// new->key = ft_strdup(split[0]);
+	// if (!new->key)
+	// 	return (ft_free(new), ft_free_2d(split), NULL);
+	// if (split[1])
+	// {
+	// 	new->value = ft_strdup(split[1]);
+	// 	if (!new->value)
+	// 		return (ft_free(new->value), ft_free_2d(split), ft_free(new), NULL);
+	// }
+	// else
+	// 	new->value = NULL;
+	// ft_free_2d(split);
+	new->key = split[0];
+	new->value = split[1];
 	new->global = cas;
 	new->next = NULL;
 	return (new);
@@ -122,7 +124,7 @@ char	**t_env_to_envp(t_env *env)
 
 	i = 0;
 	len = ft_env_size(env);
-	envp = malloc(sizeof(char *) * (len + 1));
+	envp = ft_malloc(sizeof(char *) * (len + 1));
 	if (!envp)
 		handle_malloc_error("envp");
 	while (i < len)
@@ -147,7 +149,7 @@ t_env	*env_in_struct(char **envp)
 	{
 		new = init_env(envp[i], GLOBAL);
 		if (!new)
-			return (free_env(env), NULL);
+			handle_malloc_error("env initilisation");
 		add_back_env(&env, new);
 		i++;
 	}

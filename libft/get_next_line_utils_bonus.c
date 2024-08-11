@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 16:39:33 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/28 20:39:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,15 @@ char	*ft_format_sortie(char *sortie)
 
 	j = 0;
 	i = ft_strlen_gnl(sortie, 2);
-	str = malloc(sizeof(char) * (i + 1));
+	str = ft_malloc(sizeof(char) * (i + 1));
 	if (!str)
-		return (free(sortie), NULL);
+		return (ft_free(sortie), NULL);
 	while (j < i)
 	{
 		str[j] = sortie[j];
 		++j;
 	}
 	str[j] = '\0';
-	free(sortie);
+	ft_free(sortie);
 	return (str);
 }

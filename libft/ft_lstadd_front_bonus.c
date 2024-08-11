@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 14:05:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/17 18:05:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list) * 1);
+	new = ft_malloc(sizeof(t_list) * 1);
 	if (!new)
 		return (NULL);
 	new->content = content;

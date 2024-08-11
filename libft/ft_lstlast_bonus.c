@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 22:44:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/03/24 23:13:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list) * 1);
+	new = ft_malloc(sizeof(t_list) * 1);
 	if (!new)
 		return (NULL);
 	new->content = content;

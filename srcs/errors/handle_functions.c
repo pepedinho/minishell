@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:41:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:54:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_malloc_error(char *message)
 	t_info	*info;
 
 	info = info_in_static(NULL, GET);
-	ft_fprintf(2, "%s: Error malloc when allocate for %s\n", info->name,
+	ft_fprintf(2, "%s: Error ft_malloc when allocate for %s\n", info->name,
 			message);
 	info->signal_code = ERR_MALLOC;
 	free_and_exit(info->signal_code);
@@ -84,13 +84,13 @@ void	close_fd(t_command_line *queue)
 
 void	free_and_exit(int status_code)
 {
-	t_info			*info;
+	// t_info			*info;
 	t_command_line	*queue;
 
-	info = info_in_static(NULL, GET);
+	// info = info_in_static(NULL, GET);
 	queue = queue_in_static(NULL, GET);
 	close_fd(queue);
-	free_env(info->env);
+	// free_env(info->env);
 	ft_free(DESTROY);
 	exit(status_code);
 }

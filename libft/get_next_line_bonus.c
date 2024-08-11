@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:31:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/06/28 21:13:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*ft_buff_to_all(char *all, char *buff)
 	int		i;
 
 	i = ft_strlen_gnl(all, 1);
-	str = malloc(sizeof(char) * (i + ft_strlen_gnl(buff, 1) + 1));
+	str = ft_malloc(sizeof(char) * (i + ft_strlen_gnl(buff, 1) + 1));
 	if (!str)
-		return (free(all), NULL);
+		return (ft_free(all), NULL);
 	str[0] = '\0';
 	ft_strcpy(str, all);
-	free(all);
+	ft_free(all);
 	ft_strcpy(&str[i], buff);
 	return (str);
 }
@@ -38,7 +38,7 @@ char	*ft_read_file(int fd, char *sortie, char *buff)
 	{
 		nb_read = read(fd, buff, BUFFER_SIZE);
 		if (nb_read == -1)
-			return (free(sortie), NULL);
+			return (ft_free(sortie), NULL);
 		buff[nb_read] = '\0';
 		if (nb_read < BUFFER_SIZE)
 			break ;
@@ -62,7 +62,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (NULL);
-	sortie = malloc(sizeof(char) * (ft_strlen_gnl(stach[fd], 1) + 1));
+	sortie = ft_malloc(sizeof(char) * (ft_strlen_gnl(stach[fd], 1) + 1));
 	if (!sortie)
 		return (stach[fd][0] = '\0', NULL);
 	sortie[0] = '\0';
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 	{
 		stach[fd][0] = '\0';
 		if (sortie[0] == '\0')
-			return (free(sortie), NULL);
+			return (ft_free(sortie), NULL);
 	}
 	return (sortie);
 }
@@ -101,22 +101,22 @@ int	main(void)
 	}
 	line = get_next_line(fd);
 	printf("%s", line);
-	free(line);
+	ft_free(line);
 	line = get_next_line(fd);
 	printf("%s", line);
-	free(line);
+	ft_free(line);
 	line = get_next_line(10);
 	printf("%s", line);
-	free(line);
+	ft_free(line);
 	close(fd);
 	fd = open("read_error.txt", O_RDONLY);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("[%s]\n", line);
-		free(line);
+		ft_free(line);
 	}
 	line = get_next_line(10);
 	printf("%s", line);
-	free(line);
+	ft_free(line);
 	return (0);
 }*/

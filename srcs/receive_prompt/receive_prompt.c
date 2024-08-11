@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 22:42:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:28:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,9 @@ char	*get_prompt(t_info *info)
 
 	if (info->env && search_in_env("PWD") && search_in_env("USER"))
 	{
-		current = info->env;
-		while (current && ft_strcmp(current->key, "PWD"))
-			current = current->next;
-		
+		current = search_in_env("PWD");
 		pwd = current->value;
-		current = info->env;
-		while (current && ft_strcmp(current->key, "USER"))
-			current = current->next;
+		current = search_in_env("USER");
 		hostname = current->value;
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
@@ -217,7 +212,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	// TODO: add error message like bash
 	if (!queue)
 		return (NULL);
-	print_queue(queue);
+	// print_queue(queue);
 	if (global_check(queue) == 0)
 		return (NULL);
 	queue = change_queue(queue);
@@ -275,11 +270,11 @@ char	*ft_readline(t_info *info)
 		g_sigint_received = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
-		free(prompt);
+		/*ft_free(prompt);*/
 		if (!command_line)
 			ft_exit(NULL);
 		else if (ft_strcmp(command_line, "") == 0)
-			(free(command_line));
+			(ft_free(command_line));
 		else
 			break ;
 	}
@@ -287,7 +282,7 @@ char	*ft_readline(t_info *info)
 	if (!prompt)
 		handle_malloc_error("readline");
 	ft_strcpy(prompt, command_line);
-	free(command_line);
+	ft_free(command_line);
 	return (prompt);
 }
 

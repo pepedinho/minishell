@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 20:14:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:41:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,13 @@ void	command(t_element *node, t_info *info)
 	(infile(node, info), outfile(node, info));
 	execve(path, node->args, envp);
 	if (errno == 2)
+	{
 		ft_fprintf(2, "%s: command not found\n", node->content);
+		free_and_exit(127);
+	}
 	else
 		perror(node->content);
-	(free(path), ft_free_2d(envp));
+	// (ft_free(path), ft_free_2d(envp));
 	free_and_exit(errno);
 }
 

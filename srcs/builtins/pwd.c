@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:16:53 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:55:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	error_pwd(char *buffer, t_info *info)
 {
-	free(buffer);
+	ft_free(buffer);
 	if (errno == ENOENT)
 	{
 		ft_fprintf(2, "pwd: error retrieving current directory: ");
@@ -36,13 +36,13 @@ char	*ft_pwd(int cas, t_info *info)
 	while (!check)
 	{
 		size *= 2;
-		buffer = malloc(sizeof(char) * size);
+		buffer = ft_malloc(sizeof(char) * size);
 		if (!buffer)
 			handle_malloc_error("pwd");
 		ft_memset(buffer, 0, size);
 		check = getcwd(buffer, size);
 		if (!check && errno == ERANGE)
-			free(buffer);
+			ft_free(buffer);
 		else if (!check && errno != ERANGE)
 		{
 			error_pwd(buffer, info);
@@ -50,7 +50,7 @@ char	*ft_pwd(int cas, t_info *info)
 		}
 	}
 	if (cas == PRINT)
-		(ft_printf("%s\n", buffer), free(buffer));
+		(ft_printf("%s\n", buffer), ft_free(buffer));
 	info->signal_code = 0;
 	return (buffer);
 }

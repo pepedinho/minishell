@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:54:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	add_in_list(t_info *info, char *content)
 		{
 			// print_env(info->env, 1);
 			// printf("-------------------------------------------------------\n");
-			free(current->value);
+			ft_free(current->value);
 			current->value = ft_strdup(key[1]);
 			flag = 1;
 			// print_env(info->env, 1);

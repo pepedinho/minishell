@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/03 17:41:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:10:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_printf(const char *str, ...)
 
 	if (!str)
 		return (-1);
-	print = malloc(sizeof(char));
+	print = ft_malloc(sizeof(char));
 	if (!print)
 		return (-1);
 	print[0] = '\0';
@@ -73,7 +73,7 @@ char	*ft_sprintf(const char *str, ...)
 
 	if (!str)
 		return (NULL);
-	print = malloc(sizeof(char));
+	print = ft_malloc(sizeof(char));
 	if (!print)
 		return (NULL);
 	print[0] = '\0';
@@ -92,7 +92,7 @@ int	ft_fprintf(int fd, const char *str, ...)
 
 	if (!str)
 		return (-1);
-	print = malloc(sizeof(char));
+	print = ft_malloc(sizeof(char));
 	if (!print)
 		return (-1);
 	print[0] = '\0';
@@ -102,7 +102,7 @@ int	ft_fprintf(int fd, const char *str, ...)
 	if (!print)
 		return (-1);
 	ft_putstr_fd(print, fd);
-	return (va_end(args), free(print), ft_len_print(2));
+	return (va_end(args), /*ft_free(print),*/ ft_len_print(2));
 }
 
 /*int	main(void)

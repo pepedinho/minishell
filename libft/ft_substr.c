@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:47:30 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/19 13:28:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (len >= ft_strlen(s) && start <= ft_strlen(s))
-		str = malloc(sizeof(char) * ((ft_strlen(s) - start) + 1));
+		str = ft_malloc(sizeof(char) * ((ft_strlen(s) - start) + 1));
 	else if (start > ft_strlen(s))
-		str = malloc(sizeof(char) * 1);
+		str = ft_malloc(sizeof(char) * 1);
 	else if (start + len > ft_strlen(s))
-		str = malloc(sizeof(char) * (ft_strlen(s) - start + 1));
+		str = ft_malloc(sizeof(char) * (ft_strlen(s) - start + 1));
 	else
-		str = malloc(sizeof(char) * (len + 1));
+		str = ft_malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	while (i < check && (start <= ft_strlen(s)) && s[start + i])

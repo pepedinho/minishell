@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:22:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/05/19 15:59:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		ft_lstdelone(*lst, del);
 		*lst = buff;
 	}
-	free(*lst);
+	ft_free(*lst);
 	*lst = NULL;
 }
 
 /*static void ft_del_lst(void *lst)
 {
-	free(lst);
+	ft_free(lst);
 }
 
 static t_list	*ft_lstnew1(void *content)
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list) * 1);
+	new = ft_malloc(sizeof(t_list) * 1);
 	if (!new)
 		return (NULL);
 	new->content = content;

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/10 21:47:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ char	*fill_open_quote(char *str)
 			realloc_str[i] = '\0';
 			break ;
 		}
-		free(line);
+		ft_free(line);
 	}
-	return (free(line), str);
+	return (ft_free(line), str);
 }
 
 int	open_file(t_command_line *queue)

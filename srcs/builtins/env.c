@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:30:58 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:54:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 14:32:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,28 @@
 
 void	print_env(t_env *env, int cas, t_info *info)
 {
-	while (env && env->global == GLOBAL)
+	while (env)
 	{
-		if (ft_printf("%s", env->key) == -1)
-			handle_malloc_error("printf env");
-		if (env->value)
+		if (env->global == GLOBAL)
 		{
-			if (cas == 1)
+			if (ft_printf("%s", env->key) == -1)
+				handle_malloc_error("printf env");
+			if (env->value)
 			{
-				if (ft_printf("=%s\n", env->value) == -1)
-					handle_malloc_error("printf env");
+				if (cas == 1)
+				{
+					if (ft_printf("=%s\n", env->value) == -1)
+						handle_malloc_error("printf env");
+				}
+				else if (cas == 2)
+				{
+					if (ft_printf("=\"%s\"\n", env->value) == -1)
+						handle_malloc_error("printf env");
+				}
 			}
-			else if (cas == 2)
-			{
-				if (ft_printf("=\"%s\"\n", env->value) == -1)
-					handle_malloc_error("printf env");
-			}
+			else
+				ft_printf("\n");
 		}
-		else
-			ft_printf("\n");
 		env = env->next;
 	}
 	info->signal_code = EXIT_SUCCESS;

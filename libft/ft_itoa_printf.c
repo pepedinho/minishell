@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_printf.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:33:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/06 12:38:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:07:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_itoa_printf(int nb)
 	base = "0123456789";
 	len_base = ft_strlen1(base);
 	size = ft_size_malloc(nb, len_base);
-	result = malloc(sizeof(char) * (size + 1));
+	result = ft_malloc(sizeof(char) * (size + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_norminette(result, nb, size, base);
@@ -76,7 +76,7 @@ char	*ft_itoa_unsigned(unsigned int nb)
 	base = "0123456789";
 	len_base = ft_strlen1(base);
 	size = ft_size_malloc(nb, len_base);
-	result = malloc(sizeof(char) * (size + 1));
+	result = ft_malloc(sizeof(char) * (size + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_norminette(result, nb, size, base);
@@ -92,7 +92,7 @@ char	*ft_itoa_base(unsigned int nb, char *base)
 
 	len_base = ft_strlen1(base);
 	size = ft_size_malloc_long(nb, len_base);
-	result = malloc(sizeof(char) * (size + 1));
+	result = ft_malloc(sizeof(char) * (size + 1));
 	if (result == NULL)
 		return (NULL);
 	ft_norminette(result, nb, size, base);

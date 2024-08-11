@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/10 22:30:17 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,10 @@ char	*add_more(char *str1, char *str2)
 	tmp = ft_sprintf("%s%s", str2, str1);
 	result = ft_malloc(sizeof(char) * (ft_strlen(tmp) + 1));
 	if (!result)
-		(free(tmp), handle_malloc_error("env"));
+		(ft_free(tmp), handle_malloc_error("env"));
 	ft_strcpy(result, tmp);
-	free(tmp);
-	(free(str1), free(str2));
+	ft_free(tmp);
+	(ft_free(str1), ft_free(str2));
 	return (result);
 }
 
@@ -149,7 +149,7 @@ char	*fill_before(char *str, int *i, int *cnt, t_env *env)
 		j++;
 	if (j)
 	{
-		result = malloc(sizeof(char) * j + 1);
+		result = ft_malloc(sizeof(char) * j + 1);
 		j = 0;
 		while (str[*i + j] && (str[*i + j] != ' ' && !is_a_separator(str[*i
 					+ j]) && str[*i + j] != '$'))
@@ -161,7 +161,7 @@ char	*fill_before(char *str, int *i, int *cnt, t_env *env)
 		*i += j;
 		content = concatenate_var(get_key(str, i), str, i, env);
 		final = ft_sprintf("%s%s", result, content);
-		(free(result), free(content));
+		(ft_free(result), ft_free(content));
 		*cnt += 1;
 		return (final);
 	}
@@ -263,10 +263,8 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 
 char	*add_nl(char *str)
 {
-	int		i;
 	char	*result;
 
-	i = 0;
 	result = ft_sprintf("%s\n", str);
 	// ft_free(str);
 	return (result);

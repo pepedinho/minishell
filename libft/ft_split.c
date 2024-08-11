@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/08/04 19:00:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*ft_norminette(char const *s, int i, int j)
 	char	*str;
 
 	k = 0;
-	str = malloc(sizeof(char) * (j + 1));
+	str = ft_malloc(sizeof(char) * (j + 1));
 	if (str == NULL)
 		return (NULL);
 	while (k < j)
@@ -59,7 +59,7 @@ int	ft_free_split1(char **split, int index)
 	if (split[index] == NULL)
 	{
 		while (index >= 0)
-			free(split[index--]);
+			ft_free(split[index--]);
 		return (0);
 	}
 	return (1);
@@ -100,17 +100,17 @@ char	**ft_split(char *s, char *c)
 
 	if (!s)
 	{
-		split = malloc(sizeof(char *));
+		split = ft_malloc(sizeof(char *));
 		if (!split)
 			return (NULL);
 		split[0] = NULL;
 		return (split);
 	}
-	split = malloc(sizeof(char *) * (ft_count_word(s, c) + 1));
+	split = ft_malloc(sizeof(char *) * (ft_count_word(s, c) + 1));
 	if (split == NULL)
 		return (NULL);
 	if (ft_split_words(split, s, c) == 0)
-		return (free(split), NULL);
+		return (ft_free(split), NULL);
 	return (split);
 }
 
@@ -130,9 +130,9 @@ char	**ft_split(char *s, char *c)
 // 	char *non = test[1];
 // 	if (test[i] == NULL)
 // 		printf("%u", 42);
-// 	free(test);
+// 	ft_free(test);
 // 	printf("oui == %s\n", oui);
 // 	printf("non == %s\n", non);
-// 	free(oui);
-// 	free(non);
+// 	ft_free(oui);
+// 	ft_free(non);
 // }
