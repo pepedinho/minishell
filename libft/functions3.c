@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:02:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:12:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:44:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_pointer(char *print, void *ptr)
 	{
 		print = ft_reallocc(print, ft_strlen1(result) + 2);
 		if (!print)
-			return (/*ft_free(result), */NULL);
+			return (ft_free(result), NULL);
 		print = ft_strcatt(print, "0x");
 		print = ft_strcatt(print, result);
 	}
@@ -63,8 +63,8 @@ char	*ft_pointer(char *print, void *ptr)
 	{
 		print = ft_reallocc(print, 5);
 		if (!print)
-			return (/*ft_free(result), */NULL);
+			return (ft_free(result), NULL);
 		print = ft_strcatt(print, "(nil)");
 	}
-	return (/*ft_free(result), */print);
+	return (ft_free(result), print);
 }

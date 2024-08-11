@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 01:18:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:52:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	subminishell(char **argv, t_info *info, char **envp)
 	info->env = env_in_struct(envp);
 	if (!info->env)
 	{
-		ft_printf("%s: Error ft_malloc with Environement variables\n", info->name);
+		ft_printf("%s: Error ft_malloc with Environement variables\n",
+				info->name);
 		info->signal_code = 105;
 		return ;
 	}

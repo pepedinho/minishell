@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:28:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 17:25:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ char	*get_prompt(t_info *info)
 		hostname = current->value;
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		else
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		return (prompt);
 	}
 	return (ft_sprintf("minishell> "));
@@ -270,7 +272,7 @@ char	*ft_readline(t_info *info)
 		g_sigint_received = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
-		/*ft_free(prompt);*/
+		ft_free(prompt);
 		if (!command_line)
 			ft_exit(NULL);
 		else if (ft_strcmp(command_line, "") == 0)

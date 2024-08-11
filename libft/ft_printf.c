@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:10:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 17:01:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_printf_bis(char *print, const char *str, va_list args)
 			i += 2;
 		}
 		else if (str[i])
-			print = ft_str_to_print(print, str[i++]);
+			print = ft_char(print, str[i++]);
 		if (!print)
 			return (NULL);
 	}

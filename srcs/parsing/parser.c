@@ -309,10 +309,10 @@ char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	return (str);
 }
 
-int check_local_var(char *str)
+int	check_local_var(char *str)
 {
-	t_info *info;
-	t_env *new;
+	t_info	*info;
+	t_env	*new;
 
 	info = info_in_static(NULL, GET);
 	if (ft_strchr(str, '='))
@@ -337,7 +337,6 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 0;
 	k = 0;
-	
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
 		&& !is_a_separator(str[*i + j]))
 		j++;
@@ -451,7 +450,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
+						current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -490,7 +489,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-				current->content);
+					current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

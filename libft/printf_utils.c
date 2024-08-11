@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:59:58 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 01:26:44 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:59:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_putstrr(char *s)
 	if (s)
 	{
 		write(1, s, ft_len_print(2));
-		// ft_free(s);
+		ft_free(s);
 	}
 }
 
@@ -69,9 +69,9 @@ char	*ft_reallocc(char *print, int len_realloc)
 	i = ft_len_print(2);
 	tmp = ft_malloc(sizeof(char) * (i + len_realloc + 1));
 	if (!tmp)
-		return (/*ft_free(print), */NULL);
+		return (ft_free(print), NULL);
 	tmp[0] = '\0';
 	tmp = ft_strcpyy(tmp, print);
-	// ft_free(print);
+	ft_free(print);
 	return (tmp);
 }

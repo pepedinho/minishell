@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:41:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:48:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	command(t_element *node, t_info *info)
 	}
 	else
 		perror(node->content);
-	// (ft_free(path), ft_free_2d(envp));
+	(ft_free(path), ft_free_2d(envp));
 	free_and_exit(errno);
 }
 

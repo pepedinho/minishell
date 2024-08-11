@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:37:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:49:29 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)
 	{
 		dest = ft_realloc(dest, 1);
 		if (!dest)
-			return (/*ft_free(var), */NULL);
+			return (ft_free(var), NULL);
 		dest = ft_strcat(dest, "\0");
 	}
 	return (ft_free(var), dest);
@@ -95,7 +95,7 @@ char	*ft_is_evn_variable(char *line, char **envp)
 			i++;
 		var = ft_create_variable(line, i);
 		if (!var)
-			return (/*ft_free(dest), */NULL);
+			return (ft_free(dest), NULL);
 		i = i + ft_strlen(var) - 1;
 		dest = ft_check_if_variable_exist(envp, var, dest, ft_strlen(var));
 		if (!dest)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 14:37:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 16:43:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*ft_realloc(char *ptr, int len_realloc)
 	tmp = ft_malloc(sizeof(char) * (i + len_realloc + 1));
 	if (!tmp)
 	{
-		// ft_free(ptr);
+		ft_free(ptr);
 		return (NULL);
 	}
 	tmp[0] = '\0';
 	tmp = ft_strcpy(tmp, ptr);
-	// ft_free(ptr);
+	ft_free(ptr);
 	return (tmp);
 }

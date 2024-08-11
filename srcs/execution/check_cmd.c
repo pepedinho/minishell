@@ -119,7 +119,7 @@ int	open_file(t_command_line *queue)
 	t_element	*tmp;
 	int			i;
 	int			j;
-	t_info *info;
+	t_info		*info;
 
 	info = info_in_static(NULL, GET);
 	i = 0;
@@ -151,7 +151,8 @@ int	open_file(t_command_line *queue)
 		{
 			if (tmp->content[0] == '\0')
 			{
-				ft_printf("%s: syntax error near unexpected token `)'\n", info->name);
+				ft_printf("%s: syntax error near unexpected token `)'\n",
+						info->name);
 				queue->u_token_flag = 1;
 				tmp->type = U_TOKEN;
 			}
