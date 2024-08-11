@@ -152,7 +152,7 @@ int	open_file(t_command_line *queue)
 			if (tmp->content[0] == '\0')
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
-						info->name);
+							info->name);
 				queue->u_token_flag = 1;
 				tmp->type = U_TOKEN;
 			}
