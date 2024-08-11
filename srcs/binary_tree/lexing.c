@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 19:04:37 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 18:43:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:43:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ t_tree	*smart_agencement(t_command_line *queue)
 	if (!tree)
 		return (NULL);
 	first_join(tree, queue->first);
-	if (tree->first->type == CMD || tree->first->type == C_BLOCK)
+	if (tree->first->type == CMD || tree->first->type == C_BLOCK
+		|| tree->first->type == LOCAL_VAR)
 		return (tree);
 	current = queue->first->next->next;
 	while (current)

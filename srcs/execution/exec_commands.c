@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 17:39:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:48:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	command(t_element *node, t_info *info)
 	char	*path;
 	char	**envp;
 
-	envp = t_env_to_envp(info->env);
+	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");
 	path = find_path(node->content);
@@ -41,7 +41,7 @@ void	subshell(t_element *node, t_info *info)
 	char	**args;
 	char	**envp;
 
-	envp = t_env_to_envp(info->env);
+	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");
 	args = ft_malloc(sizeof(char *) * 4);
@@ -57,8 +57,23 @@ void	subshell(t_element *node, t_info *info)
 	free_and_exit(errno);
 }
 
+void	local_var(t_element *node, t_info *info)
+{
+	t_env	*new;
+
+	node->content = ft_parse_line(node->content);
+	if (!node->content)
+		handle_malloc_error("local variable");
+	new = init_env(node->content, LOCAL);
+	if (!new)
+		handle_malloc_error("local variable");
+	add_back_env(&info->env, new);
+}
+
 void	exec(t_element *node, t_info *info)
 {
+	if (node->type == LOCAL_VAR)
+		local_var(node, info);
 	if (node->type == AND)
 		and(node, info);
 	if (node->type == OR)

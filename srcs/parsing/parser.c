@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 18:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:26:46 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,8 +352,8 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 		j++;
 	}
 	cmd[j] = '\0';
-	if (check_local_var(str))
-		return (*i += j, 1);
+	// if (check_local_var(str))
+	// 	return (*i += j, 1);
 	if (check_for_var(cmd))
 	{
 		add_env_var(queue, cmd, &k, env);

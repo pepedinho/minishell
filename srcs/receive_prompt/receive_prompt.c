@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 18:17:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:41:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,10 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 	while (current)
 	{
 		next = current->next;
-		if (current->type != CMD && current->type != PIPE
-			&& current->type != AND && current->type != OR
-			&& current->type != LIST && current->type != C_BLOCK)
+		if (current->type != CMD && current->type != LOCAL_VAR
+			&& current->type != PIPE && current->type != AND
+			&& current->type != OR && current->type != LIST
+			&& current->type != C_BLOCK)
 		{
 			if (current->before)
 				current->before->next = next;
