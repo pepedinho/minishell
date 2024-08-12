@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/11 14:55:16 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/12 23:44:01 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ C_FLAGS = -Wall -Wextra -Werror -g3
 
 SRCS_DIR = srcs/
 
-PARSING = $(addprefix parsing/, parser.c queue_functions.c)
+PARSING = $(addprefix parsing/, parser.c queue_functions.c before_parsing.c parser_utils.c expand.c)
 
 GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_funcs.c)
 

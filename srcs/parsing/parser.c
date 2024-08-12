@@ -6,243 +6,12 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/12 22:54:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 00:32:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "parsing.h"
-
-int	is_a_separator(char c)
-{
-	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';')
-		return (1);
-	return (0);
-}
-
-int is_a_quotes(char c)
-{
-	if (c == '"' || c == '\'')
-		return (1);
-	return (0);
-}
-
-int	count_var(char *str, int *i)
-{
-	int	j;
-	int	count;
-
-	j = 0;
-	count = 0;
-	while (str[*i + j] && !is_a_separator(str[*i]))
-	{
-		if (str[*i + j] == '$')
-			count++;
-		j++;
-	}
-	return (count);
-}
-
-int	malloc_size_for_key(char *str, int *i)
-{
-	int	j;
-
-	j = 1;
-	while (str[*i + j] && (str[*i + j] != ' ' && ft_isalpha(str[*i + j])))
-		j++;
-	return (j);
-}
-
-char	*get_key(char *str, int *i)
-{
-	char	*key;
-	int		j;
-
-	if (malloc_size_for_key(str, i))
-	{
-		key = ft_malloc(sizeof(char) * malloc_size_for_key(str, i) + 1);
-		if (!key)
-			return (NULL);
-		j = 1;
-		while (str[*i + j] && (str[*i + j] != ' ' && ft_isalpha(str[*i + j])))
-		{
-			key[j - 1] = str[*i + j];
-			j++;
-		}
-		key[j - 1] = '\0';
-		*i += j;
-		return (key);
-	}
-	return (NULL);
-}
-
-char	*concatenate_var(char *key, char *str, int *i, t_env *env)
-{
-	t_env	*current;
-	char	*rest;
-	int		j;
-	char	*result;
-
-	j = 0;
-	rest = NULL;
-	while (str[*i + j] && (str[*i + j] != ' ' && !is_a_separator(str[*i + j])
-			&& str[*i + j] != '$'))
-		j++;
-	if (j)
-	{
-		rest = ft_malloc(sizeof(char) * j + 1);
-		if (!rest)
-			return (ft_free(key), NULL);
-		j = 0;
-		while (str[*i + j] && (str[*i] != ' ' && !is_a_separator(str[*i + j])
-				&& str[*i + j] != '$'))
-		{
-			rest[j] = str[*i + j];
-			j++;
-		}
-		rest[j] = '\0';
-		current = env;
-		while (current && ft_strcmp(current->key, key))
-			current = current->next;
-		if (current)
-			result = ft_sprintf("%s%s", current->value, rest);
-		else
-			result = ft_sprintf("%s", rest);
-		(ft_free(rest), ft_free(key));
-		*i += j;
-	}
-	else
-	{
-		current = env;
-		while (current && ft_strcmp(current->key, key))
-			current = current->next;
-		if (current)
-			result = ft_strdup(current->value);
-		else
-			result = ft_strdup("");
-	}
-	return (result);
-}
-
-char	*add_more(char *str1, char *str2)
-{
-	char	*result;
-	char	*tmp;
-
-	if (!str1)
-		return (str2);
-	if (!str2)
-		return (str1);
-	tmp = ft_sprintf("%s%s", str2, str1);
-	result = ft_malloc(sizeof(char) * (ft_strlen(tmp) + 1));
-	if (!result)
-		(ft_free(tmp), handle_malloc_error("env"));
-	ft_strcpy(result, tmp);
-	ft_free(tmp);
-	(ft_free(str1), ft_free(str2));
-	return (result);
-}
-
-char	*fill_before(char *str, int *i, int *cnt, t_env *env)
-{
-	char	*result;
-	int		j;
-	char	*content;
-	char	*final;
-
-	j = 0;
-	while (str[*i + j] && (str[*i + j] != ' ' && !is_a_separator(str[*i + j])
-			&& str[*i + j] != '$'))
-		j++;
-	if (j)
-	{
-		result = ft_malloc(sizeof(char) * j + 1);
-		j = 0;
-		while (str[*i + j] && (str[*i + j] != ' ' && !is_a_separator(str[*i
-					+ j]) && str[*i + j] != '$'))
-		{
-			result[j] = str[*i + j];
-			j++;
-		}
-		result[j] = '\0';
-		*i += j;
-		content = concatenate_var(get_key(str, i), str, i, env);
-		final = ft_sprintf("%s%s", result, content);
-		(ft_free(result), ft_free(content));
-		*cnt += 1;
-		return (final);
-	}
-	return (NULL);
-}
-
-int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
-{
-	int		cnt;
-	int		var_nb;
-	char	*key;
-	char	*string;
-	char	*tmp;
-
-	cnt = 0;
-	string = fill_before(str, i, &cnt, env);
-	var_nb = count_var(str, i);
-	if (string)
-		var_nb++;
-	while (cnt < var_nb)
-	{
-		key = get_key(str, i);
-		if (!key)
-			break ;
-		tmp = string;
-		string = concatenate_var(key, str, i, env);
-		string = add_more(string, tmp);
-		cnt++;
-	}
-	if (!add_to_queue(queue, string, ENV, string))
-		handle_malloc_error("env");
-	// *i += 1;
-	return (1);
-}
-
-int	check_for_var(char *str)
-{
-	int	i;
-	int	cnt;
-
-	i = 0;
-	cnt = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			cnt++;
-		i++;
-	}
-	return (cnt);
-}
-
-int	assigne_type(char *redirection, t_command_line *queue)
-{
-	if (!ft_strcmp(redirection, "|"))
-		return (PIPE);
-	if (!ft_strcmp(redirection, "||"))
-		return (OR);
-	if (!ft_strcmp(redirection, ">"))
-		return (R_RED);
-	if (!ft_strcmp(redirection, ">>"))
-		return (RR_RED);
-	if (!ft_strcmp(redirection, "<"))
-		return (L_RED);
-	if (!ft_strcmp(redirection, "<<"))
-		return (LL_RED);
-	if (!ft_strcmp(redirection, "&&"))
-		return (AND);
-	if (!ft_strcmp(redirection, ";") || !ft_strcmp(redirection, "\n"))
-		return (LIST);
-	queue->u_token_flag = 1;
-	if (redirection[0] == '<')
-		return (HU_TOKEN);
-	return (U_TOKEN);
-}
 
 int	add_redirect(t_command_line *queue, char *str, int *i)
 {
@@ -268,185 +37,11 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	return (1);
 }
 
-char	*add_nl(char *str)
-{
-	char	*result;
-
-	result = ft_sprintf("%s\n", str);
-	// ft_free(str);
-	return (result);
-}
-
-char	*add_elem_for_dquotes(t_command_line *queue, char *str, int *i)
-{
-	int		j;
-	char	*cmd;
-	char	*sub_str;
-
-	j = 1;
-	while (str[*i + j] != '"')
-		j++;
-	sub_str = ft_substr(str, *i + 1, j - 1);
-	if (!sub_str)
-		handle_malloc_error("expand variable");
-	sub_str = ft_parse_line(sub_str);
-	cmd = ft_malloc(sizeof(char) * (ft_strlen(sub_str) + 1));
-	if (!cmd)
-		handle_malloc_error("quotes");
-	cmd[0] = '\0';
-	ft_strcpy(cmd, sub_str);
-	if (!add_to_queue(queue, cmd, 1, NULL))
-		handle_malloc_error("env");
-	*i += j + 1;
-	return (str);
-}
-
-char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
-{
-	int		j;
-	char	*sub_str;
-
-	j = 1;
-	while (str[*i + j] != '\'')
-		j++;
-	sub_str = ft_substr(str, *i + 1, j - 1);
-	if (!sub_str)
-		handle_malloc_error("expand variable");
-	if (!add_to_queue(queue, sub_str, 1, NULL))
-		handle_malloc_error("env");
-	*i += j + 1;
-	return (str);
-}
-
-char *fill_if_quote(char *str, int *i, int *j)
-{
-	char *sub_str;
-	char *end_str;
-	int k;
-
-	while (str[*i + *j] && (str[*i + *j] != ' ' || str[*i + *j] == '\t')
-		&& !is_a_separator(str[*i + *j]) && is_a_quotes(str[*i + *j]))
-	{
-		if (str[*i + *j] == '"')
-		{
-			k = 1;
-			while (str[*i + *j + k] != '"')
-				k++;
-			sub_str = ft_substr(str, *i + *j + 1, k - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			sub_str = ft_parse_line(sub_str);
-			end_str = ft_substr(str, *i + *j + k + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[*i + *j] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("quotes");
-			ft_strcat(str, sub_str);
-			ft_strcat(str, end_str);
-			*j += ft_strlen(sub_str);
-		}
-		else if (str[*i + *j] == '\'')
-		{
-			k = 1;
-			while (str[*i + *j + k] != '\'')
-				k++;
-			sub_str = ft_substr(str, *i + *j + 1, k - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			end_str = ft_substr(str, *i + *j + k + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[*i + *j] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("quotes");
-			ft_strcat(str, sub_str);
-			ft_strcat(str, end_str);
-			*j += ft_strlen(sub_str);
-		}
-		(ft_free(sub_str), ft_free(end_str));
-	}
-	return (str);
-}
-
-char *expand_if_necessary(char *str)
-{
-	int i;
-	int j;
-	char *sub_str;
-	char *end_str;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			j = 1;
-			while (str[i + j] != '"')
-				j++;
-			sub_str = ft_substr(str, i + 1, j - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			sub_str = ft_parse_line(sub_str);
-			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		else if (str[i] == '\'')
-		{
-			j = 1;
-			while (str[i + j] != '\'')
-				j++;
-			sub_str = ft_substr(str, i + 1, j - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		else 
-		{
-			j = 0;
-			while (str[i + j] && str[i + j] != '"' && str[i + j] != '\'')
-				j++;
-			sub_str = ft_substr(str, i , j);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			sub_str = ft_parse_line(sub_str);
-			end_str = ft_substr(str, i + j, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		(ft_free(sub_str), ft_free(end_str));
-	}
-	return (str);
-}
-
 int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*cmd;
-	
+
 	j = 0;
 	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
@@ -467,112 +62,38 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	int		j;
 	char	*cmd;
 	int		open_parenthesis;
+	int		close_parenthesis;
 
-	j = 1;
+	j = 0;
 	open_parenthesis = 1;
-	while (str[*i + j])
+	close_parenthesis = 0;
+	while (str[*i + ++j])
 	{
 		if (str[*i + j] == '(')
 			open_parenthesis++;
 		if (str[*i + j] == ')')
-			open_parenthesis--;
-		if (open_parenthesis == 0)
+			close_parenthesis++;
+		if (open_parenthesis - close_parenthesis == 0)
 			break ;
-		j++;
 	}
-	if (!str[*i + j] && open_parenthesis != 0)
-	{
-		queue->open_parenthesis_flag = 1;
-		*i += j;
-		return (NO_END_QUOTE); // handle when quote dosen't end
-	}
-	cmd = ft_malloc(sizeof(char) * (j + 1));
+	if (!str[*i + j] && open_parenthesis - close_parenthesis != 0)
+		return (queue->open_parenthesis_flag = 1, *i += j, NO_END_QUOTE);
+	cmd = ft_substr(str, *i + 1, j - 1);
 	if (!cmd)
 		handle_malloc_error("parenthesis");
-	j = 1;
-	open_parenthesis = 1;
-	while (str[*i + j])
-	{
-		cmd[j - 1] = str[*i + j];
-		if (str[*i + j] == '(')
-			open_parenthesis++;
-		if (str[*i + j] == ')')
-			open_parenthesis--;
-		if (open_parenthesis == 0)
-			break ;
-		j++;
-	}
-	cmd[j - 1] = '\0';
 	if (!add_to_queue(queue, cmd, C_BLOCK, NULL))
 		handle_malloc_error("env");
-	*i += j + 1;
-	return (1);
+	return (*i += j + 1, 1);
 }
 
 char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
-	// else if (str[*i] == '"')
-	// 	str = add_elem_for_dquotes(queue, str, i);
-	// else if (str[*i] == '\'')
-	// 	str = add_elem_for_quotes(queue, str, i);
-	// else if (str[*i] == '$')
-	// 	add_env_var(queue, str, i, env);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
 		add_command(queue, str, i, env);
-	return (str);
-}
-
-char	*quote_or_dquote(char *str, char *prompt)
-{
-	char	*new_line;
-
-	new_line = readline(prompt);
-	str = ft_realloc(str, ft_strlen(new_line) + 1);
-	if (!str)
-		handle_malloc_error(prompt);
-	ft_strcat(str, "\n");
-	ft_strcat(str, new_line);
-	free(new_line);
-	return (str);
-}
-
-char	*check_if_command_line_is_good(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			i++;
-			while (str[i] && str[i] != '"')
-				i++;
-			if (str[i] == '\0')
-			{
-				str = quote_or_dquote(str, "dquote>");
-				i = 0;
-				continue ;
-			}
-		}
-		if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-				i++;
-			if (str[i] == '\0')
-			{
-				str = quote_or_dquote(str, "quote>");
-				i = 0;
-				continue ;
-			}
-		}
-		i++;
-	}
 	return (str);
 }
 
@@ -586,7 +107,7 @@ t_command_line	*parser(char *str, t_env *env)
 	queue = init_queue();
 	i = 0;
 	// TODO keep the command after ':'
-	str = check_if_command_line_is_good(str);
+	str = check_if_command_line_is_good(str, queue);
 	add_history(str);
 	while (str[i])
 	{

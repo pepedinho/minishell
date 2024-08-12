@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/02 21:03:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 00:32:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,11 @@ t_command_line				*queue_in_static(t_command_line *queue, int cas);
 
 // utils
 int							is_a_separator(char c);
+int	assigne_type(char *redirection, t_command_line *queue);
+int is_a_quotes(char c);
+char *expand_if_necessary(char *str);
+
+// Before parsing
+char	*check_if_command_line_is_good(char *str, t_command_line *queue);
 
 #endif
