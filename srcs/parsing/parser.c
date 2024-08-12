@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/12 19:45:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 20:10:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 int	is_a_separator(char c)
 {
 	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';')
+		return (1);
+	return (0);
+}
+
+int is_a_quotes(char c)
+{
+	if (c == '"' || c == '\'')
 		return (1);
 	return (0);
 }
@@ -301,7 +308,7 @@ char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	char	*sub_str;
 
 	j = 1;
-	while (str[*i + j] != '"')
+	while (str[*i + j] != '\'')
 		j++;
 	sub_str = ft_substr(str, *i + 1, j - 1);
 	if (!sub_str)
@@ -347,7 +354,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	k = 0;
 	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
-		&& !is_a_separator(str[*i + j]))
+		&& !is_a_separator(str[*i + j]) && !is_a_quotes(str[*i + j]))
 		j++;
 	if (j == 0)
 		return (1);
@@ -355,7 +362,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	if (!cmd)
 		handle_malloc_error("commands");
 	j = 0;
-	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]))
+	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]) && !is_a_quotes(str[*i + j]))
 	{
 		cmd[j] = str[*i + j];
 		j++;
