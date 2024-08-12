@@ -263,10 +263,8 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 
 char	*add_nl(char *str)
 {
-	int		i;
 	char	*result;
 
-	i = 0;
 	result = ft_sprintf("%s\n", str);
 	// ft_free(str);
 	return (result);
