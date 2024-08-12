@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 16:49:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 21:45:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ char	*find_path(char *command)
 
 int	check_if_fork(t_element *node)
 {
+	if (node->type == LOCAL_VAR)
+		return (0);
 	if ((node->type == CMD && !check_built_in(node->content))
-		|| node->type == PIPE)
+		|| node->type == PIPE || node->type == C_BLOCK)
 		return (1);
 	return (0);
 }
@@ -95,4 +97,16 @@ void	exec_built_in(t_element *node, t_info *info)
 		ft_echo(node->args, info);
 	if (ft_strcmp(node->content, "cd") == 0)
 		info->signal_code = ft_cd(node->args[1]);
+}
+
+void ft_close(int fd)
+{
+	if (fd != -1)
+	{
+		if (close(fd) == -1)
+		{
+			ft_fprintf(2, "Error close\n");
+			free_and_exit(-1);
+		}
+	}
 }

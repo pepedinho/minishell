@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 19:26:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 02:00:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	is_a_separator(char c)
 {
-	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';' || c == '\n')
+	if (c == '>' || c == '<' || c == '|' || c == '&' || c == ';')
 		return (1);
 	return (0);
 }
@@ -191,7 +191,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 		string = add_more(string, tmp);
 		cnt++;
 	}
-	if (!add_to_queue(queue, string, ENV, string))
+	if (!add_to_queue(queue, string, CMD, string))
 		handle_malloc_error("env");
 	// *i += 1;
 	return (1);
@@ -332,11 +332,12 @@ int	check_local_var(char *str)
 int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
-	int		k;
+	// int		k;
 	char	*cmd;
 
 	j = 0;
-	k = 0;
+	// k = 0;
+	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
 		&& !is_a_separator(str[*i + j]))
 		j++;
@@ -354,12 +355,12 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	cmd[j] = '\0';
 	// if (check_local_var(str))
 	// 	return (*i += j, 1);
-	if (check_for_var(cmd))
-	{
-		add_env_var(queue, cmd, &k, env);
-		*i += j;
-		return (1);
-	}
+	// if (check_for_var(cmd))
+	// {
+	// 	add_env_var(queue, cmd, &k, env);
+	// 	*i += j;
+	// 	return (1);
+	// }
 	if (!add_to_queue(queue, cmd, 1, NULL))
 		handle_malloc_error("commands");
 	*i += j;
@@ -417,18 +418,140 @@ char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
-	else if (str[*i] == '"')
-	{
-		str = add_elem_for_quotes(queue, str, i);
-		printf("debug : %s\n", str);
-		return (str);
-	}
-	else if (str[*i] == '$')
-		add_env_var(queue, str, i, env);
+	// else if (str[*i] == '"')
+	// {
+	// 	str = add_elem_for_quotes(queue, str, i);
+	// 	printf("debug : %s\n", str);
+	// 	return (str);
+	// }
+	// else if (str[*i] == '$')
+	// 	add_env_var(queue, str, i, env);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
 		add_command(queue, str, i, env);
+	return (str);
+}
+
+
+char *quote_or_dquote(char *str, char *prompt)
+{
+	char *new_line;
+	
+	new_line = readline(prompt);
+	str = ft_realloc(str, ft_strlen(new_line) + 1);
+	if (!str)
+		handle_malloc_error(prompt);
+	ft_strcat(str, "\n");
+	ft_strcat(str, new_line);
+	free(new_line);
+	return (str);
+}
+
+char *check_if_command_line_is_good(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] && str[i] != '"')
+				i++;
+			if (str[i] == '\0')
+			{
+				str = quote_or_dquote(str, "dquote>");
+				i = 0;
+				continue;
+			}
+		}
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] && str[i] != '\'')
+				i++;
+			if (str[i] == '\0')
+			{
+				str = quote_or_dquote(str, "quote>");
+				i = 0;
+				continue;
+			}
+		}
+		i++;
+	}
+	return (str);
+}
+
+char *expand_if_necessary(char *str)
+{
+	int i;
+	int j;
+	char *sub_str;
+	char *end_str;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+		{
+			j = 1;
+			while (str[i + j] != '"')
+				j++;
+			sub_str = ft_substr(str, i + 1, j - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			sub_str = ft_parse_line(sub_str);
+			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		else if (str[i] == '\'')
+		{
+			j = 1;
+			while (str[i + j] != '\'')
+				j++;
+			sub_str = ft_substr(str, i + 1, j - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		else 
+		{
+			j = 0;
+			while (str[i + j] != '"' && str[i + j] != '\'')
+				j++;
+			sub_str = ft_substr(str, i , j);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			sub_str = ft_parse_line(sub_str);
+			end_str = ft_substr(str, i + j, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		(ft_free(sub_str), ft_free(end_str));
+	}
 	return (str);
 }
 
@@ -442,6 +565,9 @@ t_command_line	*parser(char *str, t_env *env)
 	queue = init_queue();
 	i = 0;
 	// TODO keep the command after ':'
+	str = check_if_command_line_is_good(str);
+	add_history(str);
+	str = expand_if_necessary(str);
 	while (str[i])
 	{
 		skip_white_space(str, &i);

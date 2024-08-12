@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:44:20 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 14:44:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/11 21:31:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	outfile(t_element *node, t_info *info)
 	{
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
-		close(outfile);
+		ft_close(outfile);
 	}
 }
 
@@ -46,6 +46,6 @@ void	infile(t_element *node, t_info *info)
 	{
 		if (dup2(node->infile, STDIN_FILENO) == -1)
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
-		close(node->infile);
+		ft_close(node->infile);
 	}
 }

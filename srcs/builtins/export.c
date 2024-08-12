@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 01:49:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	ft_export(t_info *info, char **content)
 	int	i;
 
 	i = 1;
+	printf("oui\n");
 	while (content[i])
 	{
 		if (add_in_list(info, content[i]) == -1)
