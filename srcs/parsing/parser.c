@@ -191,7 +191,7 @@ int	add_env_var(t_command_line *queue, char *str, int *i, t_env *env)
 		string = add_more(string, tmp);
 		cnt++;
 	}
-	if (!add_to_queue(queue, string, CMD, string))
+	if (!add_to_queue(queue, string, ENV, string))
 		handle_malloc_error("env");
 	// *i += 1;
 	return (1);
@@ -297,21 +297,15 @@ char	*add_elem_for_dquotes(t_command_line *queue, char *str, int *i)
 char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 {
 	int		j;
-	char	*cmd;
 	char	*sub_str;
 
 	j = 1;
-	while (str[*i + j] != '"')
+	while (str[*i + j] != '\'')
 		j++;
 	sub_str = ft_substr(str, *i + 1, j - 1);
 	if (!sub_str)
 		handle_malloc_error("expand variable");
-	cmd = ft_malloc(sizeof(char) * (ft_strlen(sub_str) + 1));
-	if (!cmd)
-		handle_malloc_error("quotes");
-	cmd[0] = '\0';
-	ft_strcpy(cmd, sub_str);
-	if (!add_to_queue(queue, cmd, 1, NULL))
+	if (!add_to_queue(queue, sub_str, 1, NULL))
 		handle_malloc_error("env");
 	*i += j + 1;
 	return (str);
@@ -483,77 +477,6 @@ char	*check_if_command_line_is_good(char *str)
 			}
 		}
 		i++;
-	}
-	return (str);
-}
-
-char	*expand_if_necessary(char *str)
-{
-	int		i;
-	int		j;
-	char	*sub_str;
-	char	*end_str;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			j = 1;
-			while (str[i + j] != '"')
-				j++;
-			sub_str = ft_substr(str, i + 1, j - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			sub_str = ft_parse_line(sub_str);
-			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		else if (str[i] == '\'')
-		{
-			j = 1;
-			while (str[i + j] != '\'')
-				j++;
-			sub_str = ft_substr(str, i + 1, j - 1);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		else
-		{
-			j = 0;
-			while (str[i + j] && str[i + j] != '"' && str[i + j] != '\'')
-				j++;
-			sub_str = ft_substr(str, i, j);
-			if (!sub_str)
-				handle_malloc_error("expand variable");
-			sub_str = ft_parse_line(sub_str);
-			end_str = ft_substr(str, i + j, ft_strlen(str));
-			if (!end_str)
-				handle_malloc_error("expand variable");
-			str[i] = '\0';
-			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
-			if (!str)
-				handle_malloc_error("expand variable");
-			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
-			i += ft_strlen(sub_str);
-		}
-		(ft_free(sub_str), ft_free(end_str));
 	}
 	return (str);
 }
