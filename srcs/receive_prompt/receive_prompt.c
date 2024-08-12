@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/12 01:53:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 22:20:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ char	*get_prompt(t_info *info)
 		hostname = current->value;
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		else
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		return (prompt);
 	}
 	return (ft_sprintf("minishell> "));

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/12 20:10:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 22:54:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,56 +318,144 @@ char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 	return (str);
 }
 
-int	check_local_var(char *str)
+char *fill_if_quote(char *str, int *i, int *j)
 {
-	t_info	*info;
-	t_env	*new;
+	char *sub_str;
+	char *end_str;
+	int k;
 
-	info = info_in_static(NULL, GET);
-	if (ft_strchr(str, '='))
+	while (str[*i + *j] && (str[*i + *j] != ' ' || str[*i + *j] == '\t')
+		&& !is_a_separator(str[*i + *j]) && is_a_quotes(str[*i + *j]))
 	{
-		str = ft_parse_line(str);
-		if (!str)
-			handle_malloc_error("local variable");
-		new = init_env(str, 0);
-		if (!new)
-			handle_malloc_error("local variable");
-		add_back_env(&info->env, new);
-		return (1);
+		if (str[*i + *j] == '"')
+		{
+			k = 1;
+			while (str[*i + *j + k] != '"')
+				k++;
+			sub_str = ft_substr(str, *i + *j + 1, k - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			sub_str = ft_parse_line(sub_str);
+			end_str = ft_substr(str, *i + *j + k + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[*i + *j] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("quotes");
+			ft_strcat(str, sub_str);
+			ft_strcat(str, end_str);
+			*j += ft_strlen(sub_str);
+		}
+		else if (str[*i + *j] == '\'')
+		{
+			k = 1;
+			while (str[*i + *j + k] != '\'')
+				k++;
+			sub_str = ft_substr(str, *i + *j + 1, k - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			end_str = ft_substr(str, *i + *j + k + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[*i + *j] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("quotes");
+			ft_strcat(str, sub_str);
+			ft_strcat(str, end_str);
+			*j += ft_strlen(sub_str);
+		}
+		(ft_free(sub_str), ft_free(end_str));
 	}
-	return (0);
+	return (str);
+}
+
+char *expand_if_necessary(char *str)
+{
+	int i;
+	int j;
+	char *sub_str;
+	char *end_str;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+		{
+			j = 1;
+			while (str[i + j] != '"')
+				j++;
+			sub_str = ft_substr(str, i + 1, j - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			sub_str = ft_parse_line(sub_str);
+			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		else if (str[i] == '\'')
+		{
+			j = 1;
+			while (str[i + j] != '\'')
+				j++;
+			sub_str = ft_substr(str, i + 1, j - 1);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			end_str = ft_substr(str, i + j + 1, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		else 
+		{
+			j = 0;
+			while (str[i + j] && str[i + j] != '"' && str[i + j] != '\'')
+				j++;
+			sub_str = ft_substr(str, i , j);
+			if (!sub_str)
+				handle_malloc_error("expand variable");
+			sub_str = ft_parse_line(sub_str);
+			end_str = ft_substr(str, i + j, ft_strlen(str));
+			if (!end_str)
+				handle_malloc_error("expand variable");
+			str[i] = '\0';
+			str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+			if (!str)
+				handle_malloc_error("expand variable");
+			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
+			i += ft_strlen(sub_str);
+		}
+		(ft_free(sub_str), ft_free(end_str));
+	}
+	return (str);
 }
 
 int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
-	int		k;
 	char	*cmd;
-
+	
 	j = 0;
-	k = 0;
 	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
-		&& !is_a_separator(str[*i + j]) && !is_a_quotes(str[*i + j]))
+		&& !is_a_separator(str[*i + j]))
 		j++;
-	if (j == 0)
-		return (1);
-	cmd = ft_malloc(sizeof(char) * (j + 1));
+	cmd = ft_substr(str, *i, j);
 	if (!cmd)
-		handle_malloc_error("commands");
-	j = 0;
-	while (str[*i + j] && str[*i + j] != ' ' && !is_a_separator(str[*i + j]) && !is_a_quotes(str[*i + j]))
-	{
-		cmd[j] = str[*i + j];
-		j++;
-	}
-	cmd[j] = '\0';
-	if (check_for_var(cmd))
-	{
-		add_env_var(queue, cmd, &k, env);
-		*i += j;
-		return (1);
-	}
+		handle_malloc_error("expand variable");
+	cmd = expand_if_necessary(cmd);
 	if (!add_to_queue(queue, cmd, 1, NULL))
 		handle_malloc_error("commands");
 	*i += j;
@@ -425,12 +513,12 @@ char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
-	else if (str[*i] == '"')
-		str = add_elem_for_dquotes(queue, str, i);
-	else if (str[*i] == '\'')
-		str = add_elem_for_quotes(queue, str, i);
-	else if (str[*i] == '$')
-		add_env_var(queue, str, i, env);
+	// else if (str[*i] == '"')
+	// 	str = add_elem_for_dquotes(queue, str, i);
+	// else if (str[*i] == '\'')
+	// 	str = add_elem_for_quotes(queue, str, i);
+	// else if (str[*i] == '$')
+	// 	add_env_var(queue, str, i, env);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
@@ -500,7 +588,6 @@ t_command_line	*parser(char *str, t_env *env)
 	// TODO keep the command after ':'
 	str = check_if_command_line_is_good(str);
 	add_history(str);
-	// str = expand_if_necessary(str);
 	while (str[i])
 	{
 		skip_white_space(str, &i);
