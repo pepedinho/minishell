@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 17:39:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 23:39:59 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	minishell(t_info *info, char **envp)
 {
 	info_in_static(info, INIT);
 	info->env = env_in_struct(envp);
+	pprint_header();
 	receive_prompt(info);
 	ft_printf("exit\n");
 	rl_clear_history();

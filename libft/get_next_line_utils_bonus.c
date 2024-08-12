@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 16:39:33 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 23:42:22 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_strlen_gnl(char *str, int cas)
 	return (i);
 }
 
-char	*ft_strcpy(char *dest, char *src)
+char	*ft_strcpy_gnl(char *dest, char *src)
 {
 	size_t	*intdest;
 	size_t	*intsrc;
