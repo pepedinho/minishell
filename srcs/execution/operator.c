@@ -53,7 +53,7 @@ void	fork_because_mandatory(t_element *node, t_info *info)
 	(waitpid(pid, &status, 0), exit_status(status, info));
 }
 
-void and (t_element *node, t_info *info)
+void and (t_element * node, t_info *info)
 {
 	if (check_if_fork(node->left))
 		fork_because_mandatory(node->left, info);

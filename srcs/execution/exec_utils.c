@@ -99,7 +99,7 @@ void	exec_built_in(t_element *node, t_info *info)
 		info->signal_code = ft_cd(node->args[1]);
 }
 
-void ft_close(int fd)
+void	ft_close(int fd)
 {
 	if (fd != -1)
 	{

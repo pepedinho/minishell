@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/12 02:00:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/12 19:45:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,39 +270,47 @@ char	*add_nl(char *str)
 	return (result);
 }
 
+char	*add_elem_for_dquotes(t_command_line *queue, char *str, int *i)
+{
+	int		j;
+	char	*cmd;
+	char	*sub_str;
+
+	j = 1;
+	while (str[*i + j] != '"')
+		j++;
+	sub_str = ft_substr(str, *i + 1, j - 1);
+	if (!sub_str)
+		handle_malloc_error("expand variable");
+	sub_str = ft_parse_line(sub_str);
+	cmd = ft_malloc(sizeof(char) * (ft_strlen(sub_str) + 1));
+	if (!cmd)
+		handle_malloc_error("quotes");
+	cmd[0] = '\0';
+	ft_strcpy(cmd, sub_str);
+	if (!add_to_queue(queue, cmd, 1, NULL))
+		handle_malloc_error("env");
+	*i += j + 1;
+	return (str);
+}
+
 char	*add_elem_for_quotes(t_command_line *queue, char *str, int *i)
 {
 	int		j;
 	char	*cmd;
+	char	*sub_str;
 
 	j = 1;
-	while (str[*i + j] && str[*i + j] != '"')
+	while (str[*i + j] != '"')
 		j++;
-	if (!str[*i + j])
-	{
-		str = add_nl(str);
-		if (str[*i + j - 1] != '"')
-		{
-			str = fill_open_quote(str);
-			return (str);
-		}
-		else if (str[*i + j - 1] == '"' && j == 1)
-		{
-			str = fill_open_quote(str);
-			return (str);
-		}
-		// return (NO_END_QUOTE); // handle when quote dosen't end
-	}
-	cmd = ft_malloc(sizeof(char) * (j + 1));
+	sub_str = ft_substr(str, *i + 1, j - 1);
+	if (!sub_str)
+		handle_malloc_error("expand variable");
+	cmd = ft_malloc(sizeof(char) * (ft_strlen(sub_str) + 1));
 	if (!cmd)
 		handle_malloc_error("quotes");
-	j = 1;
-	while (str[*i + j] && str[*i + j] != '"')
-	{
-		cmd[j - 1] = str[*i + j];
-		j++;
-	}
-	cmd[j - 1] = '\0';
+	cmd[0] = '\0';
+	ft_strcpy(cmd, sub_str);
 	if (!add_to_queue(queue, cmd, 1, NULL))
 		handle_malloc_error("env");
 	*i += j + 1;
@@ -332,11 +340,11 @@ int	check_local_var(char *str)
 int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	int		j;
-	// int		k;
+	int		k;
 	char	*cmd;
 
 	j = 0;
-	// k = 0;
+	k = 0;
 	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
 		&& !is_a_separator(str[*i + j]))
@@ -353,14 +361,12 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 		j++;
 	}
 	cmd[j] = '\0';
-	// if (check_local_var(str))
-	// 	return (*i += j, 1);
-	// if (check_for_var(cmd))
-	// {
-	// 	add_env_var(queue, cmd, &k, env);
-	// 	*i += j;
-	// 	return (1);
-	// }
+	if (check_for_var(cmd))
+	{
+		add_env_var(queue, cmd, &k, env);
+		*i += j;
+		return (1);
+	}
 	if (!add_to_queue(queue, cmd, 1, NULL))
 		handle_malloc_error("commands");
 	*i += j;
@@ -418,14 +424,12 @@ char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
-	// else if (str[*i] == '"')
-	// {
-	// 	str = add_elem_for_quotes(queue, str, i);
-	// 	printf("debug : %s\n", str);
-	// 	return (str);
-	// }
-	// else if (str[*i] == '$')
-	// 	add_env_var(queue, str, i, env);
+	else if (str[*i] == '"')
+		str = add_elem_for_dquotes(queue, str, i);
+	else if (str[*i] == '\'')
+		str = add_elem_for_quotes(queue, str, i);
+	else if (str[*i] == '$')
+		add_env_var(queue, str, i, env);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
@@ -433,11 +437,10 @@ char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
 	return (str);
 }
 
-
-char *quote_or_dquote(char *str, char *prompt)
+char	*quote_or_dquote(char *str, char *prompt)
 {
-	char *new_line;
-	
+	char	*new_line;
+
 	new_line = readline(prompt);
 	str = ft_realloc(str, ft_strlen(new_line) + 1);
 	if (!str)
@@ -448,9 +451,9 @@ char *quote_or_dquote(char *str, char *prompt)
 	return (str);
 }
 
-char *check_if_command_line_is_good(char *str)
+char	*check_if_command_line_is_good(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -464,7 +467,7 @@ char *check_if_command_line_is_good(char *str)
 			{
 				str = quote_or_dquote(str, "dquote>");
 				i = 0;
-				continue;
+				continue ;
 			}
 		}
 		if (str[i] == '\'')
@@ -476,7 +479,7 @@ char *check_if_command_line_is_good(char *str)
 			{
 				str = quote_or_dquote(str, "quote>");
 				i = 0;
-				continue;
+				continue ;
 			}
 		}
 		i++;
@@ -484,12 +487,12 @@ char *check_if_command_line_is_good(char *str)
 	return (str);
 }
 
-char *expand_if_necessary(char *str)
+char	*expand_if_necessary(char *str)
 {
-	int i;
-	int j;
-	char *sub_str;
-	char *end_str;
+	int		i;
+	int		j;
+	char	*sub_str;
+	char	*end_str;
 
 	i = 0;
 	while (str[i])
@@ -531,12 +534,12 @@ char *expand_if_necessary(char *str)
 			(ft_strcat(str, sub_str), ft_strcat(str, end_str));
 			i += ft_strlen(sub_str);
 		}
-		else 
+		else
 		{
 			j = 0;
-			while (str[i + j] != '"' && str[i + j] != '\'')
+			while (str[i + j] && str[i + j] != '"' && str[i + j] != '\'')
 				j++;
-			sub_str = ft_substr(str, i , j);
+			sub_str = ft_substr(str, i, j);
 			if (!sub_str)
 				handle_malloc_error("expand variable");
 			sub_str = ft_parse_line(sub_str);
@@ -567,7 +570,7 @@ t_command_line	*parser(char *str, t_env *env)
 	// TODO keep the command after ':'
 	str = check_if_command_line_is_good(str);
 	add_history(str);
-	str = expand_if_necessary(str);
+	// str = expand_if_necessary(str);
 	while (str[i])
 	{
 		skip_white_space(str, &i);
@@ -593,7 +596,7 @@ void	print_queue(t_command_line *queue)
 			printf("|    |___[content] -> ['%s']\n", current->content);
 			if (current->type == ENV)
 				printf("|    |___[env content] -> ['%s']\n",
-						current->env_value);
+					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -632,7 +635,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

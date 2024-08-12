@@ -61,7 +61,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error ft_malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	info->signal_code = ERR_MALLOC;
 	free_and_exit(info->signal_code);
 }

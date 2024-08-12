@@ -33,7 +33,7 @@ void	unexpected_eof(void)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
-			info->name);
+		info->name);
 }
 
 int	find_in_str(char *str, char c)
@@ -157,7 +157,7 @@ int	open_file(t_command_line *queue, t_info *info)
 			if (tmp->content[0] == '\0')
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
-							info->name);
+					info->name);
 				queue->u_token_flag = 1;
 				tmp->type = U_TOKEN;
 			}
