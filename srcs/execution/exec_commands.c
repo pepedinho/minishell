@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 19:15:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 19:18:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ void	only_builtin(t_element *node, t_info *info)
 	int	save_stdin;
 	int	save_stdout;
 
-	if (ft_strcmp(node->content, "exit") == 0)
-		ft_exit(node->args);
 	save_stdin = dup(STDIN_FILENO);
 	save_stdout = dup(STDOUT_FILENO);
 	(infile(node, info), outfile(node, info));
 	exec_built_in(node, info);
+	if (ft_strcmp(node->content, "exit") == 0)
+		ft_exit(node->args);
 	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
 	(ft_close(save_stdin), ft_close(save_stdout));
 }

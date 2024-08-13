@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 18:55:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 20:57:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_element	*create_new_element(int type, char *content)
 	new->next = NULL;
 	new->infile = -1;
 	new->outfile = NULL;
+	new->file_mode = NULL;
 	new->before = NULL;
 	return (new);
 }

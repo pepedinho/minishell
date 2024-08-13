@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_header.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:42 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 00:23:45 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/13 21:05:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ void	pprint_header(void)
 		ft_free(line);
 		line = get_next_line(fd);
 	}
+	ft_close(fd);
 }

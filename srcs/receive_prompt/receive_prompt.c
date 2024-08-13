@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 19:03:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 20:54:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,56 @@ char	**ready_to_exec(t_element *cmd)
 	return (cmd_tab);
 }
 
+char **add_string_char_2d(char **tab, char *str)
+{
+	char **new;
+	int i;
+
+	new = ft_malloc(sizeof(char *) * (ft_strlen_2d(tab) + 1 + 1));
+	if (!new)
+		handle_malloc_error("pasing");
+	i = 0;
+	while (tab && tab[i])
+	{
+		new[i] = ft_strdup(tab[i]);
+		if (!new[i])
+			handle_malloc_error("parsing");
+		i++;
+	}
+	new[i] = ft_strdup(str);
+	if (!new[i])
+		handle_malloc_error("parsing");
+	new[++i] = NULL;
+	ft_free_2d(tab);
+	ft_free(str);
+	return (new);
+}
+
+int *add_int_to_tab(int *tab, int nb, char **char_tab)
+{
+	int *new;
+	int i;
+
+	new = ft_malloc(sizeof(int) * (ft_strlen_2d(char_tab) + 1));
+	if (!new)
+		handle_malloc_error("pasing");
+	i = 0;
+	while (char_tab && char_tab[i])
+	{
+		new[i] = tab[i];
+		i++;
+	}
+	new[i] = nb;
+	ft_free(tab);
+	return (new);
+}
+
 t_command_line	*change_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*tmp;
-	int			file_mode;
-	char		*output;
+	int			*file_mode;
+	char		**output;
 	int			infile;
 
 	infile = -1;
@@ -97,8 +141,8 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			if (current->type == RR_RED || current->type == R_RED)
 			{
-				file_mode = current->type;
-				output = current->next->content;
+				file_mode = add_int_to_tab(file_mode, current->type, output);
+				output = add_string_char_2d(output, current->next->content);
 			}
 			else if (current->type == L_RED || current->type == LL_RED)
 			{
@@ -123,8 +167,8 @@ t_command_line	*change_queue(t_command_line *queue)
 			{
 				if (current->type == RR_RED || current->type == R_RED)
 				{
-					tmp->file_mode = current->type;
-					tmp->outfile = current->next->content;
+					tmp->file_mode = add_int_to_tab(tmp->file_mode, current->type, tmp->outfile);
+					tmp->outfile = add_string_char_2d(tmp->outfile, current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
@@ -154,24 +198,22 @@ void	queue_add_back(t_command_line **queue, t_command_line *new)
 t_command_line	*remove_in_queue(t_command_line *queue)
 {
 	t_element		*current;
-	t_element		*next;
 	t_command_line	*tmp_queue;
 
 	current = queue->first;
 	while (current)
 	{
-		next = current->next;
 		if (current->type != CMD && current->type != LOCAL_VAR
 			&& current->type != PIPE && current->type != AND
 			&& current->type != OR && current->type != LIST
 			&& current->type != C_BLOCK)
 		{
 			if (current->before)
-				current->before->next = next;
+				current->before->next = current->next;
 			else
-				queue->first = next;
-			if (next)
-				next->before = current->before;
+				queue->first = current->next;
+			if (current->next)
+				current->next->before = current->before;
 		}
 		if (current->type == LIST)
 		{
@@ -182,7 +224,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			queue_add_back(&queue, tmp_queue);
 			current->before->next = NULL;
 		}
-		current = next;
+		current = current->next;
 	}
 	return (queue);
 }

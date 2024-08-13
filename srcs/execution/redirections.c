@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:44:20 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 21:31:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 21:02:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,28 @@
 void	outfile(t_element *node, t_info *info)
 {
 	int	outfile;
+	int i;
 
+	i = 0;
 	outfile = -1;
 	if (node->outfile)
 	{
-		if (node->file_mode == R_RED)
+		while (node->outfile[i])
 		{
-			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (outfile == -1)
-				error_message(node->outfile);
-		}
-		else if (node->file_mode == RR_RED)
-		{
-			outfile = open(node->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (outfile == -1)
-				error_message(node->outfile);
+			ft_close(outfile);
+			if (node->file_mode[i] == R_RED)
+			{
+				outfile = open(node->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (outfile == -1)
+					error_message(node->outfile[i]);
+			}
+			else if (node->file_mode[i] == RR_RED)
+			{
+				outfile = open(node->outfile[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (outfile == -1)
+					error_message(node->outfile[i]);
+			}
+			i++;
 		}
 	}
 	if (outfile != -1)
