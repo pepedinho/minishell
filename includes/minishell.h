@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 18:58:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:08:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 # define CMD 1
 # define SFX 2

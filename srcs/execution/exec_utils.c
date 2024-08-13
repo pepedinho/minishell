@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 21:21:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:26:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ int	check_built_in(char *command)
 	return (0);
 }
 
+int ft_access(char *path)
+{
+	int check_stat;
+	struct stat sb;
+
+	check_stat = stat(path, &sb);
+	if (check_stat == -1)
+		return(-1);
+	if (access(path, F_OK | X_OK) == 0 &&  S_ISREG(sb.st_mode))
+		return (0);
+	return (-1);
+}
+
 char	*find_path(char *command, t_info *info)
 {
 	int		i;
@@ -37,7 +50,7 @@ char	*find_path(char *command, t_info *info)
 	t_env *current;
 
 	i = 0;
-	if (access(command, F_OK) == 0)
+	if (ft_access(command) == 0)
 		return (command);
 	current = info->env;
 	while (current && ft_strcmp(current->key, "PATH") != 0)
@@ -48,7 +61,7 @@ char	*find_path(char *command, t_info *info)
 		while (split[i])
 		{
 			path = ft_sprintf("%s/%s", split[i], command);
-			if (access(path, F_OK) == 0)
+			if (ft_access(path) == 0 )
 				return (ft_free_2d(split), path);
 			(ft_free(path), i++);
 		}
