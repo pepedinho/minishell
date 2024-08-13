@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 00:32:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:59:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@
 typedef struct s_element
 {
 	int						type;
-	int						relative_type;
 	char					*content;
 	int						infile;
-	int						outfile_fd;
 	char					*env_value;
-	char					*path;
 	struct s_element		*left;
 	struct s_element		*right;
 	char					**args;
@@ -70,7 +67,7 @@ typedef struct s_command_line
 // queue functions
 t_command_line				*init_queue(void);
 t_element					*add_to_queue(t_command_line *queue, char *content,
-								int type, char *env_value);
+								int type);
 void						free_queue(t_command_line *queue);
 t_command_line				*parser(char *str, t_env *env);
 void						print_queue(t_command_line *queue);
@@ -81,6 +78,7 @@ int							is_a_separator(char c);
 int	assigne_type(char *redirection, t_command_line *queue);
 int is_a_quotes(char c);
 char *expand_if_necessary(char *str);
+int	is_redirection(t_element *elem);
 
 // Before parsing
 char	*check_if_command_line_is_good(char *str, t_command_line *queue);

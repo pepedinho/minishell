@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:28:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/12 23:29:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:56:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ int	assigne_type(char *redirection, t_command_line *queue)
 	if (redirection[0] == '<')
 		return (HU_TOKEN);
 	return (U_TOKEN);
+}
+
+int	is_redirection(t_element *elem)
+{
+	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED)
+		return (1);
+	return (0);
 }

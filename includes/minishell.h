@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 19:31:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:58:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@
 # define U_TOKEN 5
 # define HU_TOKEN 51
 # define C_BLOCK 6
-# define ENV 7
 # define LOCAL_VAR 7
 
 # define INIT 0

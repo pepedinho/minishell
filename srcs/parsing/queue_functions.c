@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/11 19:54:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:55:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,74 +30,79 @@ t_command_line	*init_queue(void)
 	return (new);
 }
 
-static int	is_redirection(t_element *elem)
-{
-	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED)
-		return (1);
-	return (0);
-}
-
-t_element	*add_to_queue(t_command_line *queue, char *content, int type,
-		char *env_value)
+t_element	*create_new_element(int type, char *content)
 {
 	t_element	*new;
-	t_element	*current;
-	t_element	*tmp;
 
 	new = ft_malloc(sizeof(t_element));
 	if (!new)
 		handle_malloc_error("queues");
 	new->type = type;
-	new->env_value = NULL;
 	new->content = content;
 	new->next = NULL;
-	new->path = NULL;
-	new->args = NULL;
 	new->infile = -1;
 	new->outfile = NULL;
 	new->before = NULL;
-	if (type == ENV)
-		new->env_value = env_value;
+	return (new);
+}
+
+void	check_if_command_before(t_element *tmp, t_element *new)
+{
+	while (tmp && !is_a_redirect(tmp->type))
+	{
+		if (tmp->type == CMD)
+		{
+			new->type = SFX;
+			break ;
+		}
+		else
+			new->type = CMD;
+		tmp = tmp->before;
+	}
+}
+
+void	if_not_the_first(t_command_line *queue, t_element *new, int type)
+{
+	t_element	*tmp;
+	t_element	*current;
+
+	current = queue->first;
+	while (current->next)
+		current = current->next;
+	if (type == CMD && is_redirection(current))
+		new->type = FILE;
+	else if (type == CMD && current->type == LL_RED)
+	{
+		new->type = H_FILE;
+		queue->heredoc_flag = 1;
+	}
+	else if (type == CMD)
+	{
+		tmp = current;
+		check_if_command_before(tmp, new);
+	}
+	new->before = current;
+	current->next = new;
+}
+
+t_element	*add_to_queue(t_command_line *queue, char *content, int type)
+{
+	t_element	*new;
+	t_element	*current;
+
+	new = create_new_element(type, content);
 	if (type == HU_TOKEN)
 		queue->u_heredoc_token_flag = 1;
 	if (!queue->first)
-	{
 		queue->first = new;
-		queue->last = new;
-	}
 	else
 	{
 		current = queue->first;
 		while (current->next)
-		{
 			current = current->next;
-		}
-		if (type == CMD && is_redirection(current))
-			new->type = FILE;
-		else if (type == CMD && current->type == LL_RED)
-		{
-			new->type = H_FILE;
-			queue->heredoc_flag = 1;
-		}
-		else if (type == CMD || type == ENV)
-		{
-			tmp = current;
-			while (tmp && !is_a_redirect(tmp->type))
-			{
-				if (tmp->type == CMD)
-				{
-					new->type = SFX;
-					break ;
-				}
-				else
-					new->type = CMD;
-				tmp = tmp->before;
-			}
-		}
-		new->before = current;
-		current->next = new;
-		queue->last = new;
+		if_not_the_first(queue, new, type);
 	}
+	queue->last = new;
 	if (new->type == CMD && ft_strchr(new->content, '='))
 		new->type = LOCAL_VAR;
 	return (new);

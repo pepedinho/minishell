@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 00:32:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 19:00:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 		redirection[j] = str[*i + j];
 	redirection[j] = '\0';
 	type = assigne_type(redirection, queue);
-	add_to_queue(queue, redirection, type, NULL);
+	add_to_queue(queue, redirection, type);
 	*i += j;
 	return (1);
 }
@@ -51,7 +51,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	if (!cmd)
 		handle_malloc_error("expand variable");
 	cmd = expand_if_necessary(cmd);
-	if (!add_to_queue(queue, cmd, 1, NULL))
+	if (!add_to_queue(queue, cmd, CMD))
 		handle_malloc_error("commands");
 	*i += j;
 	return (1);
@@ -81,7 +81,7 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	cmd = ft_substr(str, *i + 1, j - 1);
 	if (!cmd)
 		handle_malloc_error("parenthesis");
-	if (!add_to_queue(queue, cmd, C_BLOCK, NULL))
+	if (!add_to_queue(queue, cmd, C_BLOCK))
 		handle_malloc_error("env");
 	return (*i += j + 1, 1);
 }
@@ -112,7 +112,8 @@ t_command_line	*parser(char *str, t_env *env)
 	while (str[i])
 	{
 		skip_white_space(str, &i);
-		str = add_elem(queue, str, &i, env);
+		if (str[i])
+			str = add_elem(queue, str, &i, env);
 	}
 	queue = queue_in_static(queue, INIT);
 	return (queue);
@@ -132,9 +133,6 @@ void	print_queue(t_command_line *queue)
 			printf("|\n");
 			printf("|__[%d]\n", i);
 			printf("|    |___[content] -> ['%s']\n", current->content);
-			if (current->type == ENV)
-				printf("|    |___[env content] -> ['%s']\n",
-					current->env_value);
 			printf("|    |___[type] -> [%d]\n", current->type);
 			if (current->type)
 			{
@@ -164,8 +162,6 @@ void	print_queue(t_command_line *queue)
 					printf("|             |____[List]\n");
 				else if (current->type == FILE)
 					printf("|             |____[File]\n");
-				else if (current->type == ENV)
-					printf("|             |____[Env arg]\n");
 			}
 		}
 		else

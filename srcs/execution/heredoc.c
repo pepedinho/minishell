@@ -6,31 +6,11 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 18:42:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:18:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*ft_parse_line(char *line)
-{
-	char	*dest;
-	char	**envp;
-	t_info	*info;
-
-	info = info_in_static(NULL, GET);
-	dest = ft_strchr(line, '$');
-	if (!dest)
-		return (line);
-	envp = t_env_to_envp(info->env, ALL);
-	if (!envp)
-		handle_malloc_error("heredoc");
-	dest = ft_is_evn_variable(line, envp);
-	ft_free_2d(envp);
-	if (!dest)
-		handle_malloc_error("heredoc");
-	return (ft_free(line), dest);
-}
 
 void	heredoc_bis(t_element *tmp, int *fd)
 {

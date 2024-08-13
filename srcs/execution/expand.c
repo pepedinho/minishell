@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 16:49:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:18:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,24 @@ char	*ft_is_evn_variable(char *line, char **envp)
 			return (NULL);
 	}
 	return (dest);
+}
+
+char	*ft_parse_line(char *line)
+{
+	char	*dest;
+	char	**envp;
+	t_info	*info;
+
+	info = info_in_static(NULL, GET);
+	dest = ft_strchr(line, '$');
+	if (!dest)
+		return (line);
+	envp = t_env_to_envp(info->env, ALL);
+	if (!envp)
+		handle_malloc_error("heredoc");
+	dest = ft_is_evn_variable(line, envp);
+	ft_free_2d(envp);
+	if (!dest)
+		handle_malloc_error("heredoc");
+	return (ft_free(line), dest);
 }
