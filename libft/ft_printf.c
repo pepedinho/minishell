@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 17:01:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 21:22:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*ft_sprintf(const char *str, ...)
 	va_start(args, str);
 	print = ft_printf_bis(print, str, args);
 	if (!print)
-		return (NULL);
+		handle_malloc_error("sprintf");
 	return (va_end(args), print);
 }
 

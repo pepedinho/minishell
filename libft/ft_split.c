@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/08/11 01:12:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 21:22:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ char	**ft_split(char *s, char *c)
 	{
 		split = ft_malloc(sizeof(char *));
 		if (!split)
-			return (NULL);
+			handle_malloc_error("split");
 		split[0] = NULL;
 		return (split);
 	}
 	split = ft_malloc(sizeof(char *) * (ft_count_word(s, c) + 1));
 	if (split == NULL)
-		return (NULL);
+		handle_malloc_error("split");
 	if (ft_split_words(split, s, c) == 0)
-		return (ft_free(split), NULL);
+		handle_malloc_error("split");
 	return (split);
 }
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 19:18:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 21:17:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	command(t_element *node, t_info *info)
 	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");
-	path = find_path(node->content);
+	path = find_path(node->content, info);
 	if (path == NULL)
 		handle_malloc_error("path");
 	(infile(node, info), outfile(node, info));

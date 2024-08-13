@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 21:45:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 21:21:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,32 @@ int	check_built_in(char *command)
 	return (0);
 }
 
-char	*find_path(char *command)
+char	*find_path(char *command, t_info *info)
 {
 	int		i;
 	char	*path;
-	char	*envp;
 	char	**split;
+	t_env *current;
 
 	i = 0;
 	if (access(command, F_OK) == 0)
-		return (ft_strdup(command));
-	envp = getenv("PATH");
-	if (!envp)
-		return (ft_strdup(command));
-	split = ft_split(envp, ":");
-	if (!split)
-		handle_malloc_error("path");
-	while (split[i])
+		return (command);
+	current = info->env;
+	while (current && ft_strcmp(current->key, "PATH") != 0)
+		current = current->next;
+	if (current)
 	{
-		path = ft_sprintf("%s/%s", split[i], command);
-		if (!path)
-			handle_malloc_error("path");
-		if (access(path, F_OK) == 0)
-			return (ft_free_2d(split), path);
-		ft_free(path);
-		i++;
+		split = ft_split(current->value, ":");
+		while (split[i])
+		{
+			path = ft_sprintf("%s/%s", split[i], command);
+			if (access(path, F_OK) == 0)
+				return (ft_free_2d(split), path);
+			(ft_free(path), i++);
+		}
+		ft_free_2d(split);
 	}
-	return (ft_strdup(command));
+	return (command);
 }
 
 int	check_if_fork(t_element *node)
