@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 18:18:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:51:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)
 	int	index;
 
 	index = 0;
+	if (var[0] == '=')
+	{
+		dest = ft_realloc(dest, 2);
+		if (!dest)
+			return (ft_free(var), NULL);
+		return (ft_strcat(dest, "$"), ft_free(var), dest);
+	}
 	while (envp[index])
 	{
 		if (ft_strncmp(var, envp[index], j) == 0)
@@ -61,19 +68,14 @@ char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)
 			dest = ft_realloc(dest, ft_strlen(&envp[index][j]));
 			if (!dest)
 				return (ft_free(var), NULL);
-			ft_strcat(dest, &envp[index][j]);
-			break ;
+			return (ft_strcat(dest, &envp[index][j]), ft_free(var), dest);
 		}
 		index++;
 	}
-	if (!envp[index])
-	{
-		dest = ft_realloc(dest, 1);
-		if (!dest)
-			return (ft_free(var), NULL);
-		dest = ft_strcat(dest, "\0");
-	}
-	return (ft_free(var), dest);
+	dest = ft_realloc(dest, 1);
+	if (!dest)
+		return (ft_free(var), NULL);
+	return (dest = ft_strcat(dest, "\0"), ft_free(var), dest);
 }
 
 char	*ft_is_evn_variable(char *line, char **envp)

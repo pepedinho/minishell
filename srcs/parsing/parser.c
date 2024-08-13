@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 19:00:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:37:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,21 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	(void)env;
 	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
 		&& !is_a_separator(str[*i + j]))
+	{
+		if (str[*i + j] == '"')
+		{
+			j++;
+			while (str[*i + j] != '"')
+				j++;
+		}
+		if (str[*i + j] == '\'')
+		{
+			j++;
+			while (str[*i + j] != '\'')
+				j++;
+		}
 		j++;
+	}
 	cmd = ft_substr(str, *i, j);
 	if (!cmd)
 		handle_malloc_error("expand variable");

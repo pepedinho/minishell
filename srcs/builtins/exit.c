@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 15:31:28 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/04 21:54:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:29:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_exit(char **args)
 		if (!args[2])
 			free_and_exit((unsigned char)ft_atoi(args[1]));
 		ft_fprintf(2, "%s: exit: too many arguments\n", info->name);
+		info->signal_code = 1;
 		return ;
 	}
 	free_and_exit(info->signal_code);
