@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 18:19:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/14 18:22:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	change_pwd_in_env(t_info *info)
 {
 	t_env	*env;
 	char	*pwd;
-	char	*envp;
 
 	env = info->env;
 	while (ft_strcmp(env->key, "PWD") != 0)
