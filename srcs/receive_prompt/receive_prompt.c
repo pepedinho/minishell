@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 00:12:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/14 23:43:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_command_line	*change_queue(t_command_line *queue)
 	current = queue->first;
 	while (current)
 	{
-		while (current && current->type != CMD)
+		while (current && current->type != CMD && current->type != C_BLOCK)
 		{
 			if (current->type == RR_RED || current->type == R_RED)
 			{
@@ -158,7 +158,7 @@ t_command_line	*change_queue(t_command_line *queue)
 			tmp->outfile = output;
 			tmp->file_mode = file_mode;
 		}
-		if (current && current->type == CMD)
+		if (current && (current->type == CMD || current->type == C_BLOCK))
 		{
 			current->args = ready_to_exec(current);
 			current = current->next;
@@ -252,7 +252,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	queue = parser(command_line, info->env);
 	if (!queue)
 		return (NULL);
-	print_queue(queue);
+	// print_queue(queue);
 	if (global_check(queue, info) == 0)
 		return (NULL);
 	queue = change_queue(queue);

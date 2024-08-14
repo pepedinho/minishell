@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 22:37:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/14 22:02:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 			while (str[*i + j] != '"')
 				j++;
 		}
-		if (str[*i + j] == '\'')
+		else if (str[*i + j] == '\'')
 		{
 			j++;
 			while (str[*i + j] != '\'')

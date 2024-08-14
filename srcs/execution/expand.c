@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 22:51:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/14 22:23:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_create_variable(char *line, int i)
 	char	*var;
 
 	j = 0;
-	while (line[i + j] && ft_isalnum(line[i + j]) != 0)
+	while (line[i + j] && (ft_isalnum(line[i + j]) != 0 || line[i + j] == '?'))
 		j++;
 	var = ft_malloc(sizeof(char) * (j + 2));
 	if (!var)
@@ -52,9 +52,20 @@ char	*ft_create_variable(char *line, int i)
 char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)
 {
 	int	index;
+	t_info *info;
 
+	
+	info = info_in_static(NULL, GET);
 	index = 0;
-	if (var[0] == '=')
+	if (ft_strcmp(var, "?=") == 0)
+	{
+		var = ft_itoa(info->signal_code);
+		dest = ft_realloc(dest, ft_strlen(var));
+		if (!dest)
+			return (ft_free(var), NULL);
+		return (ft_strcat(dest, var), ft_free(var), dest);
+	}
+	else if (var[0] == '=')
 	{
 		dest = ft_realloc(dest, 2);
 		if (!dest)

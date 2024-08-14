@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 22:26:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/14 23:54:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	command(t_element *node, t_info *info)
 	else
 		perror(node->content);
 	(ft_free(path), ft_free_2d(envp));
-	free_and_exit(errno);
+	free_and_exit(126);
 }
 
 void	subshell(t_element *node, t_info *info)
@@ -41,6 +41,7 @@ void	subshell(t_element *node, t_info *info)
 	char	**args;
 	char	**envp;
 
+	
 	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");
@@ -51,6 +52,7 @@ void	subshell(t_element *node, t_info *info)
 	args[1] = ft_strdup("-c");
 	args[2] = ft_strdup(node->content);
 	args[3] = NULL;
+	(infile(node, info), outfile(node, info));
 	execve("./minishell", args, envp);
 	ft_free_2d(args);
 	ft_free_2d(envp);
