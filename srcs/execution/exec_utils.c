@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 01:03:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 01:44:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_if_fork(t_element *node)
 	if (node->type == LOCAL_VAR)
 		return (0);
 	if ((node->type == CMD && !check_built_in(node->content))
-		|| node->type == PIPE || node->type == C_BLOCK)
+	 || node->type == C_BLOCK)
 		return (1);
 	return (0);
 }

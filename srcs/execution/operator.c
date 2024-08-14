@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:39:21 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 21:43:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 01:42:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_pipe(t_element *node, t_info *info)
 	if (pid[1] == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
-		(close(fd[0]), close(fd[1]));
+		(ft_close(fd[0]), ft_close(fd[1]));
 		(exec(node->right, info), free_and_exit(info->signal_code));
 	}
 	(ft_close(fd[0]), ft_close(fd[1]));
