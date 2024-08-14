@@ -51,10 +51,9 @@ char	*ft_create_variable(char *line, int i)
 
 char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)
 {
-	int	index;
-	t_info *info;
+	int		index;
+	t_info	*info;
 
-	
 	info = info_in_static(NULL, GET);
 	index = 0;
 	if (ft_strcmp(var, "?=") == 0)

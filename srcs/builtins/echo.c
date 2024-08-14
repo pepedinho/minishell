@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-int all_char_are_the_same(char *str)
+int	all_char_are_the_same(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i + 1])
@@ -26,12 +26,13 @@ int all_char_are_the_same(char *str)
 	return (1);
 }
 
-int if_option(char **args,  int *i)
+int	if_option(char **args, int *i)
 {
-	int j;
+	int	j;
 
 	j = 0;
-	while (args[*i][0] == '-' && args[*i][1] == 'n' && all_char_are_the_same(&args[*i][1]))
+	while (args[*i][0] == '-' && args[*i][1] == 'n'
+		&& all_char_are_the_same(&args[*i][1]))
 	{
 		(*i)++;
 		j++;

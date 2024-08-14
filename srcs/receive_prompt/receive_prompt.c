@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 23:43:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 01:03:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ char	*get_prompt(t_info *info)
 		hostname = current->value;
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		else
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-					hostname, pwd);
+								hostname,
+								pwd);
 		return (prompt);
 	}
 	return (ft_sprintf("minishell> "));
@@ -79,10 +81,10 @@ char	**ready_to_exec(t_element *cmd)
 	return (cmd_tab);
 }
 
-char **add_string_char_2d(char **tab, char *str)
+char	**add_string_char_2d(char **tab, char *str)
 {
-	char **new;
-	int i;
+	char	**new;
+	int		i;
 
 	new = ft_malloc(sizeof(char *) * (ft_strlen_2d(tab) + 1 + 1));
 	if (!new)
@@ -104,10 +106,10 @@ char **add_string_char_2d(char **tab, char *str)
 	return (new);
 }
 
-int *add_int_to_tab(int *tab, int nb, char **char_tab)
+int	*add_int_to_tab(int *tab, int nb, char **char_tab)
 {
-	int *new;
-	int i;
+	int	*new;
+	int	i;
 
 	new = ft_malloc(sizeof(int) * (ft_strlen_2d(char_tab) + 1));
 	if (!new)
@@ -131,12 +133,12 @@ t_command_line	*change_queue(t_command_line *queue)
 	char		**output;
 	int			infile;
 
-	infile = -1;
-	output = NULL;
-	file_mode = 0;
 	current = queue->first;
 	while (current)
 	{
+		infile = -1;
+		output = NULL;
+		file_mode = 0;
 		while (current && current->type != CMD && current->type != C_BLOCK)
 		{
 			if (current->type == RR_RED || current->type == R_RED)
@@ -167,8 +169,10 @@ t_command_line	*change_queue(t_command_line *queue)
 			{
 				if (current->type == RR_RED || current->type == R_RED)
 				{
-					tmp->file_mode = add_int_to_tab(tmp->file_mode, current->type, tmp->outfile);
-					tmp->outfile = add_string_char_2d(tmp->outfile, current->next->content);
+					tmp->file_mode = add_int_to_tab(tmp->file_mode,
+							current->type, tmp->outfile);
+					tmp->outfile = add_string_char_2d(tmp->outfile,
+							current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{

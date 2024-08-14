@@ -41,7 +41,6 @@ void	subshell(t_element *node, t_info *info)
 	char	**args;
 	char	**envp;
 
-	
 	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");

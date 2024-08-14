@@ -13,9 +13,9 @@
 #include "../../includes/minishell.h"
 #include <unistd.h>
 
-void change_old_pwd_in_env(t_info *info, char *old_pwd)
+void	change_old_pwd_in_env(t_info *info, char *old_pwd)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = info->env;
 	while (ft_strcmp(env->key, "OLDPWD") != 0)
