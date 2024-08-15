@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 05:39:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 15:29:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,6 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	t_command_line	*queue;
 	t_tree			*tree;
 
-	sigaction_signals();
 	queue = parsing(command_line, info);
 	if (!queue)
 		return ;
@@ -311,7 +310,7 @@ char	*ft_readline(t_info *info)
 
 	while (1)
 	{
-		g_sigint_received = 0;
+		g_signal = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
 		ft_free(prompt);
@@ -338,7 +337,7 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
-		sigaction_signals();
+		sigaction_signals(SIGQUIT, SIG_IGN);
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
 		if (!queue)

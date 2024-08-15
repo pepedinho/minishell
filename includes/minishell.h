@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 03:39:36 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:55:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 
 # define ERR_MALLOC 105
 
-extern volatile sig_atomic_t	g_sigint_received;
+extern volatile sig_atomic_t	g_signal;
 
 t_tree							*smart_agencement(t_command_line *queue);
 

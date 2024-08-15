@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 00:15:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 15:15:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "environement/env.h"
 #include "receive_prompt/prompt.h"
 
-volatile sig_atomic_t	g_sigint_received = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 t_info	*info_in_static(t_info *info, int cas)
 {
@@ -64,7 +64,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_info	info;
 
-	sigaction_signals();
+	sigaction_signals(SIGINT, handle_signal_parent);
+	sigaction_signals(SIGQUIT, handle_signal_parent);
+	sigaction_signals(SIGCHLD, sigchld_handler);
 	info.signal_code = 0;
 	info.name = "minishell";
 	info.env = NULL;
