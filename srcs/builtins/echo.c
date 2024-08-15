@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 10:15:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 10:34:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void	ft_echo(char **args, t_info *info)
 		{
 			while (args[i])
 			{
-				if (ft_strcmp(args[i], "$?") == 0)
-					printf("%d", info->signal_code);
-				else 
-					printf("%s", args[i]);
+				printf("%s", args[i]);
 				if (args[i + 1])
 					printf(" ");
 				i++;
@@ -64,10 +61,7 @@ void	ft_echo(char **args, t_info *info)
 		{
 			while (args[i])
 			{
-				if (ft_strcmp(args[i], "$?") == 0)
-					printf("%d", info->signal_code);
-				else 
-					printf("%s", args[i]);
+				printf("%s", args[i]);
 				if (args[i + 1])
 					printf(" ");
 				i++;
