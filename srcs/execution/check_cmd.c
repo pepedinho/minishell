@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 00:36:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 11:25:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	open_file(t_command_line *queue, t_info *info)
 		return (0);
 	}
 	tmp = queue->last;
-	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
+	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR || tmp->type == L_RED || tmp->type == LL_RED || tmp->type == R_RED || tmp->type == RR_RED)
 	{
 		handle_unexpected_token(tmp->content, 2);
 		return (0);
