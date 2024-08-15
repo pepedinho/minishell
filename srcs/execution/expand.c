@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 10:33:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 12:17:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,32 @@ int is_a_var_char(char c)
 	return (0);
 }
 
-char	*ft_create_variable(char *line, int i)
+char	*ft_create_variable(char *line, int *i)
 {
 	int		j;
 	char	*var;
 
 	j = 0;
-	if (line[i] == '?')
+	if (line[*i] == '?')
 		j = 1;
+	else if (line[*i] == '{')
+	{
+		(*i)++;
+		while (line[*i + j] != '}')
+			j++;
+	}
 	else 
 	{
-		while (line[i + j] && is_a_var_char(line[i + j]))
+		while (line[*i + j] && is_a_var_char(line[*i + j]))
 			j++;
 	}
 	var = ft_malloc(sizeof(char) * (j + 2));
 	if (!var)
 		return (NULL);
-	var = ft_strncpy(var, &line[i], j);
+	var = ft_strncpy(var, &line[*i], j);
 	var[j++] = '=';
 	var[j] = '\0';
+	*i += j;
 	return (var);
 }
 
@@ -117,10 +124,9 @@ char	*ft_is_evn_variable(char *line, char **envp)
 			return (dest);
 		if (line[i] == '$')
 			i++;
-		var = ft_create_variable(line, i);
+		var = ft_create_variable(line, &i);
 		if (!var)
 			return (ft_free(dest), NULL);
-		i = i + ft_strlen(var) - 1;
 		dest = ft_check_if_variable_exist(envp, var, dest, ft_strlen(var));
 		if (!dest)
 			return (NULL);
