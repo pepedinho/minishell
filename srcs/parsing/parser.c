@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 12:18:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 17:14:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	{
 		if (str[*i + j] == '(')
 			open_parenthesis++;
+		if (str[*i + j] == '"')
+		{
+			j++;
+			while (str[*i + j] != '"')
+				j++;
+		}
+		if (str[*i + j] == '\'')
+		{
+			j++;
+			while (str[*i + j] != '\'')
+				j++;
+		}
 		if (str[*i + j] == ')')
 			close_parenthesis++;
 		if (open_parenthesis - close_parenthesis == 0)
@@ -122,13 +134,17 @@ t_command_line	*parser(char *str, t_env *env)
 {
 	int				i;
 	t_command_line	*queue;
+	char *tmp;
 
 	if (!str[0])
 		return (NULL);
 	queue = init_queue();
+	tmp = ft_strdup(str);
 	i = 0;
-	// TODO keep the command after ':'
 	str = check_if_command_line_is_good(str, queue);
+	if (!str)
+		return (add_history(tmp), NULL);
+	ft_free(tmp);
 	add_history(str);
 	while (str[i])
 	{
