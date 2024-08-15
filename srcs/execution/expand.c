@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 05:32:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 09:10:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,20 @@ char	*ft_normal_format(char *line, char *dest, int *i)
 	return (dest);
 }
 
+int is_a_var_char(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (1);
+	return (0);
+}
+
 char	*ft_create_variable(char *line, int i)
 {
 	int		j;
 	char	*var;
 
 	j = 0;
-	while (line[i + j] && (ft_isalnum(line[i + j]) != 0 || line[i + j] == '?'))
+	while (line[i + j] && is_a_var_char(line[i + j]))
 		j++;
 	var = ft_malloc(sizeof(char) * (j + 2));
 	if (!var)

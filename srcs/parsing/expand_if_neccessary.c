@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_if_neccessary.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:31:48 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 04:51:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 10:03:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,31 @@ char	*if_normal(char *str, int *i)
 
 	j = 0;
 	while (str[*i + j] && str[*i + j] != '"' && str[*i + j] != '\'')
+	{
+		if (str[*i + j] == '$')
+		{
+			j++;
+			if (str[*i + j] == '"')
+			{
+				*i += j - 1;
+				end_str = ft_strcpy(ft_strchr(str, '$') + 1, &str[*i] + 1);
+				end_str = ft_strdup(end_str);
+				ft_free(str);
+				str = if_dquote(end_str, i);
+				return (str);
+			}
+			if (str[*i + j] == '\'')
+			{
+				*i += j - 1;
+				end_str = ft_strcpy(ft_strchr(str, '$') + 1, &str[*i] + 1);
+				end_str = ft_strdup(end_str);
+				ft_free(str);
+				str = if_quote(str, i);
+				return (str);
+			}
+		}
 		j++;
+	}
 	sub_str = ft_substr(str, *i, j);
 	if (!sub_str)
 		handle_malloc_error("expand variable");
