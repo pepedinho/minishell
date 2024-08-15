@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 15:30:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 16:23:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ void sigchld_handler(int sig)
 {
 	(void)sig;
     while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
+void change_sigint_heredoc(int num)
+{
+	t_info *info;
+
+	info = info_in_static(NULL, GET);
+	info->signal_code = num + 128;
+	rl_done = 1;
+	g_signal = num;
 }
 
 void	handle_signal_parent(int num)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 11:25:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 16:09:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ int	open_file(t_command_line *queue, t_info *info)
 			if (j <= i)
 				here_doc(tmp);
 			else
+				return (0);
+			if (g_signal != 0)
 				return (0);
 		}
 		tmp = tmp->next;
