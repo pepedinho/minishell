@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 17:53:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 04:21:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	ft_echo(char **args, t_info *info)
 				i++;
 			}
 		}
-		else if (ft_strcmp(args[1], "?") == 0)
-			printf("%d\n", info->signal_code);
 		else
 		{
 			while (args[i])
@@ -71,5 +69,7 @@ void	ft_echo(char **args, t_info *info)
 			ft_printf("\n");
 		}
 	}
+	else
+		printf("\n");
 	info->signal_code = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/14 23:54:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 03:39:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ void	execute_command_line(t_tree *tree)
 	int		pid;
 	int		status;
 	t_info	*info;
+	t_element *first;
 
 	info = info_in_static(NULL, GET);
+	first = tree->first;
 	while (tree)
 	{
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))

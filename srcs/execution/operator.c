@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:39:21 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 01:42:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 04:04:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_pipe(t_element *node, t_info *info)
 		(exec(node->right, info), free_and_exit(info->signal_code));
 	}
 	(ft_close(fd[0]), ft_close(fd[1]));
-	(ft_close(node->left->infile), ft_close(node->right->infile));
+	(ft_close_infile(node->left), ft_close_infile(node->right));
 	(waitpid(pid[0], &status, 0), waitpid(pid[1], &status, 0));
 	exit_status(status, info);
 }
@@ -49,7 +49,7 @@ void	fork_because_mandatory(t_element *node, t_info *info)
 	pid = ft_fork();
 	if (pid == 0)
 		exec(node, info);
-	ft_close(node->infile);
+	ft_close_infile(node);
 	(waitpid(pid, &status, 0), exit_status(status, info));
 }
 

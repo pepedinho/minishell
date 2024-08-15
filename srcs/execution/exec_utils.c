@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 01:44:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 04:13:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,15 @@ void	exec_built_in(t_element *node, t_info *info)
 		ft_echo(node->args, info);
 	if (ft_strcmp(node->content, "cd") == 0)
 		info->signal_code = ft_cd(node->args[1]);
+}
+
+void ft_close_infile(t_element *node)
+{
+	ft_close(node->infile);
+	if (node->type == CMD || node->type == C_BLOCK)
+		return ;
+	ft_close_infile(node->left);
+	ft_close_infile(node->right);
 }
 
 void	ft_close(int fd)

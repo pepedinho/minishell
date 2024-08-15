@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 18:18:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 03:33:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	here_doc(t_element *tmp)
 	close(STDERR_FILENO);
 	heredoc_bis(tmp, fd);
 	(dup2(save[1], STDOUT_FILENO), dup2(save[2], STDERR_FILENO));
-	(close(save[1]), close(save[2]), close(fd[WRITE]));
+	(ft_close(save[1]), ft_close(save[2]), ft_close(fd[WRITE]));
 	tmp->infile = fd[READ];
 }

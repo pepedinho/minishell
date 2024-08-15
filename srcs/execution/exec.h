@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 21:17:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 04:02:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_fork(void);
 char	**ready_to_exec(t_element *cmd);
 void	exit_status(int status, t_info *info);
 void ft_close(int fd);
+void ft_close_infile(t_element *node);
 
 // Redirection
 void	infile(t_element *node, t_info *info);
