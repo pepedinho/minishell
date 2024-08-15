@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:12:42 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 19:54:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 20:22:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_env
 	char			**envp;
 	int				global;
 	struct s_env	*next;
+	struct s_env	*before;
 }					t_env;
 
 # define GLOBAL 1

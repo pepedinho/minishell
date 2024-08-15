@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/15 09:36:25 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/15 20:30:48 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
 
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c print_header.c)
 
-BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c)
+BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c unset.c)
 
 ENV = $(addprefix environement/, environement_varables.c)
 

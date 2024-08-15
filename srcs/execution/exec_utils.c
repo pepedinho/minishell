@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 19:11:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 20:32:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	check_built_in(char *command)
 	else if (ft_strcmp(command, "echo") == 0)
 		return (1);
 	else if (ft_strcmp(command, "exit") == 0)
+		return (1);
+	else if (ft_strcmp(command, "unset") == 0)
 		return (1);
 	return (0);
 }
@@ -113,6 +115,8 @@ void	exec_built_in(t_element *node, t_info *info)
 		ft_pwd(PRINT, info);
 	if (ft_strcmp(node->content, "echo") == 0)
 		ft_echo(node->args, info);
+	if (ft_strcmp(node->content, "unset") == 0)
+		ft_unset(node->args, info);
 	if (ft_strcmp(node->content, "cd") == 0)
 		info->signal_code = ft_cd(node->args[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 23:18:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 20:27:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,30 @@ t_env	*search_in_env(char *key)
 
 void	add_back_env(t_env **env, t_env *new)
 {
-	t_env	*buff;
-
-	buff = *env;
+	t_env	*current;
+	current = *env;
 	if (!(*env))
 	{
 		*env = new;
 		new->next = NULL;
+		new->before = NULL;
 	}
 	else if (search_in_env(new->key))
 	{
-		buff = search_in_env(new->key);
-		ft_free(buff->value);
-		buff->value = new->value;
+		current = search_in_env(new->key);
+		ft_free(current->value);
+		current->value = new->value;
 		ft_free(new->key);
 		ft_free(new);
 	}
 	else
 	{
-		while (buff->next)
+		while (current->next)
 		{
-			buff = buff->next;
+			current = current->next;
 		}
-		buff->next = new;
+		current->next = new;
+		new->before = current;
 	}
 }
 
@@ -88,6 +89,7 @@ t_env	*init_env(char *envp, int cas)
 	ft_free(split);
 	new->global = cas;
 	new->next = NULL;
+	new->before = NULL;
 	return (new);
 }
 
