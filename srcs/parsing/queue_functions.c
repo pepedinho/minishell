@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/13 20:57:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 03:46:44 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,47 @@ void	check_if_command_before(t_element *tmp, t_element *new)
 	}
 }
 
+void	destroy_cmd(t_command_line *queue, t_element *to_destroy)
+{
+	t_element	*current;
+	t_element	*next;
+
+	current = queue->first;
+	while (current && current != to_destroy)
+	{
+		next = current->next;
+		current = next;
+	}
+	if (current)
+	{
+		if (current->before)
+			current->before->next = current->next;
+		else
+			queue->first = current->next;
+		if (current->next)
+			current->next->before = current->before;
+	}
+}
+
+void	check_for_wcards(t_command_line *queue, t_element *elem)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (elem->content[i])
+	{
+		if (elem->content[i] == '*')
+		{
+			tmp = elem->content;
+			destroy_cmd(queue, elem);
+			expend_wcards(tmp, queue);
+			return ;
+		}
+		i++;
+	}
+}
+
 void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 {
 	t_element	*tmp;
@@ -84,6 +125,8 @@ void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 	}
 	new->before = current;
 	current->next = new;
+	if (new->type == SFX)
+		check_for_wcards(queue, new);
 }
 
 t_element	*add_to_queue(t_command_line *queue, char *content, int type)
