@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/14 00:10:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 03:39:36 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/signal/signal.h"
 # include "../srcs/utils/utils.h"
+# include "../srcs/wildcards/wildcards.h"
+# include <dirent.h>
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
+# include <unistd.h>
 
 # define CMD 1
 # define SFX 2
@@ -61,8 +63,8 @@
 
 # define ERR_MALLOC 105
 
-extern volatile sig_atomic_t g_sigint_received;
+extern volatile sig_atomic_t	g_sigint_received;
 
-t_tree		*smart_agencement(t_command_line *queue);
+t_tree							*smart_agencement(t_command_line *queue);
 
 #endif

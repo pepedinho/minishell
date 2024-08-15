@@ -44,11 +44,13 @@ BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c)
 
 ENV = $(addprefix environement/, environement_varables.c)
 
+WILD_CARDS = $(addprefix wildcards/, wildcards.c)
+
 UTILS = $(addprefix utils/, utils.c)
 
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS) $(WILD_CARDS)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 
