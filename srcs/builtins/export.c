@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 19:33:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:56:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,22 @@ int	add_in_list(t_info *info, char *content)
 	return (1);
 }
 
+int is_a_good_variable(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	while (str[i] && str[i] != '=')
+	{		
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);		
+		i++;
+	}
+	return (1);
+}
+
 int	ft_export(t_info *info, char **content)
 {
 	int	i;
@@ -99,13 +115,16 @@ int	ft_export(t_info *info, char **content)
 	i = 1;
 	while (content[i])
 	{
-		if (ft_isalpha(content[i][0]) || content[i][0] == '_')
+		if (is_a_good_variable(content[i]))
 		{
 			if (add_in_list(info, content[i]) == -1)
 				return (ERR_MALLOC);
 		}
-		else 
+		else
+		{
 			printf("%s: export: `%s': not a valid identifier\n", info->name, content[i]);
+			info->signal_code = 1;
+		}
 		i++;
 	}
 	if (i == 1)
