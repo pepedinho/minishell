@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 03:45:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:46:29 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	assigne_type(char *redirection, t_command_line *queue);
 int is_a_quotes(char c);
 char *expand_if_necessary(char *str);
 int	is_redirection(t_element *elem);
+int is_space(char c);
 
 // Before parsing
 char	*check_if_command_line_is_good(char *str, t_command_line *queue);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 04:02:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:39:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	queue = parser(command_line, info->env);
 	if (!queue)
 		return (NULL);
-	// print_queue(queue);
+	print_queue(queue);
 	if (global_check(queue, info) == 0)
 		return (NULL);
 	queue = change_queue(queue);

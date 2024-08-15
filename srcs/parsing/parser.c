@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/14 22:02:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:47:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 
 	j = 0;
 	(void)env;
-	while (str[*i + j] && (str[*i + j] != ' ' || str[*i] == '\t')
-		&& !is_a_separator(str[*i + j]))
+	while (str[*i + j] && !is_space(str[*i + j]) && !is_a_separator(str[*i + j]))
 	{
 		if (str[*i + j] == '"')
 		{
@@ -65,6 +64,8 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	if (!cmd)
 		handle_malloc_error("expand variable");
 	cmd = expand_if_necessary(cmd);
+	if (!cmd[0])
+		return (*i += j, 1);
 	if (!add_to_queue(queue, cmd, CMD))
 		handle_malloc_error("commands");
 	*i += j;

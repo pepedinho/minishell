@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:28:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 18:56:00 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:46:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ int	assigne_type(char *redirection, t_command_line *queue)
 int	is_redirection(t_element *elem)
 {
 	if (elem->type == L_RED || elem->type == R_RED || elem->type == RR_RED)
+		return (1);
+	return (0);
+}
+
+int is_space(char c)
+{
+	if (c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }
