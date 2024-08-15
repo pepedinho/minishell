@@ -6,11 +6,25 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 10:34:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 18:09:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void ft_putstr_echo(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\')
+			i++;
+		else
+			ft_putchar(str[i++]);
+	}
+}
 
 int	all_char_are_the_same(char *str)
 {
@@ -31,7 +45,7 @@ int	if_option(char **args, int *i)
 	int	j;
 
 	j = 0;
-	while (args[*i][0] == '-' && args[*i][1] == 'n'
+	while (args[*i] && args[*i][0] == '-' && args[*i][1] == 'n'
 		&& all_char_are_the_same(&args[*i][1]))
 	{
 		(*i)++;
@@ -51,9 +65,9 @@ void	ft_echo(char **args, t_info *info)
 		{
 			while (args[i])
 			{
-				printf("%s", args[i]);
+				ft_putstr_echo(args[i]);
 				if (args[i + 1])
-					printf(" ");
+					ft_putstr_echo(" ");
 				i++;
 			}
 		}
@@ -61,9 +75,9 @@ void	ft_echo(char **args, t_info *info)
 		{
 			while (args[i])
 			{
-				printf("%s", args[i]);
+				ft_putstr_echo(args[i]);
 				if (args[i + 1])
-					printf(" ");
+					ft_putstr_echo(" ");
 				i++;
 			}
 			printf("\n");

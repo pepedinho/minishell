@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 16:16:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:13:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	queue = parser(command_line, info->env);
 	if (!queue)
 		return (NULL);
-	print_queue(queue);
+	// print_queue(queue);
 	if (global_check(queue, info) == 0)
 		return (NULL);
 	queue = change_queue(queue);
@@ -289,7 +289,10 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 
 	queue = parsing(command_line, info);
 	if (!queue)
+	{
+		ft_free(DESTROY);
 		return ;
+	}
 	tree = NULL;
 	tree = ast(queue);
 	execute_command_line(tree);
@@ -313,6 +316,7 @@ char	*ft_readline(t_info *info)
 		g_signal = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
+		
 		ft_free(prompt);
 		if (!command_line)
 			ft_exit(NULL);
@@ -338,6 +342,7 @@ void	receive_prompt(t_info *info)
 	while (1)
 	{
 		sigaction_signals(SIGQUIT, SIG_IGN);
+		sigaction_signals(SIGTSTP, SIG_IGN);
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
 		if (!queue)

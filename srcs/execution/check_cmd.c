@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 16:09:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 17:36:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,6 @@ int	open_file(t_command_line *queue, t_info *info)
 	if (queue->open_parenthesis_flag == 2)
 	{
 		ft_printf("%s: syntax error near unexpected token `)'\n", info->name);
-		info->signal_code = 2;
-		return (0);
-	}
-	if (queue->open_parenthesis_flag == 1)
-	{
-		ft_printf("%s: expected close parenthesis : ')'\n", info->name);
 		info->signal_code = 2;
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 03:46:44 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/15 19:41:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		if_not_the_first(queue, new, type);
 	}
 	queue->last = new;
-	if (new->type == CMD && ft_strchr(new->content, '='))
+	if (new->type == CMD && ft_strchr(new->content, '=') && (ft_isalpha(new->content[0]) || new->content[0] == '_'))
 		new->type = LOCAL_VAR;
 	return (new);
 }

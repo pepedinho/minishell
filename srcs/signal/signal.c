@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 16:23:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:34:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	handle_signal_parent(int num)
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
+		else if (g_signal == 2)
+		{
+			g_signal = num + 128;
+		}
 	}
 	if (num == SIGQUIT)
         ft_putstr_fd("Quit (core dumped)\n", 2);
@@ -65,6 +69,7 @@ void	kill_if_sigint(void)
 	sigemptyset(&sb.sa_mask);
 	sigaction(SIGQUIT, &sb, NULL);
 }
+
 static int    sig_event(void)
 {
     return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 15:23:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:11:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,14 @@ int	ft_fork(void)
 	pid = fork();
 	if (pid == -1)
 		free_and_exit(-1);
-	// find the right signal code if fork fail;
-	if (pid > 0)
+	if (pid == 0)
 	{
 		g_signal = 1;
+		kill_if_sigint();
+	}
+	if (pid > 0)
+	{
+		g_signal = 2;
 		sigaction_signals(SIGINT, handle_signal_parent);
 		sigaction_signals(SIGQUIT, handle_signal_parent);
 		sigaction_signals(SIGCHLD, sigchld_handler);

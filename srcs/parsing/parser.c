@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 17:14:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 17:51:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
 	if (!cmd)
 		handle_malloc_error("expand variable");
 	cmd = expand_if_necessary(cmd);
-	if (!cmd[0])
+	if (!cmd[0] && !is_a_quotes(str[*i + j - 1]))
 		return (*i += j, 1);
 	if (!add_to_queue(queue, cmd, CMD))
 		handle_malloc_error("commands");
@@ -116,6 +116,7 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 		handle_malloc_error("parenthesis");
 	if (!add_to_queue(queue, cmd, C_BLOCK))
 		handle_malloc_error("env");
+	
 	return (*i += j + 1, 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 10:47:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:33:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,13 @@ int	ft_export(t_info *info, char **content)
 	i = 1;
 	while (content[i])
 	{
-		if (add_in_list(info, content[i]) == -1)
-			return (ERR_MALLOC);
+		if (ft_isalpha(content[i][0]) || content[i][0] == '_')
+		{
+			if (add_in_list(info, content[i]) == -1)
+				return (ERR_MALLOC);
+		}
+		else 
+			printf("%s: export: `%s': not a valid identifier\n", info->name, content[i]);
 		i++;
 	}
 	if (i == 1)
