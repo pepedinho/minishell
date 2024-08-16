@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 20:27:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 22:04:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_env	*init_env(char *envp, int cas)
 	new = ft_malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	split = ft_split(envp, "=");
+	split = split_first_value(envp, '=');
 	if (!split)
 		return (ft_free(new), NULL);
 	new->key = split[0];

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/16 21:46:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 22:05:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ char	**split_first_value(char *str, char sep)
 	{
 		while (str[j + i + 1])
 			j++;
+		result[1] = ft_malloc(sizeof(char) * (j + 1));
+		if (!result[1])
+			handle_malloc_error("export");
+		ft_strcpy(result[1], &str[i + 1]);
 	}
-	if (j == 0)
-		result[1] = NULL;
 	else
-		result[1] = ft_substr(str, i + 1, j);
+		result[1] = NULL;
 	result[2] = NULL;
 	return (result);
 }
