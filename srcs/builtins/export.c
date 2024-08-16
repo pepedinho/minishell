@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 19:56:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 21:46:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,23 @@ char	**split_first_value(char *str, char sep)
 	char	**result;
 
 	i = 0;
-	j = 1;
-	while (str[i] && str[i] != sep)
-		i++;
-	while (str[j + i])
-		j++;
+	j = 0;
 	result = ft_malloc(sizeof(char *) * 3);
 	if (!result)
-		return (NULL);
-	result[0] = ft_malloc(sizeof(char) * (i + 1));
-	if (!result[0])
-		return (NULL);
-	result[1] = ft_malloc(sizeof(char) * (j + 1));
-	if (!result[1])
-		return (NULL);
-	i = 0;
-	j = 1;
+		handle_malloc_error("export");
 	while (str[i] && str[i] != sep)
-	{
-		result[0][i] = str[i];
 		i++;
-	}
-	result[0][i] = '\0';
-	while (str[j + i])
+	result[0] = ft_substr(str, 0, i);
+	if (str[i] == sep)
 	{
-		result[1][j - 1] = str[i + j];
-		j++;
+		while (str[j + i + 1])
+			j++;
 	}
-	result[1][j - 1] = '\0';
+	if (j == 0)
+		result[1] = NULL;
+	else
+		result[1] = ft_substr(str, i + 1, j);
 	result[2] = NULL;
-	i = 0;
 	return (result);
 }
 
@@ -62,15 +49,13 @@ int	add_in_list(t_info *info, char *content)
 	flag = 0;
 	current = info->env;
 	key = split_first_value(content, '=');
-	if (!key)
-		return (-1);
 	while (current)
 	{
 		if (ft_strcmp(key[0], current->key) == 0)
 		{
 			// print_env(info->env, 1);
 			// printf("-------------------------------------------------------\n");
-			if (key[1][0])
+			if (key[1])
 			{
 				ft_free(current->value);
 				current->value = ft_strdup(key[1]);

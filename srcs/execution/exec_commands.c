@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/16 20:44:17 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 20:49:17 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ void free_tree(t_element *node)
 {
 	if (!node)
 		return ;
-	free_tree(node->right);
 	free_tree(node->left);
+	free_tree(node->right);
 	ft_free_2d(node->args);
 	ft_free_2d(node->outfile);
 	ft_free(node->infile_tab);
