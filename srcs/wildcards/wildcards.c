@@ -41,11 +41,31 @@ void	list_file(char *dirname, char *patern, t_command_line *queue)
 	elem = readdir(dir);
 	while (elem)
 	{
-		if (strstr(elem->d_name, patern))
+		printf("/!\\ DEBUG /!\\ : [%d]%s\n", elem->d_type, elem->d_name);
+		if (ft_strstr(elem->d_name, patern) && elem->d_name[0] != '.')
 		{
-			add_to_queue(queue, ft_strjoin(dirname, elem->d_name), SFX);
+			if (dirname[ft_strlen(dirname) - 1] != '/')
+				add_to_queue(queue, ft_sprintf("%s/%s", dirname, elem->d_name),
+					SFX);
+			else
+				add_to_queue(queue, ft_strjoin(dirname, elem->d_name), SFX);
 		}
 		elem = readdir(dir);
+	}
+}
+
+char	*get_new_path(char *path, int depth)
+{
+	char	*result;
+	int		depth_cnt;
+	int		i;
+
+	i = 0;
+	while (path[i])
+	{
+		// TODO: add depth detection to change path corectly
+		if (result[i] == '/' && depth_cnt)
+			i++;
 	}
 }
 
@@ -59,23 +79,35 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 	tot_cnt = cnt_file(tab[DIRNAME]);
 	if (!depth)
 		return ;
-	// printf("[1]/!\\debug/!\\ : %s\n", dirname);
+	printf("[1]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
 	dir = opendir(tab[DIRNAME]);
 	if (!dir)
 		return ;
 	elem = readdir(dir);
-	list_file(tab[DIRNAME], tab[PATERN], queue);
 	while (elem)
 	{
-		new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
-		tab[DIRNAME] = new_dir;
-		if (elem->d_type == 4 && elem->d_name[0] != '.' && cnt == tot_cnt)
+		if (elem->d_type == 4 && !ft_strstr(elem->d_name, ".")
+			&& cnt == tot_cnt)
+		{
+			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
+			new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
+			list_file(new_dir, tab[PATERN], queue);
+			tab[DIRNAME] = new_dir;
+			// printf("debug[2] : %s\n", elem->d_name);
 			rec_open(tab, depth - 1, 0, queue);
-		else if (elem->d_type == 4 && elem->d_name[0] != '.')
+		}
+		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, "."))
+		{
+			list_file(tab[DIRNAME], tab[PATERN], queue);
+			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
+			new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
+			tab[DIRNAME] = new_dir;
+			// printf("debug[2] : %s\n", elem->d_name);
 			rec_open(tab, depth, cnt + 1, queue);
+		}
 		elem = readdir(dir);
 	}
-	// printf("[2]/!\\debug/!\\ : %s\n", dirname);
+	printf("[2]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
 }
 
 int	get_depth(char *str)

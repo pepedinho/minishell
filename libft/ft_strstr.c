@@ -21,7 +21,7 @@ char	*ft_strstr(char *str, char *to_find)
 	while (str[++i])
 	{
 		j = 0;
-		while (str[i + j] == to_find[j])
+		while (str[i + j] && str[i + j] == to_find[j])
 			j++;
 		if (!to_find[j])
 			return (&str[i]);
