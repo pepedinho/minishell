@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 03:35:50 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 04:22:57 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/16 18:58:47 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../includes/minishell.h"
+
 
 int	cnt_file(char *dirname)
 {
@@ -61,6 +61,7 @@ char	*get_new_path(char *path, int depth)
 	int		i;
 
 	i = 0;
+	(void)depth;
 	while (path[i])
 	{
 		// TODO: add depth detection to change path corectly
@@ -160,6 +161,7 @@ int	expend_wcards(char *path, t_command_line *queue)
 	int		i;
 
 	i = 0;
+	(void)i;
 	tab = get_path_and_format(path);
 	rec_open(tab, get_depth(path), 0, queue);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/15 20:30:48 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/16 20:44:40 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,13 +44,13 @@ BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c unset.
 
 ENV = $(addprefix environement/, environement_varables.c)
 
-WILD_CARDS = $(addprefix wildcards/, wildcards.c)
+# WILD_CARDS = $(addprefix wildcards/, wildcards.c)
 
 UTILS = $(addprefix utils/, utils.c)
 
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS) $(WILD_CARDS)
+SRCS = main.c $(PARSING) $(GARBAGE) $(PROMPT) $(SIGNALS) $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS) #$(WILD_CARDS)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 

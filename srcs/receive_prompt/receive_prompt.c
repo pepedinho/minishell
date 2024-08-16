@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 19:13:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 20:36:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ void	queue_add_back(t_command_line **queue, t_command_line *new)
 t_command_line	*remove_in_queue(t_command_line *queue)
 {
 	t_element		*current;
+	t_element		*tmp;
 	t_command_line	*tmp_queue;
 
 	current = queue->first;
@@ -218,8 +219,11 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 				queue->first = current->next;
 			if (current->next)
 				current->next->before = current->before;
+			tmp = current->before;
+			ft_free(current);
+			current = tmp;
 		}
-		if (current->type == LIST)
+		else if (current->type == LIST)
 		{
 			tmp_queue = init_queue();
 			if (!tmp_queue)
@@ -227,6 +231,9 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			tmp_queue->first = current->next;
 			queue_add_back(&queue, tmp_queue);
 			current->before->next = NULL;
+			tmp = current->before;
+			ft_free(current);
+			current = tmp;
 		}
 		current = current->next;
 	}

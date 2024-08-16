@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 20:09:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 20:44:17 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,26 @@ void	only_builtin(t_element *node, t_info *info)
 	(ft_close(save_stdin), ft_close(save_stdout));
 }
 
+void free_tree(t_element *node)
+{
+	if (!node)
+		return ;
+	free_tree(node->right);
+	free_tree(node->left);
+	ft_free_2d(node->args);
+	ft_free_2d(node->outfile);
+	ft_free(node->infile_tab);
+	ft_free(node);
+}
+
 void	execute_command_line(t_tree *tree)
 {
 	int		pid;
 	int		status;
+	t_tree *tmp;
 	t_info	*info;
-	t_element *first;
 
 	info = info_in_static(NULL, GET);
-	first = tree->first;
 	while (tree)
 	{
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
@@ -127,6 +138,9 @@ void	execute_command_line(t_tree *tree)
 		}
 		else
 			exec(tree->first, info);
-		tree = tree->next;
+		tmp = tree->next;
+		free_tree(tree->first);
+		ft_free(tree);
+		tree = tmp;
 	}
 }

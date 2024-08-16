@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 17:44:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 18:56:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 char	*quote_or_dquote(char *str, char *prompt)
 {
 	char	*new_line;
-	t_info *info;
-	
-	info = info_in_static(NULL, GET);
+
 	new_line = readline(prompt);
 	if (!new_line)
 	{
