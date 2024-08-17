@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 17:36:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 13:48:46 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,93 +25,6 @@ void	file(t_element *tmp)
 		if (tmp->infile == -1)
 			error_message(tmp->content);
 	}
-}
-
-void	unexpected_eof(void)
-{
-	t_info	*info;
-
-	info = info_in_static(NULL, GET);
-	ft_fprintf(2, "%s: unexpected EOF while looking for matching `\"'\n",
-			info->name);
-}
-
-int	find_in_str(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	quote_len(char *line)
-{
-	int	i;
-	int	cnt;
-
-	i = 0;
-	cnt = 0;
-	while (line[i])
-	{
-		if (line[i] == '"')
-			cnt++;
-		i++;
-	}
-	return (i - cnt);
-}
-
-char	*fill_open_quote(char *str)
-{
-	char	*line;
-	char	*realloc_str;
-	int		len;
-	int		i;
-	int		j;
-
-	while (1)
-	{
-		line = readline("dquote> ");
-		if (!line)
-		{
-			unexpected_eof();
-			break ;
-		}
-		if (line[0] == '"')
-		{
-			realloc_str[i] = '\n';
-			realloc_str[i + 1] = '"';
-			realloc_str[i + 2] = '\0';
-			break ;
-		}
-		len = ft_strlen(str);
-		realloc_str = ft_malloc(sizeof(char) * (len + quote_len(line) + 3));
-		if (!realloc_str)
-			break ;
-		i = -1;
-		j = 0;
-		while (str[++i])
-			realloc_str[i] = str[i];
-		while (line[j])
-			realloc_str[i++] = line[j++];
-		realloc_str[i] = '\n';
-		realloc_str[i + 1] = '\0';
-		// ft_free(str);
-		str = realloc_str;
-		if (find_in_str(line, '"'))
-		{
-			printf("debug fill : %s\n", str);
-			realloc_str[i] = '\0';
-			break ;
-		}
-		ft_free(line);
-	}
-	return (ft_free(line), str);
 }
 
 int	open_file(t_command_line *queue, t_info *info)
@@ -148,13 +61,6 @@ int	open_file(t_command_line *queue, t_info *info)
 		handle_unexpected_token(tmp->content, 2);
 		return (0);
 	}
-	/*if (queue->open_quotes_flag == 1)
-	{
-		while (tmp && tmp->type != SFX)
-			tmp = tmp->next;
-		if (tmp)
-			fill_open_quote(tmp);
-	}*/
 	tmp = queue->first;
 	while (tmp)
 	{
@@ -209,10 +115,28 @@ int	open_file(t_command_line *queue, t_info *info)
 	return (1);
 }
 
+
+// void no_need_to_execute(queue, info)
+// {
+	
+// }
+
 int	global_check(t_command_line *queue, t_info *info)
 {
+	// t_element *current;
+	// int check;
+	
+	// check = 0;
 	if (!open_file(queue, info))
 	{
+		// current = queue->first;
+		// while (current)
+		// {
+		// 	if (current->type == CMD || current->type == C_BLOCK || current == LOCAL_VAR)
+		// 		check = 1;
+		// }
+		// if (check == 1)
+		// 	no_need_to_execute(queue, info);
 		return (0);
 	}
 	return (1);
