@@ -41,7 +41,7 @@ void	list_file(char *dirname, char *patern, t_command_line *queue)
 	elem = readdir(dir);
 	while (elem)
 	{
-		printf("/!\\ DEBUG /!\\ : [%d]%s\n", elem->d_type, elem->d_name);
+		printf("[3]/!\\ DEBUG  /!\\ : [%d]%s\n", elem->d_type, elem->d_name);
 		if (ft_strstr(elem->d_name, patern) && elem->d_name[0] != '.')
 		{
 			if (dirname[ft_strlen(dirname) - 1] != '/')
@@ -54,21 +54,50 @@ void	list_file(char *dirname, char *patern, t_command_line *queue)
 	}
 }
 
-char	*get_new_path(char *path, int depth)
+char	*get_new_path(char *path, int depth, char *dirname)
 {
 	char	*result;
+	char	*first_elem;
 	int		depth_cnt;
 	int		i;
 
+	(void)depth;
+	(void)depth_cnt;
 	i = 0;
 	while (path[i])
 	{
-		// TODO: add depth detection to change path corectly
-		if (result[i] == '/' && depth_cnt)
-			i++;
+		if (path[i] == '/')
+			break ;
+		i++;
 	}
+	printf("[[1][DEBUG]] path : %s\n", path);
+	first_elem = ft_substr(path, 0, i);
+	if (first_elem[ft_strlen(first_elem) - 1] != '/')
+		result = ft_sprintf("%s/%s", first_elem, dirname);
+	else
+		result = ft_strjoin(first_elem, dirname);
+	printf("[[2][DEBUG]] result : %s\n", result);
+	return (result);
 }
 
+int	compare(char *path, char *dirname)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (path[i] && path[i] != '/')
+		i++;
+	while (dirname[j] && dirname[j] != '/')
+		j++;
+	if (j != i)
+		return (0);
+	return (1);
+}
+
+// TODO: if tab[PATTERN] == "" just add the folder and the file only in the current dirrectory
+// exemple : srcs/* only add main.c and the name of the folder like "utils" "signal" etc ...
 void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 {
 	int				tot_cnt;
@@ -90,20 +119,28 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			&& cnt == tot_cnt)
 		{
 			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
-			new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
-			list_file(new_dir, tab[PATERN], queue);
-			tab[DIRNAME] = new_dir;
-			// printf("debug[2] : %s\n", elem->d_name);
-			rec_open(tab, depth - 1, 0, queue);
+			// new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
+			if (!compare(tab[DIRNAME], elem->d_name))
+			{
+				new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
+				list_file(new_dir, tab[PATERN], queue);
+				tab[DIRNAME] = new_dir;
+				// printf("debug[2] : %s\n", elem->d_name);
+				rec_open(tab, depth - 1, 0, queue);
+			}
 		}
 		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, "."))
 		{
 			list_file(tab[DIRNAME], tab[PATERN], queue);
 			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
-			new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
-			tab[DIRNAME] = new_dir;
+			// new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
+			if (!compare(tab[DIRNAME], elem->d_name))
+			{
+				new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
+				tab[DIRNAME] = new_dir;
+				rec_open(tab, depth, cnt + 1, queue);
+			}
 			// printf("debug[2] : %s\n", elem->d_name);
-			rec_open(tab, depth, cnt + 1, queue);
 		}
 		elem = readdir(dir);
 	}
@@ -157,9 +194,7 @@ char	**get_path_and_format(char *str)
 int	expend_wcards(char *path, t_command_line *queue)
 {
 	char	**tab;
-	int		i;
 
-	i = 0;
 	tab = get_path_and_format(path);
 	rec_open(tab, get_depth(path), 0, queue);
 	return (0);
