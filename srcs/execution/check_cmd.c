@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 13:48:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 14:35:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 #include <time.h>
 #include <unistd.h>
 
-void	file(t_element *tmp)
+int	file(t_element *tmp)
 {
 	if (tmp->before && tmp->before->type == L_RED)
 	{
 		tmp->infile = open(tmp->content, O_RDONLY);
 		if (tmp->infile == -1)
+		{
 			error_message(tmp->content);
+			return (0);
+		}
 	}
+	return (1);
 }
 
 int	open_file(t_command_line *queue, t_info *info)
@@ -109,35 +113,30 @@ int	open_file(t_command_line *queue, t_info *info)
 	while (tmp)
 	{
 		if (tmp->type == FILE)
-			file(tmp);
-		tmp = tmp->next;
+		{
+			if (file(tmp) == 0)
+			{
+				while (tmp && !is_a_redirect(tmp->type))
+				{
+					tmp = tmp->next;
+					if (tmp && tmp->type == AND)
+						tmp = tmp->next;
+				}
+				if (tmp)
+					queue->first = tmp->next;
+				else
+					queue->first = NULL;
+			}
+		}
+		if (tmp)
+			tmp = tmp->next;
 	}
 	return (1);
 }
 
-
-// void no_need_to_execute(queue, info)
-// {
-	
-// }
-
 int	global_check(t_command_line *queue, t_info *info)
 {
-	// t_element *current;
-	// int check;
-	
-	// check = 0;
 	if (!open_file(queue, info))
-	{
-		// current = queue->first;
-		// while (current)
-		// {
-		// 	if (current->type == CMD || current->type == C_BLOCK || current == LOCAL_VAR)
-		// 		check = 1;
-		// }
-		// if (check == 1)
-		// 	no_need_to_execute(queue, info);
 		return (0);
-	}
 	return (1);
 }
