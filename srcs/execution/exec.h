@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 04:02:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 19:51:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void ft_close_infile(t_element *node);
 
 // Redirection
 void	infile(t_element *node, t_info *info);
-void	outfile(t_element *node, t_info *info);
+int	outfile(t_element *node, t_info *info);
 
 // Builtins
 int		check_built_in(char *command);
@@ -57,8 +57,5 @@ void	exec_built_in(t_element *node, t_info *info);
 void or (t_element * node, t_info *info);
 void and (t_element * node, t_info *info);
 void	ft_pipe(t_element *node, t_info *info);
-
-// quotes gesture
-char	*fill_open_quote(char *str);
 
 #endif // !EXEC_H

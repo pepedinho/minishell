@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 16:30:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 19:52:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	command(t_element *node, t_info *info)
 	path = find_path(node->content, info);
 	if (path == NULL)
 		handle_malloc_error("path");
-	(infile(node, info), outfile(node, info));
+	infile(node, info);
+	if (outfile(node, info) == 0)
+		free_and_exit(1);
 	execve(path, node->args, envp);
 	if (errno == 2)
 	{
