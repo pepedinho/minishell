@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 14:35:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 15:00:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,8 @@ int	open_file(t_command_line *queue, t_info *info)
 		{
 			if (file(tmp) == 0)
 			{
-				while (tmp && !is_a_redirect(tmp->type))
-				{
-					tmp = tmp->next;
-					if (tmp && tmp->type == AND)
-						tmp = tmp->next;
-				}
+				while (tmp && (!is_a_redirect(tmp->type) || tmp->type == AND))
+					tmp = tmp->next; // free the element for not stacking allocation
 				if (tmp)
 					queue->first = tmp->next;
 				else
@@ -134,8 +130,68 @@ int	open_file(t_command_line *queue, t_info *info)
 	return (1);
 }
 
+int outfile_open(t_element *tmp)
+{
+	if (tmp->before && tmp->before->type == R_RED)
+	{
+		tmp->infile = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (tmp->infile == -1)
+		{
+			error_message(tmp->content);
+			return (0);
+		}
+	}
+	else if (tmp->before && tmp->before->type == RR_RED)
+	{
+		tmp->infile = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (tmp->infile == -1)
+		{
+			error_message(tmp->content);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int no_need_to_execute(t_command_line *queue)
+{
+	t_element *current;
+
+	current = queue->first;
+	while (current)
+	{
+		if (current->type == FILE)
+		{
+			if (file(current) == 0 || outfile_open(current) == 0)
+			{
+				while (current && (!is_a_redirect(current->type) || current->type == AND))
+					current = current->next; // free the element for not stacking allocation
+			}
+			else
+				ft_close(current->infile);
+		}
+		if (current)
+			current = current->next;
+	}
+	queue->first = NULL;
+	return (1);
+}
+
 int	global_check(t_command_line *queue, t_info *info)
 {
+	int check;
+	t_element *current;
+	
+	current = queue->first;
+	check = 0;
+	while (current)
+	{
+		if (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
+			check = 1;
+		current = current->next;
+	}
+	if (check == 0)
+		return (no_need_to_execute(queue));
 	if (!open_file(queue, info))
 		return (0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 14:12:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 16:30:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	local_var(t_element *node, t_info *info)
 
 void	exec(t_element *node, t_info *info)
 {
+	if (node->type == N_CMD)
+		free_and_exit(EXIT_SUCCESS);
 	if (node->type == LOCAL_VAR)
 		local_var(node, info);
 	if (node->type == AND)

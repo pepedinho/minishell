@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 20:32:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 16:43:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	check_if_fork(t_element *node)
 	if (node->type == LOCAL_VAR)
 		return (0);
 	if ((node->type == CMD && !check_built_in(node->content))
-	 || node->type == C_BLOCK)
+	 || node->type == C_BLOCK || node->type == N_CMD)
 		return (1);
 	return (0);
 }
@@ -124,7 +124,7 @@ void	exec_built_in(t_element *node, t_info *info)
 void ft_close_infile(t_element *node)
 {
 	ft_close(node->infile);
-	if (node->type == CMD || node->type == C_BLOCK)
+	if (node->type == CMD || node->type == C_BLOCK || node->type == N_CMD)
 		return ;
 	ft_close_infile(node->left);
 	ft_close_infile(node->right);

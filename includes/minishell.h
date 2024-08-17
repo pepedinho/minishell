@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/15 14:55:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 16:21:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define N_CMD -1
 # define CMD 1
 # define SFX 2
 # define PIPE 31

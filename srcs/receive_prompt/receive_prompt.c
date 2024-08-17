@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 13:28:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/17 16:38:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_command_line	*change_queue(t_command_line *queue)
 		infile = -1;
 		output = NULL;
 		file_mode = 0;
-		while (current && current->type != CMD && current->type != C_BLOCK)
+		while (current && current->type != CMD && current->type != C_BLOCK && !is_a_redirect(current->type))
 		{
 			if (current->type == RR_RED || current->type == R_RED)
 			{
@@ -159,6 +159,13 @@ t_command_line	*change_queue(t_command_line *queue)
 			tmp->infile = infile;
 			tmp->outfile = output;
 			tmp->file_mode = file_mode;
+		}
+		if (current && is_a_redirect(current->type))
+		{
+			current->before->type = N_CMD;
+			current->before->infile = infile;
+			current->before->outfile = output;
+			current->before->file_mode = file_mode;
 		}
 		if (current && (current->type == CMD || current->type == C_BLOCK))
 		{
@@ -211,7 +218,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 		if (current->type != CMD && current->type != LOCAL_VAR
 			&& current->type != PIPE && current->type != AND
 			&& current->type != OR && current->type != LIST
-			&& current->type != C_BLOCK)
+			&& current->type != C_BLOCK && current->type != N_CMD)
 		{
 			if (current->before)
 				current->before->next = current->next;
@@ -219,7 +226,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 				queue->first = current->next;
 			if (current->next)
 				current->next->before = current->before;
-			tmp = current->before;
+			tmp = current->next;
 			ft_free(current);
 			current = tmp;
 		}
@@ -231,11 +238,12 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			tmp_queue->first = current->next;
 			queue_add_back(&queue, tmp_queue);
 			current->before->next = NULL;
-			tmp = current->before;
+			tmp = current->next;
 			ft_free(current);
 			current = tmp;
 		}
-		current = current->next;
+		else 
+			current = current->next;
 	}
 	return (queue);
 }
