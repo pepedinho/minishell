@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/16 20:42:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/16 23:03:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_element	*create_new_element(int type, char *content)
 	new->before = NULL;
 	new->left = NULL;
 	new->right = NULL;
+	new->args = NULL;
 	return (new);
 }
 
