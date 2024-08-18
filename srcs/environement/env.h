@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:12:42 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 20:22:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:52:08 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ t_env *search_in_env(char *key);
 t_env				*init_env(char *envp, int cas);
 void				add_back_env(t_env **env, t_env *new);
 int is_a_good_variable(char *str);
+char *ft_getenv(char *key);
+
 
 #endif // !ENV_H

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/16 22:04:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:51:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	free_env(t_env *env)
 		env = buff;
 	}
 	ft_free(env);
+}
+
+char *ft_getenv(char *key)
+{
+	t_info *info;
+	t_env	*tmp;
+
+	info = info_in_static(NULL, GET);
+	tmp = info->env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+			break ;
+		tmp = tmp->next;
+	}
+	return (tmp->value);
 }
 
 t_env	*search_in_env(char *key)
