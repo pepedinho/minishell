@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 01:20:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 13:15:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ void	here_doc(t_element *tmp)
 	save[2] = dup(STDERR_FILENO);
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	close(STDERR_FILENO);
-	sigaction_signals(SIGINT, change_sigint_heredoc);
-	sigaction_signals(SIGQUIT, SIG_IGN);
 	heredoc_bis(tmp, fd);
-	sigaction_signals(SIGINT, handle_signal_parent);
-	sigaction_signals(SIGQUIT, handle_signal_parent);
 	(dup2(save[1], STDOUT_FILENO), dup2(save[2], STDERR_FILENO));
 	(ft_close(save[1]), ft_close(save[2]), ft_close(fd[WRITE]));
 	tmp->pipe = fd[READ];

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 18:45:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 12:31:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_info	info;
 
-	sigaction_signals(SIGINT, handle_signal_parent);
-	sigaction_signals(SIGQUIT, handle_signal_parent);
-	sigaction_signals(SIGCHLD, sigchld_handler);
 	info.signal_code = 0;
 	info.name = "minishell";
 	info.env = NULL;

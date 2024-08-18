@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/16 18:56:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 13:14:56 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ char	*check_if_command_line_is_good(char *str, t_command_line *queue)
 	int	i;
 
 	i = 0;
-	sigaction_signals(SIGINT, change_sigint_heredoc);
-	sigaction_signals(SIGQUIT, SIG_IGN);
 	while (g_signal == 0 && str && str[i])
 	{
 		if (g_signal == 0 && str && str[i] == '"')
@@ -107,8 +105,6 @@ char	*check_if_command_line_is_good(char *str, t_command_line *queue)
 	}
 	if (g_signal != 0 || !str)
 		return (NULL);
-	sigaction_signals(SIGINT, handle_signal_parent);
-	sigaction_signals(SIGQUIT, handle_signal_parent);
 	i = check_if_paranthesis_close(str, -1);
 	if (i > 0)
 		queue->open_parenthesis_flag = 1;

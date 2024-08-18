@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 01:53:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 13:16:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,9 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
 	t_tree			*tree;
-
+	
+	info->signal_code = g_signal;
+	set_signal_parent();
 	queue = parsing(command_line, info);
 	if (!queue)
 	{
@@ -349,12 +351,20 @@ char	*ft_readline(t_info *info)
 		g_signal = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
-		
+		if (g_signal != 0)
+		{
+			info->signal_code = g_signal;
+			g_signal = 0;
+			continue;
+		}
 		ft_free(prompt);
 		if (!command_line)
 			ft_exit(NULL);
 		else if (ft_strcmp(command_line, "") == 0)
-			(ft_free(command_line));
+		{
+			ft_free(command_line);
+			info->signal_code = 0;
+		}
 		else
 			break ;
 	}
@@ -374,8 +384,8 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
-		sigaction_signals(SIGQUIT, SIG_IGN);
-		sigaction_signals(SIGTSTP, SIG_IGN);
+		info->signal_code = g_signal;
+		set_signal_parent();
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
 		if (!queue)

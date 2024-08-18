@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:44:20 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 02:34:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 12:26:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	outfile(t_element *node, t_info *info)
 	return (1);
 }
 
-// dup 2 tous les infiles !! A ne pas oublier
 int	infile(t_element *node, t_info *info, t_element *first)
 {
 	int	infile;
@@ -71,5 +70,6 @@ int	infile(t_element *node, t_info *info, t_element *first)
 		}
 		i++;
 	}
+	close_file_tree(first);
 	return (1);
 }
