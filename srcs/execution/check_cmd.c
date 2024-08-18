@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 15:00:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 01:43:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	file(t_element *tmp)
 {
 	if (tmp->before && tmp->before->type == L_RED)
 	{
-		tmp->infile = open(tmp->content, O_RDONLY);
-		if (tmp->infile == -1)
+		tmp->pipe = open(tmp->content, O_RDONLY);
+		if (tmp->pipe == -1)
 		{
 			error_message(tmp->content);
 			return (0);
@@ -34,11 +34,7 @@ int	file(t_element *tmp)
 int	open_file(t_command_line *queue, t_info *info)
 {
 	t_element	*tmp;
-	int			i;
-	int			j;
 
-	i = 0;
-	j = 0;
 	if (queue->open_parenthesis_flag == 1)
 	{
 		ft_printf("%s: expected close parenthesis : ')'\n", info->name);
@@ -84,10 +80,7 @@ int	open_file(t_command_line *queue, t_info *info)
 	if (queue->u_token_flag == 1)
 	{
 		while (tmp && tmp->type != U_TOKEN)
-		{
 			tmp = tmp->next;
-			i++;
-		}
 		if (tmp && tmp->content[0])
 			handle_unexpected_token(tmp->content, 1);
 	}
@@ -96,37 +89,32 @@ int	open_file(t_command_line *queue, t_info *info)
 	{
 		if (tmp->type == H_FILE)
 		{
-			if (j <= i)
-				here_doc(tmp);
-			else
-				return (0);
+			here_doc(tmp);
 			if (g_signal != 0)
 				return (0);
 		}
 		tmp = tmp->next;
-		if (queue->u_token_flag == 1)
-			j++;
+		if (tmp && tmp->type == U_TOKEN)
+			return (close_fd(queue), 0);
 	}
-	tmp = queue->first;
-	if (queue->u_token_flag == 1)
-		return (0);
-	while (tmp)
-	{
-		if (tmp->type == FILE)
-		{
-			if (file(tmp) == 0)
-			{
-				while (tmp && (!is_a_redirect(tmp->type) || tmp->type == AND))
-					tmp = tmp->next; // free the element for not stacking allocation
-				if (tmp)
-					queue->first = tmp->next;
-				else
-					queue->first = NULL;
-			}
-		}
-		if (tmp)
-			tmp = tmp->next;
-	}
+	// tmp = queue->first;
+	// while (tmp)
+	// {
+	// 	if (tmp->type == FILE)
+	// 	{
+	// 		if (file(tmp) == 0)
+	// 		{
+	// 			while (tmp && (!is_a_redirect(tmp->type) || tmp->type == AND))
+	// 				tmp = tmp->next; // free the element for not stacking allocation
+	// 			if (tmp)
+	// 				queue->first = tmp->next;
+	// 			else
+	// 				queue->first = NULL;
+	// 		}
+	// 	}
+	// 	if (tmp)
+	// 		tmp = tmp->next;
+	// }
 	return (1);
 }
 
@@ -134,8 +122,8 @@ int outfile_open(t_element *tmp)
 {
 	if (tmp->before && tmp->before->type == R_RED)
 	{
-		tmp->infile = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (tmp->infile == -1)
+		tmp->pipe = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (tmp->pipe == -1)
 		{
 			error_message(tmp->content);
 			return (0);
@@ -143,8 +131,8 @@ int outfile_open(t_element *tmp)
 	}
 	else if (tmp->before && tmp->before->type == RR_RED)
 	{
-		tmp->infile = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (tmp->infile == -1)
+		tmp->pipe = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (tmp->pipe == -1)
 		{
 			error_message(tmp->content);
 			return (0);
@@ -168,7 +156,7 @@ int no_need_to_execute(t_command_line *queue)
 					current = current->next; // free the element for not stacking allocation
 			}
 			else
-				ft_close(current->infile);
+				ft_close(current->pipe);
 		}
 		if (current)
 			current = current->next;

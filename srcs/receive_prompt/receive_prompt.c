@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 16:38:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 01:53:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,16 @@ t_command_line	*change_queue(t_command_line *queue)
 	t_element	*tmp;
 	int			*file_mode;
 	char		**output;
-	int			infile;
+	char			**infile;
+	int			*infile_tab;
 
 	current = queue->first;
 	while (current)
 	{
-		infile = -1;
+		infile = NULL;
+		infile_tab = NULL;
 		output = NULL;
-		file_mode = 0;
+		file_mode = NULL;
 		while (current && current->type != CMD && current->type != C_BLOCK && !is_a_redirect(current->type))
 		{
 			if (current->type == RR_RED || current->type == R_RED)
@@ -148,8 +150,16 @@ t_command_line	*change_queue(t_command_line *queue)
 			}
 			else if (current->type == L_RED || current->type == LL_RED)
 			{
-				ft_close(infile);
-				infile = current->next->infile;
+				if (current->type == L_RED)
+				{
+					infile_tab = add_int_to_tab(infile_tab, -1, infile);
+					infile = add_string_char_2d(infile, current->next->content);
+				}
+				else
+				{
+					infile_tab = add_int_to_tab(infile_tab, current->next->pipe, infile);
+					infile = add_string_char_2d(infile, current->next->content);
+				}
 			}
 			current = current->next;
 		}
@@ -183,8 +193,16 @@ t_command_line	*change_queue(t_command_line *queue)
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
-					ft_close(tmp->infile);
-					tmp->infile = current->next->infile;
+					if (current->type == L_RED)
+					{
+						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, -1, tmp->infile);
+						tmp->infile = add_string_char_2d(tmp->infile, current->next->content);
+					}
+					else
+					{
+						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, current->next->pipe, tmp->infile);
+						tmp->infile = add_string_char_2d(tmp->infile, current->next->content);
+					}
 				}
 				current = current->next;
 			}

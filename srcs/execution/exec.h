@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 19:51:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 02:35:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*find_path(char *command, t_info *info);
 
 // Exec
 void	execute_command_line(t_tree *tree);
-void	exec(t_element *node, t_info *info);
+void	exec(t_element *node, t_info *info, t_element *first);
 
 // Heredoc
 void	here_doc(t_element *tmp);
@@ -42,20 +42,20 @@ int		ft_fork(void);
 char	**ready_to_exec(t_element *cmd);
 void	exit_status(int status, t_info *info);
 void ft_close(int fd);
-void ft_close_infile(t_element *node);
+void close_file_tree(t_element *current);
 
 // Redirection
-void	infile(t_element *node, t_info *info);
+int	infile(t_element *node, t_info *info, t_element *first);
 int	outfile(t_element *node, t_info *info);
 
 // Builtins
 int		check_built_in(char *command);
-void	only_builtin(t_element *node, t_info *info);
+void	only_builtin(t_element *node, t_info *info, t_element *first);
 void	exec_built_in(t_element *node, t_info *info);
 
 // Operators
-void or (t_element * node, t_info *info);
-void and (t_element * node, t_info *info);
-void	ft_pipe(t_element *node, t_info *info);
+void or (t_element * node, t_info *info, t_element *first);
+void and (t_element * node, t_info *info, t_element *first);
+void	ft_pipe(t_element *node, t_info *info, t_element *first);
 
 #endif // !EXEC_H

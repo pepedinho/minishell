@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 16:25:17 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 01:20:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	here_doc(t_element *tmp)
 	sigaction_signals(SIGQUIT, handle_signal_parent);
 	(dup2(save[1], STDOUT_FILENO), dup2(save[2], STDERR_FILENO));
 	(ft_close(save[1]), ft_close(save[2]), ft_close(fd[WRITE]));
-	tmp->infile = fd[READ];
+	tmp->pipe = fd[READ];
 }

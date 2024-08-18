@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/16 19:14:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 01:18:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_element
 {
 	int						type;
 	char					*content;
-	int						infile;
+	int pipe;
+	char					**infile;
 	int *infile_tab;
 	char					*env_value;
 	struct s_element		*left;

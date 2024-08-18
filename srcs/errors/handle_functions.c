@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 17:00:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 01:43:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	close_fd(t_command_line *queue)
 		buff = queue->first;
 		while (buff)
 		{
-			if (buff->infile != -1)
-				close(buff->infile);
+			if (buff->pipe != -1)
+				close(buff->pipe);
 			buff = buff->next;
 		}
 	}
