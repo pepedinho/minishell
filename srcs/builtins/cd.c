@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 22:55:21 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:57:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_cd(char *directory)
 	info->signal_code = 0;
 	if (!directory || !ft_strcmp(directory, "~"))
 		directory = ft_getenv("HOME");
-	if (!ft_strcmp(directory, "-"))
+	if (directory && !ft_strcmp(directory, "-"))
 	{
 		directory = ft_getenv("OLDPWD");
 		if (directory)
