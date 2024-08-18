@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:31:48 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 12:10:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:51:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ char	*if_normal(char *str, int *i)
 				return (str);
 			}
 		}
-		j++;
+		if (str[*i + j])
+			j++;
 	}
 	sub_str = ft_substr(str, *i, j);
 	if (!sub_str)

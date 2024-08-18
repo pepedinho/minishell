@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 13:15:03 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:47:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	heredoc_bis(t_element *tmp, int *fd)
 	}
 }
 
-void	here_doc(t_element *tmp)
+int	here_doc(t_element *tmp)
 {
 	int	fd[2];
 	int	save[3];
@@ -51,5 +51,9 @@ void	here_doc(t_element *tmp)
 	heredoc_bis(tmp, fd);
 	(dup2(save[1], STDOUT_FILENO), dup2(save[2], STDERR_FILENO));
 	(ft_close(save[1]), ft_close(save[2]), ft_close(fd[WRITE]));
-	tmp->pipe = fd[READ];
+	if (g_signal == 0)
+		tmp->pipe = fd[READ];
+	else
+		return (ft_close(fd[READ]), 0);
+	return (1);
 }

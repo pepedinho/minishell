@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 16:48:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:25:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,11 @@ char	*ft_create_variable(char *line, int *i)
 	if (!var)
 		return (NULL);
 	var = ft_strncpy(var, &line[*i], j);
+	if (line[*i + j] == '}')
+		(*i)++;
+	*i += j;
 	var[j++] = '=';
 	var[j] = '\0';
-	*i += j - 1;
 	return (var);
 }
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 13:16:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:33:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,6 @@ char	*ft_readline(t_info *info)
 
 	while (1)
 	{
-		g_signal = 0;
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
 		if (g_signal != 0)
@@ -384,7 +383,7 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
-		info->signal_code = g_signal;
+		// info->signal_code = g_signal;
 		set_signal_parent();
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);

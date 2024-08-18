@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 01:43:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:46:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,30 +91,12 @@ int	open_file(t_command_line *queue, t_info *info)
 		{
 			here_doc(tmp);
 			if (g_signal != 0)
-				return (0);
+				return (info->signal_code = g_signal, g_signal = 0, 0);
 		}
 		tmp = tmp->next;
 		if (tmp && tmp->type == U_TOKEN)
 			return (close_fd(queue), 0);
 	}
-	// tmp = queue->first;
-	// while (tmp)
-	// {
-	// 	if (tmp->type == FILE)
-	// 	{
-	// 		if (file(tmp) == 0)
-	// 		{
-	// 			while (tmp && (!is_a_redirect(tmp->type) || tmp->type == AND))
-	// 				tmp = tmp->next; // free the element for not stacking allocation
-	// 			if (tmp)
-	// 				queue->first = tmp->next;
-	// 			else
-	// 				queue->first = NULL;
-	// 		}
-	// 	}
-	// 	if (tmp)
-	// 		tmp = tmp->next;
-	// }
 	return (1);
 }
 

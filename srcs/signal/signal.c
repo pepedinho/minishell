@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:20:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 13:15:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:38:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 #include <signal.h>
 #include <unistd.h>
 
+void check_if_signal(void)
+{
+	if (g_signal == 128 + SIGQUIT)
+       		ft_putstr_fd("Quit (core dumped)\n", 2);
+	if (g_signal == 128 + SIGINT)
+		write(STDERR_FILENO, "\n", 1);
+	g_signal = 0;
+}
+
 void	handle_signal_parent(int num)
 {
 	g_signal = num + 128;
-	if (num == SIGINT)
-		write(STDERR_FILENO, "\n", 1);
-	if (num == SIGQUIT)
-        ft_putstr_fd("Quit (core dumped)\n", 2);
 }
 
 static int    sig_event(void)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 13:07:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/18 22:38:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ void	execute_command_line(t_tree *tree)
 		ft_free(tree);
 		tree = tmp;
 	}
+	check_if_signal();
 }
