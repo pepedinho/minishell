@@ -96,8 +96,9 @@ int	compare(char *path, char *dirname)
 	return (1);
 }
 
-// TODO: if tab[PATTERN] == "" just add the folder and the file only in the current dirrectory
-// exemple : srcs/* only add main.c and the name of the folder like "utils" "signal" etc ...
+// TODO: add protection for to deep path exemple :
+// srcs/*/*/*.c this path is too deep so we have to return "srcs/*/*/*.c" litteraly
+// without modification
 void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 {
 	int				tot_cnt;
