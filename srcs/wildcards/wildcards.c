@@ -27,7 +27,7 @@ int	cnt_file(char *dirname)
 		cnt++;
 		elem = readdir(dir);
 	}
-	return (cnt);
+	return (cnt + 1);
 }
 
 void	list_file(char *dirname, char *patern, t_command_line *queue)
@@ -70,13 +70,13 @@ char	*get_new_path(char *path, int depth, char *dirname)
 			break ;
 		i++;
 	}
-	printf("[[1][DEBUG]] path : %s\n", path);
+	// printf("[[1][DEBUG]] path : %s\n", path);
 	first_elem = ft_substr(path, 0, i);
 	if (first_elem[ft_strlen(first_elem) - 1] != '/')
 		result = ft_sprintf("%s/%s", first_elem, dirname);
 	else
 		result = ft_strjoin(first_elem, dirname);
-	printf("[[2][DEBUG]] result : %s\n", result);
+	// printf("[[2][DEBUG]] result : %s\n", result);
 	return (result);
 }
 
@@ -106,16 +106,16 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 	struct dirent	*elem;
 
 	tot_cnt = cnt_file(tab[DIRNAME]);
-	if (!depth)
-		return ;
-	printf("[1]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
+	// if (!depth)
+	//	return ;
+	// printf("[1]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
 	dir = opendir(tab[DIRNAME]);
 	if (!dir)
 		return ;
 	elem = readdir(dir);
 	while (elem)
 	{
-		if (elem->d_type == 4 && !ft_strstr(elem->d_name, ".")
+		if (elem->d_type == 4 && !ft_strstr(elem->d_name, ".") && depth
 			&& cnt == tot_cnt)
 		{
 			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
@@ -129,7 +129,7 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 				rec_open(tab, depth - 1, 0, queue);
 			}
 		}
-		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, "."))
+		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, ".") && depth)
 		{
 			list_file(tab[DIRNAME], tab[PATERN], queue);
 			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
@@ -142,9 +142,14 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			}
 			// printf("debug[2] : %s\n", elem->d_name);
 		}
+		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, "."))
+		{
+			list_file(tab[DIRNAME], tab[PATERN], queue);
+			return ;
+		}
 		elem = readdir(dir);
 	}
-	printf("[2]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
+	// printf("[2]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
 }
 
 int	get_depth(char *str)
@@ -196,6 +201,6 @@ int	expend_wcards(char *path, t_command_line *queue)
 	char	**tab;
 
 	tab = get_path_and_format(path);
-	rec_open(tab, get_depth(path), 0, queue);
+	rec_open(tab, get_depth(path) - 1, 0, queue);
 	return (0);
 }
