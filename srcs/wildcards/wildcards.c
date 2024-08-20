@@ -27,7 +27,11 @@ int	cnt_file(char *dirname)
 		cnt++;
 		elem = readdir(dir);
 	}
-	return (cnt + 1);
+	if (cnt - 1 < 0)
+		cnt = 0;
+	else
+		cnt--;
+	return (cnt);
 }
 
 void	list_file(char *dirname, char *patern, t_command_line *queue)
@@ -132,14 +136,14 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 		}
 		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, ".") && depth)
 		{
-			list_file(tab[DIRNAME], tab[PATERN], queue);
+			// list_file(tab[DIRNAME], tab[PATERN], queue);
 			// printf("debug[1] : %s\n", ft_strstr(elem->d_name, "."));
 			// new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
 			if (!compare(tab[DIRNAME], elem->d_name))
 			{
 				new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
 				tab[DIRNAME] = new_dir;
-				rec_open(tab, depth, cnt + 1, queue);
+				rec_open(tab, depth, cnt, queue);
 			}
 			// printf("debug[2] : %s\n", elem->d_name);
 		}
@@ -149,6 +153,7 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			return ;
 		}
 		elem = readdir(dir);
+		cnt++;
 	}
 	// printf("[2]/!\\debug/!\\ : %s\n", tab[DIRNAME]);
 }
