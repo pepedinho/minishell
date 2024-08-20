@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 22:51:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:44:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char *ft_getenv(char *key)
 			break ;
 		tmp = tmp->next;
 	}
+	if (!tmp)
+		return (NULL);
 	return (tmp->value);
 }
 

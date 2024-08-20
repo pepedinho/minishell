@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 01:43:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:33:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_index(char token, int *i)
 	if (token == '<')
 		*i = 3;
 	else if (token == ';')
-		*i = 1;
+		*i = 0;
 	else if (token == '&')
 		*i = 2;
 	else if (token == '|')

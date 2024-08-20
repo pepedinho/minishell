@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 21:46:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:35:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,12 @@ int	open_file(t_command_line *queue, t_info *info)
 		while (tmp && tmp->type != U_TOKEN)
 			tmp = tmp->next;
 		if (tmp && tmp->content[0])
-			handle_unexpected_token(tmp->content, 1);
+		{
+			if (tmp->content[0] == ';')
+				handle_unexpected_token(tmp->content, 2);
+			else
+				handle_unexpected_token(tmp->content, 1);
+		}
 	}
 	tmp = queue->first;
 	while (tmp)

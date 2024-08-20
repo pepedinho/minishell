@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/18 01:45:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:32:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,15 @@ void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 	// 	check_for_wcards(queue, new);
 }
 
+int is_a_redirection(int type)
+{
+	if (type == RR_RED || type == R_RED)
+		return (1);
+	if (type == L_RED || type == LL_RED)
+		return (1);
+	return (0);
+}
+
 t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 {
 	t_element	*new;
@@ -154,6 +163,11 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 	queue->last = new;
 	if (new->type == CMD && ft_strchr(new->content, '=') && is_a_good_variable(new->content))
 		new->type = LOCAL_VAR;
+	if (new->type == LIST && is_a_redirection(new->before->type))
+	{
+		new->type = U_TOKEN;
+		queue->u_token_flag = 1;
+	}
 	return (new);
 }
 

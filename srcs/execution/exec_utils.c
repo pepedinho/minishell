@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 13:03:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:43:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,16 @@ char	*find_path(char *command, t_info *info)
 	int		i;
 	char	*path;
 	char	**split;
-	t_env	*current;
+	char *value;
 
 	i = 0;
+	(void)info;
 	if (ft_access(command) == 0)
 		return (command);
-	current = info->env;
-	while (current && ft_strcmp(current->key, "PATH") != 0)
-		current = current->next;
-	if (current)
+	value = ft_getenv("PATH");
+	if (value)
 	{
-		split = ft_split(current->value, ":");
+		split = ft_split(value, ":");
 		while (split[i])
 		{
 			path = ft_sprintf("%s/%s", split[i], command);
@@ -90,13 +89,7 @@ int	ft_fork(void)
 	if (pid == -1)
 		free_and_exit(-1);
 	if (pid == 0)
-	{
 		set_signal_child();
-	}
-	// if (pid > 0)
-	// {
-		
-	// }
 	return (pid);
 }
 
