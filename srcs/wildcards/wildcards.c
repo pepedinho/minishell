@@ -46,7 +46,7 @@ void	list_file(char *dirname, char *patern, t_command_line *queue)
 	while (elem)
 	{
 		printf("[3]/!\\ DEBUG  /!\\ : [%d]%s\n", elem->d_type, elem->d_name);
-		if (ft_strstr(elem->d_name, patern) && elem->d_name[0] != '.')
+		if (elem->d_name[0] != '.' && ft_strstr(elem->d_name, patern))
 		{
 			if (dirname[ft_strlen(dirname) - 1] != '/')
 				add_to_queue(queue, ft_sprintf("%s/%s", dirname, elem->d_name),
@@ -127,6 +127,8 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			// new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
 			if (!compare(tab[DIRNAME], elem->d_name))
 			{
+				printf("list : %s/%s\n\tdepth : %d\n", tab[DIRNAME],
+					elem->d_name, depth);
 				new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
 				list_file(new_dir, tab[PATERN], queue);
 				tab[DIRNAME] = new_dir;
@@ -141,17 +143,30 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			// new_dir = ft_strjoin(tab[DIRNAME], elem->d_name);
 			if (!compare(tab[DIRNAME], elem->d_name))
 			{
+				printf("debug : %s\n\tdepth : %d\n", tab[DIRNAME], depth);
 				new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
 				tab[DIRNAME] = new_dir;
-				rec_open(tab, depth, cnt, queue);
+				rec_open(tab, depth - 1, 0, queue);
 			}
 			// printf("debug[2] : %s\n", elem->d_name);
 		}
 		else if (elem->d_type == 4 && !ft_strstr(elem->d_name, "."))
 		{
+			printf(" simple list : %s/%s\n\tdepth : %d\n", tab[DIRNAME],
+				elem->d_name, depth);
 			list_file(tab[DIRNAME], tab[PATERN], queue);
 			return ;
 		}
+		else if (elem->d_type != 4 && depth == 0 && elem->d_name[0] != '.'
+			&& cnt == tot_cnt)
+		{
+			printf("new list : %s/%s\n\tdepth : %d\n", tab[DIRNAME],
+				elem->d_name, depth);
+			list_file(tab[DIRNAME], tab[PATERN], queue);
+		}
+		else
+			printf(" lost : %s/%s\n\tdepth : %d | cnt : %d/%d\n", tab[DIRNAME],
+				elem->d_name, depth, cnt, tot_cnt);
 		elem = readdir(dir);
 		cnt++;
 	}
