@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/24 05:41:17 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 00:54:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	command(t_element *node, t_info *info, t_element *first)
 	if (path == NULL)
 		handle_malloc_error("path");
 	(infile(node, info, first), outfile(node, info));
+	if (!ft_strcmp(node->args[0], "ls"))
+		node->args = add_string_char_2d(node->args, ft_strdup("--color=auto"));
 	execve(path, node->args, envp);
 	if (errno == 2)
 	{

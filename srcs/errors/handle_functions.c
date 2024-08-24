@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/24 05:45:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 00:47:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,6 @@ void	close_fd(t_command_line *queue)
 
 void	free_and_exit(int status_code)
 {
-	// t_command_line	*queue;
-
-	// queue = queue_in_static(NULL, GET);
-	// close_fd(queue);
 	ft_free(DESTROY);
 	rl_clear_history();
 	exit(status_code);
