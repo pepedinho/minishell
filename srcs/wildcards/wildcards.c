@@ -75,13 +75,14 @@ char	*get_new_path(char *path, int depth, char *dirname)
 			dpth++;
 		i++;
 	}
-	printf("[[1][DEBUG]] path : %s\n", path);
+	printf("[[1][DEBUG]] dpth : %d | depth : %d\n", dpth, depth);
 	first_elem = ft_substr(path, 0, i);
+	printf("\tpath : %s | first_elem : %s\n", path, first_elem);
 	if (first_elem[ft_strlen(first_elem) - 1] != '/')
 		result = ft_sprintf("%s/%s", first_elem, dirname);
 	else
 		result = ft_strjoin(first_elem, dirname);
-	printf("[[2][DEBUG]] result : %s\n", result);
+	printf("\t\tresult : %s\n", result);
 	return (result);
 }
 
@@ -111,6 +112,7 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 	char			*new_dir;
 	struct dirent	*elem;
 
+	printf("actual DIRNAME : %s\n", tab[DIRNAME]);
 	tot_cnt = cnt_file(tab[DIRNAME]);
 	// if (!depth)
 	//	return ;
@@ -130,6 +132,7 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			{
 				printf("list : %s/\n\tdepth : %d\n", tab[DIRNAME], depth);
 				new_dir = get_new_path(tab[DIRNAME], depth, elem->d_name);
+				printf("[NEW DIR 1] : %s\n", new_dir);
 				list_file(new_dir, tab[PATERN], queue);
 				tab[DIRNAME] = new_dir;
 				// printf("debug[2] : %s\n", elem->d_name);
@@ -146,6 +149,7 @@ void	rec_open(char **tab, int depth, int cnt, t_command_line *queue)
 			{
 				printf("debug : %s\n\tdepth : %d\n", tab[DIRNAME], depth);
 				new_dir = get_new_path(tab[DIRNAME], depth, elem->d_name);
+				printf("[NEW DIR 2] : %s\n", new_dir);
 				tab[DIRNAME] = new_dir;
 				rec_open(tab, depth - 1, 0, queue);
 			}
@@ -265,13 +269,12 @@ int	check_depth(char **tab, int depth, int cnt)
 			new_dir = get_new_path(tab[DIRNAME], 0, elem->d_name);
 			tab[DIRNAME] = new_dir;
 			current_depth = rec_depth_check(tab, depth, 0);
-			printf("debug : cur_depth : %d cur_file : %s\n", current_depth,
-				new_dir);
 			if (last_max_depth < current_depth)
 				last_max_depth = current_depth;
 		}
 		elem = readdir(dir);
 	}
+	printf("-------------------------------------------------------------\n");
 	return (last_max_depth + 1);
 }
 
