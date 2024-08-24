@@ -69,7 +69,6 @@ int	infile(t_element *node, t_info *info, t_element *first)
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
 			(close_file_tree(first), free_and_exit(-1));
 		}
-		printf("%s\n", node->infile[i]);
 		i++;
 	}
 	close_file_tree(first);

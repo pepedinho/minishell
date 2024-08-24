@@ -105,7 +105,7 @@ t_tree	*smart_agencement(t_command_line *queue)
 		return (NULL);
 	first_join(tree, queue->first);
 	if (tree->first->type == CMD || tree->first->type == C_BLOCK
-		|| tree->first->type == LOCAL_VAR)
+		|| tree->first->type == LOCAL_VAR || tree->first->type == N_CMD)
 		return (tree);
 	current = queue->first->next->next;
 	while (current)

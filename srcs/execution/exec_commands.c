@@ -153,7 +153,7 @@ void	execute_command_line(t_tree *tree)
 	while (tree)
 	{
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
-			|| tree->first->type == C_BLOCK)
+			|| tree->first->type == C_BLOCK || tree->first->type == N_CMD)
 		{
 			pid = ft_fork();
 			if (pid == 0)
