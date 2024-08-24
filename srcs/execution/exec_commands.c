@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 22:38:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 05:36:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	command(t_element *node, t_info *info, t_element *first)
 		handle_malloc_error("path");
 	infile(node, info, first);
 	outfile(node, info);
-	close_file_tree(first);
 	execve(path, node->args, envp);
 	if (errno == 2)
 	{
@@ -55,7 +54,7 @@ void	subshell(t_element *node, t_info *info, t_element *first)
 	args[3] = NULL;
 	(infile(node, info, first), outfile(node, info));
 	close_file_tree(first);
-	execve("./minishell", args, envp);
+	execve("/tmp/minishell", args, envp);
 	ft_free_2d(args);
 	ft_free_2d(envp);
 	free_and_exit(errno);

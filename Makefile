@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/16 20:44:40 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/24 05:23:39 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ $(LIBFT) :
 
 $(NAME) : message $(OBJS)
 	@$(CC) $(C_FLAGS) $(OBJS) -L ./libft -lft -lreadline -o $@
+	@cp ./minishell /tmp
 	@echo
 	@echo "💻$(BLUE)executable created >_$(END)✅"
 
