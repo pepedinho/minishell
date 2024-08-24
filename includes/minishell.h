@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/17 16:21:50 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 12:41:56 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 # include "../srcs/execution/exec.h"
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/parsing/parsing.h"
+# include "../srcs/wildcards/wildcards.h"
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/signal/signal.h"
 # include "../srcs/utils/utils.h"
-# include "../srcs/wildcards/wildcards.h"
-# include <dirent.h>
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>

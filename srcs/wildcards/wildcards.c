@@ -6,10 +6,11 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 03:35:50 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/24 12:37:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 15:27:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 
 int	cnt_file(char *dirname)
 {

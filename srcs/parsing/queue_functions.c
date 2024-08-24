@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/20 00:32:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 12:39:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,24 +89,24 @@ void	destroy_cmd(t_command_line *queue, t_element *to_destroy)
 	}
 }
 
-// void	check_for_wcards(t_command_line *queue, t_element *elem)
-// {
-// 	int		i;
-// 	char	*tmp;
+void	check_for_wcards(t_command_line *queue, t_element *elem)
+{
+	int		i;
+	char	*tmp;
 
-// 	i = 0;
-// 	while (elem->content[i])
-// 	{
-// 		if (elem->content[i] == '*')
-// 		{
-// 			tmp = elem->content;
-// 			destroy_cmd(queue, elem);
-// 			// expend_wcards(tmp, queue);
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (elem->content[i])
+	{
+		if (elem->content[i] == '*')
+		{
+			tmp = elem->content;
+			destroy_cmd(queue, elem);
+			expend_wcards(tmp, queue);
+			return ;
+		}
+		i++;
+	}
+}
 
 void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 {
@@ -130,8 +130,8 @@ void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 	}
 	new->before = current;
 	current->next = new;
-	// if (new->type == SFX)
-	// 	check_for_wcards(queue, new);
+	if (new->type == SFX)
+		check_for_wcards(queue, new);
 }
 
 int is_a_redirection(int type)
