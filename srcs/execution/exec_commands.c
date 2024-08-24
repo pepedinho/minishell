@@ -73,7 +73,10 @@ void	local_var(t_element *node, t_info *info, t_element *first)
 void	exec(t_element *node, t_info *info, t_element *first)
 {
 	if (node->type == N_CMD)
+	{
+		(infile(node, info, first), outfile(node, info));
 		free_and_exit(EXIT_SUCCESS);
+	}
 	if (node->type == LOCAL_VAR)
 		local_var(node, info, first);
 	if (node->type == AND)
@@ -105,7 +108,7 @@ void	only_builtin(t_element *node, t_info *info, t_element *first)
 	(ft_close(save_stdin), ft_close(save_stdout));
 }
 
-void free_tree(t_element *node)
+void	free_tree(t_element *node)
 {
 	if (!node)
 		return ;
@@ -117,19 +120,22 @@ void free_tree(t_element *node)
 	ft_free(node);
 }
 
-void close_file_tree(t_element *current)
+void	close_file_tree(t_element *current)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
+	if (!current)
+		return ;
+	if (current->type == CMD || current->type == C_BLOCK
+		|| current->type == LOCAL_VAR)
 	{
 		while (current->infile && current->infile[i])
 		{
 			ft_close(current->infile_tab[i]);
 			i++;
 		}
-		return;
+		return ;
 	}
 	close_file_tree(current->left);
 	close_file_tree(current->right);
@@ -139,7 +145,7 @@ void	execute_command_line(t_tree *tree)
 {
 	int		pid;
 	int		status;
-	t_tree *tmp;
+	t_tree	*tmp;
 	t_info	*info;
 
 	info = info_in_static(NULL, GET);

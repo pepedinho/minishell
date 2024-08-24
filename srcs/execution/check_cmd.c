@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "exec.h"
 #include <fcntl.h>
 #include <readline/readline.h>
-#include <stdio.h>
-#include <time.h>
 #include <unistd.h>
 
 int	file(t_element *tmp)
@@ -56,7 +55,9 @@ int	open_file(t_command_line *queue, t_info *info)
 		return (0);
 	}
 	tmp = queue->last;
-	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR || tmp->type == L_RED || tmp->type == LL_RED || tmp->type == R_RED || tmp->type == RR_RED)
+	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR
+		|| tmp->type == L_RED || tmp->type == LL_RED || tmp->type == R_RED
+		|| tmp->type == RR_RED)
 	{
 		handle_unexpected_token(tmp->content, 2);
 		return (0);
@@ -105,68 +106,8 @@ int	open_file(t_command_line *queue, t_info *info)
 	return (1);
 }
 
-int outfile_open(t_element *tmp)
-{
-	if (tmp->before && tmp->before->type == R_RED)
-	{
-		tmp->pipe = open(tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (tmp->pipe == -1)
-		{
-			error_message(tmp->content);
-			return (0);
-		}
-	}
-	else if (tmp->before && tmp->before->type == RR_RED)
-	{
-		tmp->pipe = open(tmp->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (tmp->pipe == -1)
-		{
-			error_message(tmp->content);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-int no_need_to_execute(t_command_line *queue)
-{
-	t_element *current;
-
-	current = queue->first;
-	while (current)
-	{
-		if (current->type == FILE)
-		{
-			if (file(current) == 0 || outfile_open(current) == 0)
-			{
-				while (current && (!is_a_redirect(current->type) || current->type == AND))
-					current = current->next; // free the element for not stacking allocation
-			}
-			else
-				ft_close(current->pipe);
-		}
-		if (current)
-			current = current->next;
-	}
-	queue->first = NULL;
-	return (1);
-}
-
 int	global_check(t_command_line *queue, t_info *info)
 {
-	int check;
-	t_element *current;
-	
-	current = queue->first;
-	check = 0;
-	while (current)
-	{
-		if (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
-			check = 1;
-		current = current->next;
-	}
-	if (check == 0)
-		return (no_need_to_execute(queue));
 	if (!open_file(queue, info))
 		return (0);
 	return (1);

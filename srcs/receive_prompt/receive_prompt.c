@@ -131,7 +131,7 @@ t_command_line	*change_queue(t_command_line *queue)
 	t_element	*tmp;
 	int			*file_mode;
 	char		**output;
-	char			**infile;
+	char		**infile;
 	int			*infile_tab;
 
 	current = queue->first;
@@ -141,7 +141,8 @@ t_command_line	*change_queue(t_command_line *queue)
 		infile_tab = NULL;
 		output = NULL;
 		file_mode = NULL;
-		while (current && current->type != CMD && current->type != C_BLOCK && !is_a_redirect(current->type))
+		while (current && current->type != CMD && current->type != C_BLOCK
+			&& !is_a_redirect(current->type))
 		{
 			if (current->type == RR_RED || current->type == R_RED)
 			{
@@ -157,10 +158,12 @@ t_command_line	*change_queue(t_command_line *queue)
 				}
 				else
 				{
-					infile_tab = add_int_to_tab(infile_tab, current->next->pipe, infile);
+					infile_tab = add_int_to_tab(infile_tab, current->next->pipe,
+							infile);
 					infile = add_string_char_2d(infile, current->next->content);
 				}
 			}
+			tmp = current;
 			current = current->next;
 		}
 		if (current)
@@ -174,6 +177,16 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			current->before->type = N_CMD;
 			current->before->infile = infile;
+			current->before->infile_tab = infile_tab;
+			current->before->outfile = output;
+			current->before->file_mode = file_mode;
+		}
+		if (!current)
+		{
+			current = tmp;
+			current->before->type = N_CMD;
+			current->before->infile = infile;
+			current->before->infile_tab = infile_tab;
 			current->before->outfile = output;
 			current->before->file_mode = file_mode;
 		}
@@ -187,21 +200,27 @@ t_command_line	*change_queue(t_command_line *queue)
 				if (current->type == RR_RED || current->type == R_RED)
 				{
 					tmp->file_mode = add_int_to_tab(tmp->file_mode,
-							current->type, tmp->outfile);
+													current->type,
+													tmp->outfile);
 					tmp->outfile = add_string_char_2d(tmp->outfile,
-							current->next->content);
+														current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
 					if (current->type == L_RED)
 					{
-						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, -1, tmp->infile);
-						tmp->infile = add_string_char_2d(tmp->infile, current->next->content);
+						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, -1,
+								tmp->infile);
+						tmp->infile = add_string_char_2d(tmp->infile,
+															current->next->content);
 					}
 					else
 					{
-						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, current->next->pipe, tmp->infile);
-						tmp->infile = add_string_char_2d(tmp->infile, current->next->content);
+						tmp->infile_tab = add_int_to_tab(tmp->infile_tab,
+															current->next->pipe,
+															tmp->infile);
+						tmp->infile = add_string_char_2d(tmp->infile,
+															current->next->content);
 					}
 				}
 				current = current->next;
@@ -260,7 +279,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			ft_free(current);
 			current = tmp;
 		}
-		else 
+		else
 			current = current->next;
 	}
 	return (queue);
@@ -319,7 +338,7 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
 	t_tree			*tree;
-	
+
 	info->signal_code = g_signal;
 	set_signal_parent();
 	queue = parsing(command_line, info);
@@ -354,7 +373,7 @@ char	*ft_readline(t_info *info)
 		{
 			info->signal_code = g_signal;
 			g_signal = 0;
-			continue;
+			continue ;
 		}
 		ft_free(prompt);
 		if (!command_line)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 15:31:28 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 22:29:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 15:51:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ int	ft_is_numeric(char *nb)
 	int	i;
 
 	i = 0;
+	if (nb[i] == '+' || nb[i] == '-')
+		i++;
 	while (nb[i])
 	{
+		
 		if (ft_isdigit(nb[i]) == 0)
 			return (0);
 		i++;

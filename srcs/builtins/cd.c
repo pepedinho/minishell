@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 22:57:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/24 18:10:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,18 @@ int	ft_cd(char *directory)
 
 	info = info_in_static(NULL, GET);
 	info->signal_code = 0;
+	message = ft_strdup("");
 	if (!directory || !ft_strcmp(directory, "~"))
 		directory = ft_getenv("HOME");
 	if (directory && !ft_strcmp(directory, "-"))
 	{
 		directory = ft_getenv("OLDPWD");
-		if (directory)
-			printf("%s\n", directory);
+		message = ft_strdup("-");
+		if (!directory)
+		{
+			printf("%s: cd: OLDPWD not set\n", info->name);
+			return (info->signal_code = 1, info->signal_code);
+		}
 	}
 	if (!directory || chdir(directory) == -1)
 	{
@@ -69,6 +74,8 @@ int	ft_cd(char *directory)
 		ft_free(message);
 		info->signal_code = 1;
 	}
+	if (directory && !ft_strcmp(message, "-") && info->signal_code == 0)
+		printf("%s\n", directory);
 	if (info->signal_code == 0)
 		change_pwd_in_env(info);
 	return (info->signal_code);
