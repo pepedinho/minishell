@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 20:26:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 21:58:41 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_prompt(t_info *info)
 	return (ft_sprintf("minishell> "));
 }
 
-char	**ready_to_exec(t_element *cmd)
+char	**prepare_args_to_exec(t_element *cmd)
 {
 	char		**cmd_tab;
 	t_element	*current;
@@ -56,7 +56,7 @@ char	**ready_to_exec(t_element *cmd)
 	i = 0;
 	while (current && !is_a_redirect(current->type))
 	{
-		if (current->type == SFX || current->type == CMD || current->type == C_BLOCK)
+		if (current->type == SFX || current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
 			cmd_tab[i++] = current->content;
 		current = current->next;
 	}
@@ -76,7 +76,7 @@ void add_string_char_2d(char ***tab, char *str)
 	i = 0;
 	while (buff && buff[i])
 	{
-		new[i] = ft_strdup(buff[i]);
+		new[i] = buff[i];
 		if (!new[i])
 			handle_malloc_error("parsing");
 		i++;
@@ -85,7 +85,7 @@ void add_string_char_2d(char ***tab, char *str)
 	if (!new[i])
 		handle_malloc_error("parsing");
 	new[++i] = NULL;
-	ft_free_2d(buff);
+	ft_free(buff);
 	*tab = new;
 	ft_free(str);
 }
@@ -137,17 +137,8 @@ t_command_line	*change_queue(t_command_line *queue)
 			}
 			else if (current->type == L_RED || current->type == LL_RED)
 			{
-				if (current->type == L_RED)
-				{
-					add_int_to_tab(&infile_tab, -1, infile);
-					add_string_char_2d(&infile, current->next->content);
-				}
-				else
-				{
-					add_int_to_tab(&infile_tab, current->next->pipe,
-							infile);
-					add_string_char_2d(&infile, current->next->content);
-				}
+				add_int_to_tab(&infile_tab, current->next->pipe, infile);
+				add_string_char_2d(&infile, current->next->content);
 			}
 			tmp = current;
 			current = current->next;
@@ -155,7 +146,8 @@ t_command_line	*change_queue(t_command_line *queue)
 		if (!current || (current && is_a_redirect(current->type)))
 		{
 			current = tmp;
-			current->type = N_CMD;
+			if (current->type != LOCAL_VAR)
+				current->type = N_CMD;
 		}
 		current->infile = infile;
 		current->infile_tab = infile_tab;
@@ -163,9 +155,9 @@ t_command_line	*change_queue(t_command_line *queue)
 		current->file_mode = file_mode;
 		if (!current || (current && is_a_redirect(current->type)))
 			current = current->next;
-		if (current && (current->type == CMD || current->type == C_BLOCK))
+		if (current && (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR))
 		{
-			current->args = ready_to_exec(current);
+			current->args = prepare_args_to_exec(current);
 			tmp = current;
 			current = current->next;
 			while (current && current->type != PIPE && current->type != AND
@@ -173,27 +165,13 @@ t_command_line	*change_queue(t_command_line *queue)
 			{
 				if (current->type == RR_RED || current->type == R_RED)
 				{
-					add_int_to_tab(&tmp->file_mode,
-							current->type, tmp->outfile);
-					add_string_char_2d(&tmp->outfile,
-							current->next->content);
+					add_int_to_tab(&tmp->file_mode, current->type, tmp->outfile);
+					add_string_char_2d(&tmp->outfile, current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
-					if (current->type == L_RED)
-					{
-						add_int_to_tab(&tmp->infile_tab, -1,
-								tmp->infile);
-						add_string_char_2d(&tmp->infile,
-								current->next->content);
-					}
-					else
-					{
-						add_int_to_tab(&tmp->infile_tab,
-								current->next->pipe, tmp->infile);
-						add_string_char_2d(&tmp->infile,
-								current->next->content);
-					}
+					add_int_to_tab(&tmp->infile_tab, current->next->pipe, tmp->infile);
+					add_string_char_2d(&tmp->infile, current->next->content);
 				}
 				current = current->next;
 			}
@@ -280,7 +258,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	queue = parser(command_line, info->env);
 	if (!queue)
 		return (NULL);
-	// print_queue(queue);
+	print_queue(queue);
 	if (global_check(queue, info) == 0)
 		return (NULL);
 	queue = change_queue(queue);

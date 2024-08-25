@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:31:48 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 21:51:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 21:03:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,28 +106,19 @@ char	*if_normal(char *str, int *i)
 				*i += j - 1;
 				end_str = ft_strcpy(ft_strchr(str, '$') + 1, &str[*i] + 1);
 				end_str = ft_strdup(end_str);
-				ft_free(str);
-				str = if_dquote(end_str, i);
-				return (str);
+				return (ft_free(str), if_dquote(end_str, i));
 			}
 			if (str[*i + j] == '{')
 			{
 				*i += j - 1;
-				end_str = str;
-				// end_str = ft_strcpy(ft_strchr(str, '$') + 1, &str[*i] + 1);
-				// end_str = ft_strdup(end_str);
-				// ft_free(str);
-				str = if_cursh(end_str, i);
-				return (str);
+				return (if_cursh(str, i));
 			}
 			if (str[*i + j] == '\'')
 			{
 				*i += j - 1;
 				end_str = ft_strcpy(ft_strchr(str, '$') + 1, &str[*i] + 1);
 				end_str = ft_strdup(end_str);
-				ft_free(str);
-				str = if_quote(end_str, i);
-				return (str);
+				return (ft_free(str), if_quote(end_str, i));
 			}
 		}
 		if (str[*i + j])
@@ -141,7 +132,7 @@ char	*if_normal(char *str, int *i)
 	if (!end_str)
 		handle_malloc_error("expand variable");
 	str[*i] = '\0';
-	str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str));
+	str = ft_realloc(str, ft_strlen(sub_str) + ft_strlen(end_str) + 1);
 	if (!str)
 		handle_malloc_error("expand variable");
 	(ft_strcat(str, sub_str), ft_strcat(str, end_str));
