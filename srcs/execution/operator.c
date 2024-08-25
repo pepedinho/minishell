@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:39:21 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 16:04:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:43:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	fork_because_mandatory(t_element *node, t_info *info, t_element *first)
 	(waitpid(pid, &status, 0), exit_status(status, info));
 }
 
-void and (t_element * node, t_info *info, t_element *first)
+void and(t_element * node, t_info *info, t_element *first)
 {
 	if (check_if_fork(node->left))
 		fork_because_mandatory(node->left, info, first);
@@ -69,7 +69,7 @@ void and (t_element * node, t_info *info, t_element *first)
 		close_file_tree(first);
 }
 
-void or (t_element * node, t_info *info, t_element *first)
+void or(t_element * node, t_info *info, t_element *first)
 {
 	if (check_if_fork(node->left))
 		fork_because_mandatory(node->left, info, first);

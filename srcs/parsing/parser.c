@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/25 02:48:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 17:08:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ t_command_line	*parser(char *str, t_env *env)
 		if (str[i])
 			str = add_elem(queue, str, &i, env);
 	}
-	queue = queue_in_static(queue, INIT);
 	return (queue);
 }
 

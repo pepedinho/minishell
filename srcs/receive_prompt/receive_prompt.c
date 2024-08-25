@@ -6,20 +6,11 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 15:37:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 17:07:42 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-t_command_line	*queue_in_static(t_command_line *queue, int cas)
-{
-	static t_command_line	*save;
-
-	if (cas == INIT)
-		save = queue;
-	return (save);
-}
 
 char	*get_prompt(t_info *info)
 {
@@ -61,22 +52,15 @@ char	**ready_to_exec(t_element *cmd)
 	current = cmd;
 	cmd_tab = ft_malloc(sizeof(char *) * (i + 1));
 	if (!cmd_tab)
-		return (NULL);
+		handle_malloc_error("parsing");
 	i = 0;
 	while (current && !is_a_redirect(current->type))
 	{
-		if (current->type == R_RED || current->type == RR_RED
-			|| current->type == L_RED || current->type == LL_RED)
-		{
-			current = current->next->next;
-			continue ;
-		}
-		cmd_tab[i] = current->content;
+		if (current->type == SFX || current->type == CMD || current->type == C_BLOCK)
+			cmd_tab[i++] = current->content;
 		current = current->next;
-		i++;
 	}
-	cmd_tab[i] = NULL;
-	return (cmd_tab);
+	return (cmd_tab[i] = NULL, cmd_tab);
 }
 
 char	**add_string_char_2d(char **tab, char *str)
@@ -168,19 +152,13 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			current = tmp;
 			current->type = N_CMD;
-			current->infile = infile;
-			current->infile_tab = infile_tab;
-			current->outfile = output;
-			current->file_mode = file_mode;
+		}
+		current->infile = infile;
+		current->infile_tab = infile_tab;
+		current->outfile = output;
+		current->file_mode = file_mode;
+		if (!current || (current && is_a_redirect(current->type)))
 			current = current->next;
-		}
-		else
-		{
-			current->infile = infile;
-			current->infile_tab = infile_tab;
-			current->outfile = output;
-			current->file_mode = file_mode;
-		}
 		if (current && (current->type == CMD || current->type == C_BLOCK))
 		{
 			current->args = ready_to_exec(current);
@@ -324,7 +302,6 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	t_command_line	*queue;
 	t_tree			*tree;
 
-	info->signal_code = g_signal;
 	set_signal_parent();
 	queue = parsing(command_line, info);
 	if (!queue)

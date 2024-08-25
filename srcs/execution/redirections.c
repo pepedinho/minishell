@@ -6,12 +6,32 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:44:20 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 16:07:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:42:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <stdio.h>
+
+int ft_open_infile(char *file, int flag)
+{
+	int fd;
+
+	fd = open(file, flag);
+	if (fd == -1)
+		(error_message(file), free_and_exit(1));
+	return (fd);
+}
+
+int ft_open_outfile(char *file, int flag, int mode)
+{
+	int fd;
+
+	fd = open(file, flag, mode);
+	if (fd == -1)
+		(error_message(file), free_and_exit(1));
+	return (fd);
+}
 
 int	outfile(t_element *node, t_info *info)
 {
@@ -23,19 +43,11 @@ int	outfile(t_element *node, t_info *info)
 	while (node->outfile && node->outfile[i])
 	{
 		if (node->file_mode[i] == R_RED)
-		{
-			outfile = open(node->outfile[i], O_WRONLY | O_CREAT | O_TRUNC,
+			outfile = ft_open_outfile(node->outfile[i], O_WRONLY | O_CREAT | O_TRUNC,
 					0644);
-			if (outfile == -1)
-				(error_message(node->outfile[i]), free_and_exit(1));
-		}
 		else if (node->file_mode[i] == RR_RED)
-		{
-			outfile = open(node->outfile[i], O_WRONLY | O_CREAT | O_APPEND,
+			outfile = ft_open_outfile(node->outfile[i], O_WRONLY | O_CREAT | O_APPEND,
 					0644);
-			if (outfile == -1)
-				(error_message(node->outfile[i]), free_and_exit(1));
-		}
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 		{
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
@@ -55,11 +67,7 @@ int	infile(t_element *node, t_info *info, t_element *first)
 	while (node->infile && node->infile[i])
 	{
 		if (node->infile_tab[i] == -1)
-		{
-			node->infile_tab[i] = open(node->infile[i], O_RDONLY);
-			if (node->infile_tab[i] == -1)
-				(error_message(node->infile[i]), free_and_exit(1));
-		}
+			node->infile_tab[i] = ft_open_infile(node->infile[i], O_RDONLY);
 		if (dup2(node->infile_tab[i], STDIN_FILENO) == -1)
 		{
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
