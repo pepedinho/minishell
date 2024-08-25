@@ -36,12 +36,10 @@ char	*get_prompt(t_info *info)
 		hostname = current->value;
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
-								hostname,
-								pwd);
+					hostname, pwd);
 		else
 			prompt = ft_sprintf("\001\033[0;34m\002%s:\001\033[0;32m\002%s\001\033[0;31m$\001\033[0m\002 ",
-								hostname,
-								pwd);
+					hostname, pwd);
 		return (prompt);
 	}
 	return (ft_sprintf("minishell> "));
@@ -200,10 +198,9 @@ t_command_line	*change_queue(t_command_line *queue)
 				if (current->type == RR_RED || current->type == R_RED)
 				{
 					tmp->file_mode = add_int_to_tab(tmp->file_mode,
-													current->type,
-													tmp->outfile);
+							current->type, tmp->outfile);
 					tmp->outfile = add_string_char_2d(tmp->outfile,
-														current->next->content);
+							current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
@@ -212,15 +209,14 @@ t_command_line	*change_queue(t_command_line *queue)
 						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, -1,
 								tmp->infile);
 						tmp->infile = add_string_char_2d(tmp->infile,
-															current->next->content);
+								current->next->content);
 					}
 					else
 					{
 						tmp->infile_tab = add_int_to_tab(tmp->infile_tab,
-															current->next->pipe,
-															tmp->infile);
+								current->next->pipe, tmp->infile);
 						tmp->infile = add_string_char_2d(tmp->infile,
-															current->next->content);
+								current->next->content);
 					}
 				}
 				current = current->next;

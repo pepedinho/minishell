@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/24 12:41:19 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/25 03:07:57 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c unset.
 
 ENV = $(addprefix environement/, environement_varables.c)
 
-WILD_CARDS = $(addprefix wildcards/, wildcards.c)
+WILD_CARDS = $(addprefix wildcards/, wildcards.c wildcards_utils.c)
 
 UTILS = $(addprefix utils/, utils.c)
 

@@ -15,10 +15,10 @@
 #include <signal.h>
 #include <unistd.h>
 
-void check_if_signal(void)
+void	check_if_signal(void)
 {
 	if (g_signal == 128 + SIGQUIT)
-       		ft_putstr_fd("Quit (core dumped)\n", 2);
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 	if (g_signal == 128 + SIGINT)
 		write(STDERR_FILENO, "\n", 1);
 	g_signal = 0;
@@ -29,18 +29,18 @@ void	handle_signal_parent(int num)
 	g_signal = num + 128;
 }
 
-static int    sig_event(void)
+static int	sig_event(void)
 {
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
-void if_sigint(int sig)
+void	if_sigint(int sig)
 {
 	g_signal = 128 + sig;
 	rl_done = 1;
 }
 
-void set_signal_child(void)
+void	set_signal_child(void)
 {
 	rl_event_hook = sig_event;
 	signal(SIGQUIT, SIG_DFL);
@@ -48,7 +48,7 @@ void set_signal_child(void)
 	signal(SIGTSTP, SIG_IGN);
 }
 
-void set_signal_parent_exdsdec(void)
+void	set_signal_parent_exdsdec(void)
 {
 	rl_event_hook = sig_event;
 	signal(SIGQUIT, SIG_IGN);
@@ -56,8 +56,7 @@ void set_signal_parent_exdsdec(void)
 	signal(SIGTSTP, SIG_IGN);
 }
 
-
-void set_signal_parent_exec(void)
+void	set_signal_parent_exec(void)
 {
 	struct sigaction	sa;
 	struct sigaction	sb;
@@ -73,7 +72,7 @@ void set_signal_parent_exec(void)
 	sigaction(SIGQUIT, &sb, NULL);
 }
 
-void set_signal_parent(void)
+void	set_signal_parent(void)
 {
 	struct sigaction	sa;
 

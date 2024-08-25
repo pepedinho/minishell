@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void ft_unset(char **args, t_info *info)
+void	ft_unset(char **args, t_info *info)
 {
 	int i;
 	t_env *env;
@@ -30,7 +30,7 @@ void ft_unset(char **args, t_info *info)
 			else
 				info->env = env->next;
 			if (env->next)
-				env->next->before = env->before;		
+				env->next->before = env->before;
 		}
 		i++;
 	}

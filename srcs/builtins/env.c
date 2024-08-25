@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void for_env(t_env *env)
+void	for_env(t_env *env)
 {
 	while (env)
 	{
@@ -22,10 +22,10 @@ void for_env(t_env *env)
 				printf("%s=%s\n", env->key, env->value);
 		}
 		env = env->next;
-	}	
+	}
 }
 
-void for_export(t_env *env)
+void	for_export(t_env *env)
 {
 	while (env)
 	{

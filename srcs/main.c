@@ -53,7 +53,7 @@ void	subminishell(char **argv, t_info *info, char **envp)
 	if (!info->env)
 	{
 		ft_printf("%s: Error ft_malloc with Environement variables\n",
-					info->name);
+			info->name);
 		info->signal_code = 105;
 		return ;
 	}

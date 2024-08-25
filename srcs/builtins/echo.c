@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-void ft_putstr_echo(char *str)
+void	ft_putstr_echo(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

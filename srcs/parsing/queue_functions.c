@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/24 12:39:27 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 02:49:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,23 +89,30 @@ void	destroy_cmd(t_command_line *queue, t_element *to_destroy)
 	}
 }
 
-void	check_for_wcards(t_command_line *queue, t_element *elem)
+int	check_for_wcards(t_command_line *queue, char *str)
 {
-	int		i;
-	char	*tmp;
+	int	i;
 
 	i = 0;
-	while (elem->content[i])
+	while (str[i])
 	{
-		if (elem->content[i] == '*')
+		if (str[i] == '"')
 		{
-			tmp = elem->content;
-			destroy_cmd(queue, elem);
-			expend_wcards(tmp, queue);
-			return ;
+			i++;
+			while (str[i] != '"')
+				i++;
 		}
+		else if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'')
+				i++;
+		}
+		else if (str[i] == '*')
+			return (expand_wcards(str, queue));
 		i++;
 	}
+	return (0);
 }
 
 void	if_not_the_first(t_command_line *queue, t_element *new, int type)
@@ -130,11 +137,9 @@ void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 	}
 	new->before = current;
 	current->next = new;
-	if (new->type == SFX)
-		check_for_wcards(queue, new);
 }
 
-int is_a_redirection(int type)
+int	is_a_redirection(int type)
 {
 	if (type == RR_RED || type == R_RED)
 		return (1);
@@ -161,7 +166,8 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		if_not_the_first(queue, new, type);
 	}
 	queue->last = new;
-	if (new->type == CMD && ft_strchr(new->content, '=') && is_a_good_variable(new->content))
+	if (new->type == CMD && ft_strchr(new->content, '=')
+		&& is_a_good_variable(new->content))
 		new->type = LOCAL_VAR;
 	if (new->type == LIST && is_a_redirection(new->before->type))
 	{

@@ -32,7 +32,7 @@ char	*ft_normal_format(char *line, char *dest, int *i)
 	return (dest);
 }
 
-int is_a_var_char(char c)
+int	is_a_var_char(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
@@ -53,7 +53,7 @@ char	*ft_create_variable(char *line, int *i)
 		while (line[*i + j] != '}')
 			j++;
 	}
-	else 
+	else
 	{
 		while (line[*i + j] && is_a_var_char(line[*i + j]))
 			j++;

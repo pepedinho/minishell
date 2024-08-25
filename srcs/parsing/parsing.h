@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/18 01:18:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 02:45:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int is_a_quotes(char c);
 char *expand_if_necessary(char *str);
 int	is_redirection(t_element *elem);
 int is_space(char c);
+int	check_for_wcards(t_command_line *queue, char *str);
+
 
 // Before parsing
 char	*check_if_command_line_is_good(char *str, t_command_line *queue);

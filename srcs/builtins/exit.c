@@ -21,7 +21,6 @@ int	ft_is_numeric(char *nb)
 		i++;
 	while (nb[i])
 	{
-		
 		if (ft_isdigit(nb[i]) == 0)
 			return (0);
 		i++;
@@ -42,7 +41,7 @@ void	ft_exit(char **args)
 		if (ft_is_numeric(args[1]) == 0)
 		{
 			ft_fprintf(2, "%s: exit: %s: numeric argument required\n",
-					info->name, args[1]);
+				info->name, args[1]);
 			free_and_exit(EXIT_FAILURE);
 		}
 		if (!args[2])

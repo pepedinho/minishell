@@ -79,17 +79,17 @@ int	add_in_list(t_info *info, char *content)
 	return (1);
 }
 
-int is_a_good_variable(char *str)
+int	is_a_good_variable(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (0);
 	while (str[i] && str[i] != '=')
-	{		
+	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);		
+			return (0);
 		i++;
 	}
 	return (1);
@@ -109,7 +109,8 @@ int	ft_export(t_info *info, char **content)
 		}
 		else
 		{
-			printf("%s: export: `%s': not a valid identifier\n", info->name, content[i]);
+			printf("%s: export: `%s': not a valid identifier\n", info->name,
+				content[i]);
 			info->signal_code = 1;
 		}
 		i++;

@@ -20,7 +20,7 @@ void	heredoc_bis(t_element *tmp, int *fd)
 	{
 		line = readline("heredoc> ");
 		if (g_signal != 0)
-			return;
+			return ;
 		if (!line)
 		{
 			message_pipe(tmp->content);

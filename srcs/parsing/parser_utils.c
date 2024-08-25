@@ -57,7 +57,7 @@ int	is_redirection(t_element *elem)
 	return (0);
 }
 
-int is_space(char c)
+int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
 		return (1);

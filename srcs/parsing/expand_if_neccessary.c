@@ -160,9 +160,9 @@ char	*expand_if_necessary(char *str)
 		if (str[i] == '"')
 			str = if_dquote(str, &i);
 		else if (str[i] == '\'')
-			str = if_quote(str, &i); 
+			str = if_quote(str, &i);
 		else if (str[i] == '{')
-			str = if_cursh(str, &i); 
+			str = if_cursh(str, &i);
 		else
 			str = if_normal(str, &i);
 	}

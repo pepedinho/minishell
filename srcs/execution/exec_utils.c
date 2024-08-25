@@ -49,7 +49,7 @@ char	*find_path(char *command, t_info *info)
 	int		i;
 	char	*path;
 	char	**split;
-	char *value;
+	char	*value;
 
 	i = 0;
 	(void)info;
@@ -76,7 +76,7 @@ int	check_if_fork(t_element *node)
 	if (node->type == LOCAL_VAR)
 		return (0);
 	if ((node->type == CMD && !check_built_in(node->content))
-	 || node->type == C_BLOCK || node->type == N_CMD)
+		|| node->type == C_BLOCK || node->type == N_CMD)
 		return (1);
 	return (0);
 }

@@ -28,9 +28,9 @@ void	free_env(t_env *env)
 	ft_free(env);
 }
 
-char *ft_getenv(char *key)
+char	*ft_getenv(char *key)
 {
-	t_info *info;
+	t_info	*info;
 	t_env	*tmp;
 
 	info = info_in_static(NULL, GET);
@@ -65,6 +65,7 @@ t_env	*search_in_env(char *key)
 void	add_back_env(t_env **env, t_env *new)
 {
 	t_env	*current;
+
 	current = *env;
 	if (!(*env))
 	{

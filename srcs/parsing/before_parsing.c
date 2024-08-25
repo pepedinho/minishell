@@ -20,9 +20,11 @@ char	*quote_or_dquote(char *str, char *prompt)
 	if (!new_line)
 	{
 		if (ft_strcmp(prompt, "quote> ") == 0)
-			ft_putendl_fd("minishell: unexpected EOF while looking for matching `''", 2);
+			ft_putendl_fd("minishell: unexpected EOF while looking for matching `''",
+				2);
 		else
-			ft_putendl_fd("minishell: unexpected EOF while looking for matching `\"'", 2);
+			ft_putendl_fd("minishell: unexpected EOF while looking for matching `\"'",
+				2);
 		ft_putendl_fd("minshell: syntax error: unexpected end of file", 2);
 		return (NULL);
 	}
@@ -92,8 +94,8 @@ int	check_if_paranthesis_close(char *str, int i)
 
 char	*check_if_command_line_is_good(char *str, t_command_line *queue)
 {
-	int	i;
-	t_info *info;
+	int		i;
+	t_info	*info;
 
 	i = 0;
 	info = info_in_static(NULL, GET);
