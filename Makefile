@@ -35,7 +35,7 @@ ERROR = $(addprefix errors/, error_file.c handle_functions.c)
 EXEC = $(addprefix execution/, exec_commands.c exec_utils.c operator.c  \
 		redirections.c exit_code.c heredoc.c expand.c)
 
-SIGNALS = $(addprefix signal/, signal.c)
+SIGNALS = $(addprefix signal/, signal.c signal_utils.c)
 
 BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
 

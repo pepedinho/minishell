@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 13:23:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 20:07:53 by madamou          ###   ########.fr       */
+/*   Created: 2024/08/25 20:00:34 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/25 20:08:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#include "../../includes/minishell.h"
 
-// Signals
-void		handle_signal_parent(int num);
-void		set_signal_parent(void);
-void		set_signal_child(void);
-void		set_signal_parent_exec(void);
-void		check_if_signal(void);
-int	sig_event(void);
-void		if_sigint(int sig);
+void	check_if_signal(void)
+{
+	if (g_signal == 128 + SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+	if (g_signal == 128 + SIGINT)
+		write(STDERR_FILENO, "\n", 1);
+	g_signal = 0;
+}
 
-#endif // !SIGNAL_H
+void	handle_signal_parent(int num)
+{
+	g_signal = num + 128;
+}
+
+int	sig_event(void)
+{
+	return (EXIT_SUCCESS);
+}
+
+void	if_sigint(int sig)
+{
+	g_signal = 128 + sig;
+	rl_done = 1;
+}

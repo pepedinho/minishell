@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/16 22:05:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 19:59:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	add_in_list(t_info *info, char *content)
 	{
 		if (ft_strcmp(key[0], current->key) == 0)
 		{
-			// print_env(info->env, 1);
-			// printf("-------------------------------------------------------\n");
 			if (key[1])
 			{
 				ft_free(current->value);
@@ -64,7 +62,6 @@ int	add_in_list(t_info *info, char *content)
 			}
 			current->global = GLOBAL;
 			flag = 1;
-			// print_env(info->env, 1);
 		}
 		current = current->next;
 	}
@@ -100,6 +97,7 @@ int	ft_export(t_info *info, char **content)
 	int	i;
 
 	i = 1;
+	info->signal_code = 0;
 	while (content[i])
 	{
 		if (is_a_good_variable(content[i]))
@@ -117,5 +115,5 @@ int	ft_export(t_info *info, char **content)
 	}
 	if (i == 1)
 		print_env(info->env, 2, info);
-	return (0);
+	return (info->signal_code);
 }
