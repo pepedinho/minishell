@@ -6,20 +6,18 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/24 18:10:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 15:07:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <unistd.h>
 
-void	change_old_pwd_in_env(t_info *info, char *old_pwd)
+void	change_old_pwd_in_env(char *old_pwd)
 {
 	t_env	*env;
 
-	env = info->env;
-	while (env && ft_strcmp(env->key, "OLDPWD") != 0)
-		env = env->next;
+	env = search_in_env("OLDPWD");
 	if (env)
 	{
 		ft_free(env->value);
@@ -29,20 +27,40 @@ void	change_old_pwd_in_env(t_info *info, char *old_pwd)
 
 void	change_pwd_in_env(t_info *info)
 {
-	t_env	*env;
-	char	*pwd;
+	char *pwd;
+	t_env *env;
 
-	env = info->env;
-	while (env && ft_strcmp(env->key, "PWD") != 0)
-		env = env->next;
-	if (env)
+	env = search_in_env("PWD");
+	pwd = ft_getenv("PWD");
+	if (pwd)
 	{
-		pwd = env->value;
 		env->value = ft_pwd(GET, info);
-		change_old_pwd_in_env(info, pwd);
+		change_old_pwd_in_env(pwd);
 	}
 	else
-		change_old_pwd_in_env(info, "");
+		change_old_pwd_in_env(NULL);
+}
+
+char  *go_to_home(char *directory, t_info *info)
+{
+	directory = ft_getenv("HOME");
+	if (!directory)
+	{
+		printf("%s: cd: HOME not set\n", info->name);
+		info->signal_code = 1;
+	}
+	return (directory);
+}
+
+char *go_to_oldpwd(char *directory, t_info *info)
+{
+	directory = ft_getenv("OLDPWD");
+	if (!directory)
+	{
+		printf("%s: cd: OLDPWD not set\n", info->name);
+		info->signal_code = 1;
+	}
+	return (directory);
 }
 
 int	ft_cd(char *directory)
@@ -52,20 +70,13 @@ int	ft_cd(char *directory)
 
 	info = info_in_static(NULL, GET);
 	info->signal_code = 0;
-	message = ft_strdup("");
 	if (!directory || !ft_strcmp(directory, "~"))
-		directory = ft_getenv("HOME");
-	if (directory && !ft_strcmp(directory, "-"))
-	{
-		directory = ft_getenv("OLDPWD");
-		message = ft_strdup("-");
-		if (!directory)
-		{
-			printf("%s: cd: OLDPWD not set\n", info->name);
-			return (info->signal_code = 1, info->signal_code);
-		}
-	}
-	if (!directory || chdir(directory) == -1)
+		directory = go_to_home(directory, info);
+	else if (directory && !ft_strcmp(directory, "-"))
+		directory = go_to_oldpwd(directory, info);
+	if (!directory)
+		return (info->signal_code);
+	if (chdir(directory) == -1)
 	{
 		message = ft_sprintf("%s: cd: %s", info->name, directory);
 		if (!message)
@@ -74,8 +85,6 @@ int	ft_cd(char *directory)
 		ft_free(message);
 		info->signal_code = 1;
 	}
-	if (directory && !ft_strcmp(message, "-") && info->signal_code == 0)
-		printf("%s\n", directory);
 	if (info->signal_code == 0)
 		change_pwd_in_env(info);
 	return (info->signal_code);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 03:19:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 14:29:42 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			tmp = current;
 			tmp->infile = infile;
+			tmp->infile_tab = infile_tab;
 			tmp->outfile = output;
 			tmp->file_mode = file_mode;
 		}
@@ -304,7 +305,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 	queue = parser(command_line, info->env);
 	if (!queue)
 		return (NULL);
-	print_queue(queue);
+	// print_queue(queue);
 	if (global_check(queue, info) == 0)
 		return (NULL);
 	queue = change_queue(queue);
