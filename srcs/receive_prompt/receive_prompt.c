@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 17:07:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 20:26:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,20 @@ char	**ready_to_exec(t_element *cmd)
 	return (cmd_tab[i] = NULL, cmd_tab);
 }
 
-char	**add_string_char_2d(char **tab, char *str)
+void add_string_char_2d(char ***tab, char *str)
 {
 	char	**new;
 	int		i;
+	char **buff;
 
-	new = ft_malloc(sizeof(char *) * (ft_strlen_2d(tab) + 1 + 1));
+	buff = *tab;
+	new = ft_malloc(sizeof(char *) * (ft_strlen_2d(buff) + 1 + 1));
 	if (!new)
 		handle_malloc_error("pasing");
 	i = 0;
-	while (tab && tab[i])
+	while (buff && buff[i])
 	{
-		new[i] = ft_strdup(tab[i]);
+		new[i] = ft_strdup(buff[i]);
 		if (!new[i])
 			handle_malloc_error("parsing");
 		i++;
@@ -83,28 +85,30 @@ char	**add_string_char_2d(char **tab, char *str)
 	if (!new[i])
 		handle_malloc_error("parsing");
 	new[++i] = NULL;
-	ft_free_2d(tab);
+	ft_free_2d(buff);
+	*tab = new;
 	ft_free(str);
-	return (new);
 }
 
-int	*add_int_to_tab(int *tab, int nb, char **char_tab)
+void add_int_to_tab(int **tab, int nb, char **char_tab)
 {
 	int	*new;
 	int	i;
+	int *buff;
 
+	buff = *tab;
 	new = ft_malloc(sizeof(int) * (ft_strlen_2d(char_tab) + 1));
 	if (!new)
 		handle_malloc_error("pasing");
 	i = 0;
 	while (char_tab && char_tab[i])
 	{
-		new[i] = tab[i];
+		new[i] = buff[i];
 		i++;
 	}
 	new[i] = nb;
-	ft_free(tab);
-	return (new);
+	ft_free(buff);
+	*tab = new;
 }
 
 t_command_line	*change_queue(t_command_line *queue)
@@ -128,21 +132,21 @@ t_command_line	*change_queue(t_command_line *queue)
 		{
 			if (current->type == RR_RED || current->type == R_RED)
 			{
-				file_mode = add_int_to_tab(file_mode, current->type, output);
-				output = add_string_char_2d(output, current->next->content);
+				add_int_to_tab(&file_mode, current->type, output);
+				add_string_char_2d(&output, current->next->content);
 			}
 			else if (current->type == L_RED || current->type == LL_RED)
 			{
 				if (current->type == L_RED)
 				{
-					infile_tab = add_int_to_tab(infile_tab, -1, infile);
-					infile = add_string_char_2d(infile, current->next->content);
+					add_int_to_tab(&infile_tab, -1, infile);
+					add_string_char_2d(&infile, current->next->content);
 				}
 				else
 				{
-					infile_tab = add_int_to_tab(infile_tab, current->next->pipe,
+					add_int_to_tab(&infile_tab, current->next->pipe,
 							infile);
-					infile = add_string_char_2d(infile, current->next->content);
+					add_string_char_2d(&infile, current->next->content);
 				}
 			}
 			tmp = current;
@@ -169,25 +173,25 @@ t_command_line	*change_queue(t_command_line *queue)
 			{
 				if (current->type == RR_RED || current->type == R_RED)
 				{
-					tmp->file_mode = add_int_to_tab(tmp->file_mode,
+					add_int_to_tab(&tmp->file_mode,
 							current->type, tmp->outfile);
-					tmp->outfile = add_string_char_2d(tmp->outfile,
+					add_string_char_2d(&tmp->outfile,
 							current->next->content);
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
 					if (current->type == L_RED)
 					{
-						tmp->infile_tab = add_int_to_tab(tmp->infile_tab, -1,
+						add_int_to_tab(&tmp->infile_tab, -1,
 								tmp->infile);
-						tmp->infile = add_string_char_2d(tmp->infile,
+						add_string_char_2d(&tmp->infile,
 								current->next->content);
 					}
 					else
 					{
-						tmp->infile_tab = add_int_to_tab(tmp->infile_tab,
+						add_int_to_tab(&tmp->infile_tab,
 								current->next->pipe, tmp->infile);
-						tmp->infile = add_string_char_2d(tmp->infile,
+						add_string_char_2d(&tmp->infile,
 								current->next->content);
 					}
 				}
