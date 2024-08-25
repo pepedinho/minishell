@@ -1,67 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*   check_queue.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/24 05:19:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 03:46:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "exec.h"
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <unistd.h>
 
-int	file(t_element *tmp)
-{
-	if (tmp->before && tmp->before->type == L_RED)
-	{
-		tmp->pipe = open(tmp->content, O_RDONLY);
-		if (tmp->pipe == -1)
-		{
-			error_message(tmp->content);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-int	open_file(t_command_line *queue, t_info *info)
+void check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 {
 	t_element	*tmp;
 
-	if (queue->open_parenthesis_flag == 1)
-	{
-		ft_printf("%s: expected close parenthesis : ')'\n", info->name);
-		info->signal_code = 2;
-		return (0);
-	}
-	if (queue->open_parenthesis_flag == 2)
-	{
-		ft_printf("%s: syntax error near unexpected token `)'\n", info->name);
-		info->signal_code = 2;
-		return (0);
-	}
-	tmp = queue->first;
-	if (!tmp)
-		return (0);
-	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
-	{
-		handle_unexpected_token(tmp->content, 2);
-		return (0);
-	}
-	tmp = queue->last;
-	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR
-		|| tmp->type == L_RED || tmp->type == LL_RED || tmp->type == R_RED
-		|| tmp->type == RR_RED)
-	{
-		handle_unexpected_token(tmp->content, 2);
-		return (0);
-	}
 	tmp = queue->first;
 	while (tmp)
 	{
@@ -71,12 +25,18 @@ int	open_file(t_command_line *queue, t_info *info)
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
 					info->name);
-				queue->u_token_flag = 1;
+				info->signal_code = 2;
 				tmp->type = U_TOKEN;
 			}
 		}
 		tmp = tmp->next;
 	}
+}
+
+void print_if_find_utoken(t_command_line *queue)
+{
+	t_element	*tmp;
+	
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)
 	{
@@ -89,7 +49,19 @@ int	open_file(t_command_line *queue, t_info *info)
 			else
 				handle_unexpected_token(tmp->content, 1);
 		}
-	}
+	}	
+}
+
+int	check_cmd(t_command_line *queue, t_info *info)
+{
+	t_element	*tmp;
+
+	if (check_for_parenthesis(queue, info) == 0)
+		return (0);
+	if (check_first_and_last_node_queue(queue) == 0)
+		return (0);
+	check_if_subshell_not_empty(queue, info);
+	print_if_find_utoken(queue);
 	tmp = queue->first;
 	while (tmp)
 	{
@@ -99,16 +71,16 @@ int	open_file(t_command_line *queue, t_info *info)
 			if (g_signal != 0)
 				return (info->signal_code = g_signal, g_signal = 0, 0);
 		}
-		tmp = tmp->next;
-		if (tmp && tmp->type == U_TOKEN)
+		if (tmp->type == U_TOKEN)
 			return (close_fd(queue), 0);
+		tmp = tmp->next;
 	}
 	return (1);
 }
 
 int	global_check(t_command_line *queue, t_info *info)
 {
-	if (!open_file(queue, info))
+	if (!check_cmd(queue, info))
 		return (0);
 	return (1);
 }

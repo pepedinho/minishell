@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/25 02:45:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 03:45:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,9 @@ int	check_for_wcards(t_command_line *queue, char *str);
 
 // Before parsing
 char	*check_if_command_line_is_good(char *str, t_command_line *queue);
+
+// Check queue
+int check_for_parenthesis(t_command_line *queue, t_info *info);
+int check_first_and_last_node_queue(t_command_line *queue);
 
 #endif

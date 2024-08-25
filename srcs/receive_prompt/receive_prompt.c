@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 00:54:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 03:19:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,11 +324,6 @@ t_tree	*ast(t_command_line *queue)
 	}
 	return (tree);
 }
-void	reprompt(void)
-{
-	// ft_free(DESTROY);
-	queue_in_static(NULL, INIT);
-}
 
 void	receive_prompt_subminishell(char *command_line, t_info *info)
 {
@@ -403,12 +398,8 @@ void	receive_prompt(t_info *info)
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
 		if (!queue)
-		{
-			reprompt();
 			continue ;
-		}
 		tree = ast(queue);
 		execute_command_line(tree);
-		reprompt();
 	}
 }
