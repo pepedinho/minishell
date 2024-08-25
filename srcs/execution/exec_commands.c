@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 14:27:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 15:34:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ void	close_file_tree(t_element *current)
 	if (!current)
 		return ;
 	if (current->type == CMD || current->type == C_BLOCK
-		|| current->type == LOCAL_VAR)
+		|| current->type == LOCAL_VAR || current->type == N_CMD)
 	{
-		while (current && current->infile && current->infile[i])
+		while (current->infile && current->infile[i])
 		{
 			ft_close(current->infile_tab[i]);
 			i++;

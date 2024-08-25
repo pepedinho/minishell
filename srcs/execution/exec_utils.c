@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/20 00:43:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 15:53:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_close(int fd)
 	{
 		if (close(fd) == -1)
 		{
-			ft_fprintf(2, "Error close\n");
+			ft_fprintf(2, "Error close fd number %d\n", fd);
 			free_and_exit(-1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 21:45:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 15:56:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	only_builtin(t_element *node, t_info *info, t_element *first);
 void	exec_built_in(t_element *node, t_info *info);
 
 // Operators
-void or (t_element * node, t_info *info, t_element *first);
+void or(t_element * node, t_info *info, t_element *first);
 void and (t_element * node, t_info *info, t_element *first);
 void	ft_pipe(t_element *node, t_info *info, t_element *first);
 

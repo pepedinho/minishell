@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 14:29:42 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 15:37:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,34 +164,27 @@ t_command_line	*change_queue(t_command_line *queue)
 			tmp = current;
 			current = current->next;
 		}
-		if (current)
-		{
-			tmp = current;
-			tmp->infile = infile;
-			tmp->infile_tab = infile_tab;
-			tmp->outfile = output;
-			tmp->file_mode = file_mode;
-		}
-		if (current && is_a_redirect(current->type))
-		{
-			current->before->type = N_CMD;
-			current->before->infile = infile;
-			current->before->infile_tab = infile_tab;
-			current->before->outfile = output;
-			current->before->file_mode = file_mode;
-		}
-		if (!current)
+		if (!current || (current && is_a_redirect(current->type)))
 		{
 			current = tmp;
-			current->before->type = N_CMD;
-			current->before->infile = infile;
-			current->before->infile_tab = infile_tab;
-			current->before->outfile = output;
-			current->before->file_mode = file_mode;
+			current->type = N_CMD;
+			current->infile = infile;
+			current->infile_tab = infile_tab;
+			current->outfile = output;
+			current->file_mode = file_mode;
+			current = current->next;
+		}
+		else
+		{
+			current->infile = infile;
+			current->infile_tab = infile_tab;
+			current->outfile = output;
+			current->file_mode = file_mode;
 		}
 		if (current && (current->type == CMD || current->type == C_BLOCK))
 		{
 			current->args = ready_to_exec(current);
+			tmp = current;
 			current = current->next;
 			while (current && current->type != PIPE && current->type != AND
 				&& current->type != OR && current->type != LIST)

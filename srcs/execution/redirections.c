@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:44:20 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 12:26:03 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/25 16:07:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,18 @@ int	outfile(t_element *node, t_info *info)
 
 int	infile(t_element *node, t_info *info, t_element *first)
 {
-	int	infile;
 	int	i;
 
 	i = 0;
-	infile = -1;
 	while (node->infile && node->infile[i])
 	{
 		if (node->infile_tab[i] == -1)
 		{
-			infile = open(node->infile[i], O_RDONLY);
-			if (infile == -1)
+			node->infile_tab[i] = open(node->infile[i], O_RDONLY);
+			if (node->infile_tab[i] == -1)
 				(error_message(node->infile[i]), free_and_exit(1));
 		}
-		else
-			infile = node->infile_tab[i];
-		if (dup2(infile, STDIN_FILENO) == -1)
+		if (dup2(node->infile_tab[i], STDIN_FILENO) == -1)
 		{
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);
 			(close_file_tree(first), free_and_exit(-1));
