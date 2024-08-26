@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int check_for_parenthesis(t_command_line *queue, t_info *info)
+int	check_for_parenthesis(t_command_line *queue, t_info *info)
 {
 	if (queue->open_parenthesis_flag == 1)
 	{
@@ -29,10 +29,10 @@ int check_for_parenthesis(t_command_line *queue, t_info *info)
 	return (1);
 }
 
-int check_first_and_last_node_queue(t_command_line *queue) 
+int	check_first_and_last_node_queue(t_command_line *queue)
 {
 	t_element	*tmp;
-	
+
 	tmp = queue->first;
 	if (!tmp)
 		return (0);

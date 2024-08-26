@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-char	*quote_or_dquote(char *str, char *prompt, t_info* info)
+char	*quote_or_dquote(char *str, char *prompt, t_info *info)
 {
 	char	*new_line;
 
@@ -37,7 +37,7 @@ char	*quote_or_dquote(char *str, char *prompt, t_info* info)
 	return (str);
 }
 
-char	*check_if_dquote_close(char *str, int *i, t_info* info)
+char	*check_if_dquote_close(char *str, int *i, t_info *info)
 {
 	(*i)++;
 	while (str[*i] && str[*i] != '"')
@@ -50,7 +50,7 @@ char	*check_if_dquote_close(char *str, int *i, t_info* info)
 	return (str);
 }
 
-char	*check_if_quote_close(char *str, int *i, t_info* info)
+char	*check_if_quote_close(char *str, int *i, t_info *info)
 {
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')

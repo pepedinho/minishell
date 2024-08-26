@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:05:08 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/25 03:48:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 22:52:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "../srcs/binary_tree/lexer.h"
 # include "../srcs/builtins/builtins.h"
 # include "../srcs/environement/env.h"
 # include "../srcs/errors/errors.h"
@@ -22,6 +21,7 @@
 # include "../srcs/garbage_collecting/garbage_collecting.h"
 # include "../srcs/receive_prompt/prompt.h"
 # include "../srcs/parsing/parsing.h"
+# include "../srcs/binary_tree/ast.h"
 # include "../srcs/wildcards/wildcards.h"
 # include "../srcs/signal/signal.h"
 # include "../srcs/utils/utils.h"

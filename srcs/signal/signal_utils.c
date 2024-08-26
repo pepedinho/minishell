@@ -37,7 +37,7 @@ void	if_sigint(int sig)
 	rl_done = 1;
 }
 
-void set_info_if_signal(t_info *info)
+void	set_info_if_signal(t_info *info)
 {
 	info->signal_code = g_signal;
 	g_signal = 0;

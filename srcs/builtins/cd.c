@@ -27,8 +27,8 @@ void	change_old_pwd_in_env(char *old_pwd)
 
 void	change_pwd_in_env(t_info *info)
 {
-	char *pwd;
-	t_env *env;
+	char	*pwd;
+	t_env	*env;
 
 	env = search_in_env("PWD");
 	pwd = ft_getenv("PWD");
@@ -41,7 +41,7 @@ void	change_pwd_in_env(t_info *info)
 		change_old_pwd_in_env(NULL);
 }
 
-char  *go_to_home(char *directory, t_info *info)
+char	*go_to_home(char *directory, t_info *info)
 {
 	directory = ft_getenv("HOME");
 	if (!directory)
@@ -52,7 +52,7 @@ char  *go_to_home(char *directory, t_info *info)
 	return (directory);
 }
 
-char *go_to_oldpwd(char *directory, t_info *info)
+char	*go_to_oldpwd(char *directory, t_info *info)
 {
 	directory = ft_getenv("OLDPWD");
 	if (!directory)

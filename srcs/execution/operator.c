@@ -52,7 +52,7 @@ void	fork_because_mandatory(t_element *node, t_info *info, t_element *first)
 	(waitpid(pid, &status, 0), exit_status(status, info));
 }
 
-void and(t_element * node, t_info *info, t_element *first)
+void and (t_element * node, t_info *info, t_element *first)
 {
 	if (check_if_fork(node->left))
 		fork_because_mandatory(node->left, info, first);
@@ -69,7 +69,7 @@ void and(t_element * node, t_info *info, t_element *first)
 		close_file_tree(first);
 }
 
-void or(t_element * node, t_info *info, t_element *first)
+void or (t_element * node, t_info *info, t_element *first)
 {
 	if (check_if_fork(node->left))
 		fork_because_mandatory(node->left, info, first);

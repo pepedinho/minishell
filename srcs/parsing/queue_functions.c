@@ -6,12 +6,19 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/26 20:38:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 22:48:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <time.h>
+
+int	is_a_operator(int type)
+{
+	if (type == PIPE || type == AND || type == OR || type == LIST)
+		return (1);
+	return (0);
+}
 
 t_command_line	*init_queue(void)
 {

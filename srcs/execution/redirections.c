@@ -13,9 +13,9 @@
 #include "../../includes/minishell.h"
 #include <stdio.h>
 
-int ft_open_infile(char *file, int flag)
+int	ft_open_infile(char *file, int flag)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, flag);
 	if (fd == -1)
@@ -23,9 +23,9 @@ int ft_open_infile(char *file, int flag)
 	return (fd);
 }
 
-int ft_open_outfile(char *file, int flag, int mode)
+int	ft_open_outfile(char *file, int flag, int mode)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, flag, mode);
 	if (fd == -1)
@@ -43,11 +43,11 @@ int	outfile(t_element *node, t_info *info)
 	while (node->outfile && node->outfile[i])
 	{
 		if (node->file_mode[i] == R_RED)
-			outfile = ft_open_outfile(node->outfile[i], O_WRONLY | O_CREAT | O_TRUNC,
-					0644);
+			outfile = ft_open_outfile(node->outfile[i],
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (node->file_mode[i] == RR_RED)
-			outfile = ft_open_outfile(node->outfile[i], O_WRONLY | O_CREAT | O_APPEND,
-					0644);
+			outfile = ft_open_outfile(node->outfile[i],
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 		{
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);

@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/25 03:45:42 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/26 22:53:59 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ EXEC = $(addprefix execution/, exec_commands.c exec_utils.c operator.c  \
 
 SIGNALS = $(addprefix signal/, signal.c signal_utils.c)
 
-BINARY_TREE = $(addprefix binary_tree/, lexing.c lexer_utils.c)
+BINARY_TREE = $(addprefix binary_tree/, ast.c ast_utils.c)
 
 PROMPT = $(addprefix receive_prompt/, receive_prompt.c print_header.c)
 
@@ -110,7 +110,7 @@ message :
 leak : all
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=.supp.supp ./minishell
 
-push: fclean
+push:
 	@python3 -m c_formatter_42 $(addprefix $(SRCS_DIR), main.c $(PARSING) $(PROMPT) $(SIGNALS) \
 	 $(BINARY_TREE) $(ERROR) $(EXEC) $(ENV) $(UTILS) $(BUILTINS)) | norminette | grep Error
 	@git add .

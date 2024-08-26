@@ -58,7 +58,7 @@ int	add_in_list(t_info *info, char *content)
 		}
 		current->global = GLOBAL;
 	}
-	else 
+	else
 	{
 		new = init_env(content, GLOBAL);
 		if (!new)

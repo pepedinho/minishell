@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void check_if_subshell_not_empty(t_command_line *queue, t_info *info)
+void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 {
 	t_element	*tmp;
 
@@ -33,10 +33,10 @@ void check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 	}
 }
 
-void print_if_find_utoken(t_command_line *queue)
+void	print_if_find_utoken(t_command_line *queue)
 {
 	t_element	*tmp;
-	
+
 	tmp = queue->first;
 	if (queue->u_token_flag == 1)
 	{
@@ -49,7 +49,7 @@ void print_if_find_utoken(t_command_line *queue)
 			else
 				handle_unexpected_token(tmp->content, 1);
 		}
-	}	
+	}
 }
 
 int	check_cmd(t_command_line *queue, t_info *info)

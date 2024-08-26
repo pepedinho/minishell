@@ -56,18 +56,19 @@ char	**prepare_args_to_exec(t_element *cmd)
 	i = 0;
 	while (current && !is_a_operator(current->type))
 	{
-		if (current->type == SFX || current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
+		if (current->type == SFX || current->type == CMD
+			|| current->type == C_BLOCK || current->type == LOCAL_VAR)
 			cmd_tab[i++] = current->content;
 		current = current->next;
 	}
 	return (cmd_tab[i] = NULL, cmd_tab);
 }
 
-void add_string_char_2d(char ***tab, char *str)
+void	add_string_char_2d(char ***tab, char *str)
 {
 	char	**new;
 	int		i;
-	char **buff;
+	char	**buff;
 
 	buff = *tab;
 	new = ft_malloc(sizeof(char *) * (ft_strlen_2d(buff) + 1 + 1));
@@ -89,11 +90,11 @@ void add_string_char_2d(char ***tab, char *str)
 	*tab = new;
 }
 
-void add_int_to_tab(int **tab, int nb, char **char_tab)
+void	add_int_to_tab(int **tab, int nb, char **char_tab)
 {
 	int	*new;
 	int	i;
-	int *buff;
+	int	*buff;
 
 	buff = *tab;
 	new = ft_malloc(sizeof(int) * (ft_strlen_2d(char_tab) + 1));
@@ -110,9 +111,9 @@ void add_int_to_tab(int **tab, int nb, char **char_tab)
 	*tab = new;
 }
 
-void stock_infile_outfile(t_change *change, t_element **node)
+void	stock_infile_outfile(t_change *change, t_element **node)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = *node;
 	if (current->type == RR_RED || current->type == R_RED)
@@ -129,9 +130,9 @@ void stock_infile_outfile(t_change *change, t_element **node)
 	*node = current;
 }
 
-void change_to_current(t_change *change, t_element **node, t_element **tmp)
+void	change_to_current(t_change *change, t_element **node, t_element **tmp)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = *node;
 	if (!current || (current && is_a_operator(current->type)))
@@ -149,9 +150,10 @@ void change_to_current(t_change *change, t_element **node, t_element **tmp)
 	*node = current;
 }
 
-void redirections_before_command(t_change *change, t_element **node, t_element **tmp) 
+void	redirections_before_command(t_change *change, t_element **node,
+		t_element **tmp)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = *node;
 	while (current && current->type != CMD && current->type != C_BLOCK
@@ -164,9 +166,10 @@ void redirections_before_command(t_change *change, t_element **node, t_element *
 	change_to_current(change, node, tmp);
 }
 
-void redirections_after_command(t_change *change, t_element **node, t_element **tmp)
+void	redirections_after_command(t_change *change, t_element **node,
+		t_element **tmp)
 {
-	t_element *current;
+	t_element	*current;
 
 	current = *node;
 	current->args = prepare_args_to_exec(current);
@@ -182,14 +185,15 @@ t_command_line	*change_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*tmp;
-	t_change change;
+	t_change	change;
 
 	current = queue->first;
 	while (current)
 	{
 		ft_memset(&change, 0, sizeof(change));
 		redirections_before_command(&change, &current, &tmp);
-		if (current && (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR))
+		if (current && (current->type == CMD || current->type == C_BLOCK
+				|| current->type == LOCAL_VAR))
 			redirections_after_command(&change, &current, &tmp);
 		if (current)
 			current = current->next;
@@ -208,7 +212,7 @@ void	queue_add_back(t_command_line **queue, t_command_line *new)
 	new->next = NULL;
 }
 
-void link_before_and_after(t_command_line *queue, t_element **current)
+void	link_before_and_after(t_command_line *queue, t_element **current)
 {
 	if ((*current)->before)
 		(*current)->before->next = (*current)->next;
@@ -218,9 +222,9 @@ void link_before_and_after(t_command_line *queue, t_element **current)
 		(*current)->next->before = (*current)->before;
 }
 
-void free_current(t_element **current)
+void	free_current(t_element **current)
 {
-	t_element *tmp;
+	t_element	*tmp;
 
 	tmp = (*current)->next;
 	ft_free(*current);
@@ -236,7 +240,8 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 	while (current)
 	{
 		if (current->type != CMD && current->type != LOCAL_VAR
-			&& current->type != C_BLOCK && current->type != N_CMD && !is_a_operator(current->type))
+			&& current->type != C_BLOCK && current->type != N_CMD
+			&& !is_a_operator(current->type))
 			(link_before_and_after(queue, &current), free_current(&current));
 		else if (current->type == LIST)
 		{
