@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 21:58:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 18:48:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,12 @@ void add_string_char_2d(char ***tab, char *str)
 			handle_malloc_error("parsing");
 		i++;
 	}
-	new[i] = ft_strdup(str);
+	new[i] = str;
 	if (!new[i])
 		handle_malloc_error("parsing");
 	new[++i] = NULL;
 	ft_free(buff);
 	*tab = new;
-	ft_free(str);
 }
 
 void add_int_to_tab(int **tab, int nb, char **char_tab)
@@ -110,6 +109,8 @@ void add_int_to_tab(int **tab, int nb, char **char_tab)
 	ft_free(buff);
 	*tab = new;
 }
+
+
 
 t_command_line	*change_queue(t_command_line *queue)
 {
@@ -137,7 +138,7 @@ t_command_line	*change_queue(t_command_line *queue)
 			}
 			else if (current->type == L_RED || current->type == LL_RED)
 			{
-				add_int_to_tab(&infile_tab, current->next->pipe, infile);
+				add_int_to_tab(&infile_tab, current->next->fd, infile);
 				add_string_char_2d(&infile, current->next->content);
 			}
 			tmp = current;
@@ -170,7 +171,7 @@ t_command_line	*change_queue(t_command_line *queue)
 				}
 				else if (current->type == L_RED || current->type == LL_RED)
 				{
-					add_int_to_tab(&tmp->infile_tab, current->next->pipe, tmp->infile);
+					add_int_to_tab(&tmp->infile_tab, current->next->fd, tmp->infile);
 					add_string_char_2d(&tmp->infile, current->next->content);
 				}
 				current = current->next;
