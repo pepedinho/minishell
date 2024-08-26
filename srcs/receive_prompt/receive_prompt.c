@@ -211,10 +211,28 @@ void	queue_add_back(t_command_line **queue, t_command_line *new)
 	new->next = NULL;
 }
 
+void link_before_and_after(t_command_line *queue, t_element **current)
+{
+	if ((*current)->before)
+		(*current)->before->next = (*current)->next;
+	else
+		queue->first = (*current)->next;
+	if ((*current)->next)
+		(*current)->next->before = (*current)->before;
+}
+
+void free_current(t_element **current)
+{
+	t_element *tmp;
+
+	tmp = (*current)->next;
+	ft_free(*current);
+	*current = tmp;
+}
+
 t_command_line	*remove_in_queue(t_command_line *queue)
 {
 	t_element		*current;
-	t_element		*tmp;
 	t_command_line	*tmp_queue;
 
 	current = queue->first;
@@ -222,17 +240,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 	{
 		if (current->type != CMD && current->type != LOCAL_VAR
 			&& current->type != C_BLOCK && current->type != N_CMD && !is_a_operator(current->type))
-		{
-			if (current->before)
-				current->before->next = current->next;
-			else
-				queue->first = current->next;
-			if (current->next)
-				current->next->before = current->before;
-			tmp = current->next;
-			ft_free(current);
-			current = tmp;
-		}
+			(link_before_and_after(queue, &current), free_current(&current));
 		else if (current->type == LIST)
 		{
 			tmp_queue = init_queue();
@@ -241,9 +249,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 			tmp_queue->first = current->next;
 			queue_add_back(&queue, tmp_queue);
 			current->before->next = NULL;
-			tmp = current->next;
-			ft_free(current);
-			current = tmp;
+			free_current(&current);
 		}
 		else
 			current = current->next;
@@ -302,22 +308,12 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 
 	set_signal_parent();
 	queue = parsing(command_line, info);
-	if (!queue)
+	if (queue)
 	{
-		ft_free(DESTROY);
-		return ;
+		tree = ast(queue);
+		execute_command_line(tree);
 	}
-	tree = NULL;
-	tree = ast(queue);
-	execute_command_line(tree);
 	ft_free(DESTROY);
-}
-
-void	if_only_newline(void)
-{
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }
 
 char	*ft_readline(t_info *info)
@@ -362,7 +358,6 @@ void	receive_prompt(t_info *info)
 
 	while (1)
 	{
-		// info->signal_code = g_signal;
 		set_signal_parent();
 		command_line = ft_readline(info);
 		queue = parsing(command_line, info);
