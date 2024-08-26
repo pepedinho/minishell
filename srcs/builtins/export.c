@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:14:17 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 19:59:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 22:31:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,19 @@ int	add_in_list(t_info *info, char *content)
 	char	**key;
 	t_env	*current;
 	t_env	*new;
-	int		flag;
 
-	flag = 0;
-	current = info->env;
 	key = split_first_value(content, '=');
-	while (current)
+	current = search_in_env(key[0]);
+	if (current)
 	{
-		if (ft_strcmp(key[0], current->key) == 0)
+		if (key[1])
 		{
-			if (key[1])
-			{
-				ft_free(current->value);
-				current->value = ft_strdup(key[1]);
-			}
-			current->global = GLOBAL;
-			flag = 1;
+			ft_free(current->value);
+			current->value = ft_strdup(key[1]);
 		}
-		current = current->next;
+		current->global = GLOBAL;
 	}
-	if (flag == 0)
+	else 
 	{
 		new = init_env(content, GLOBAL);
 		if (!new)

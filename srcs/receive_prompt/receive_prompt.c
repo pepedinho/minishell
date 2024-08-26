@@ -115,20 +115,17 @@ void stock_infile_outfile(t_change *change, t_element **node)
 	t_element *current;
 
 	current = *node;
-
+	if (current->type == RR_RED || current->type == R_RED)
 	{
-		if (current->type == RR_RED || current->type == R_RED)
-		{
-			add_int_to_tab(&change->file_mode, current->type, change->output);
-			add_string_char_2d(&change->output, current->next->content);
-		}
-		else if (current->type == L_RED || current->type == LL_RED)
-		{
-			add_int_to_tab(&change->infile_tab, current->next->fd, change->infile);
-			add_string_char_2d(&change->infile, current->next->content);
-		}
-		current = current->next;
+		add_int_to_tab(&change->file_mode, current->type, change->output);
+		add_string_char_2d(&change->output, current->next->content);
 	}
+	else if (current->type == L_RED || current->type == LL_RED)
+	{
+		add_int_to_tab(&change->infile_tab, current->next->fd, change->infile);
+		add_string_char_2d(&change->infile, current->next->content);
+	}
+	current = current->next;
 	*node = current;
 }
 
