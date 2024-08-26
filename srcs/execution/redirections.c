@@ -44,10 +44,12 @@ int	outfile(t_element *node, t_info *info)
 	{
 		if (node->file_mode[i] == R_RED)
 			outfile = ft_open_outfile(node->outfile[i],
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+										O_WRONLY | O_CREAT | O_TRUNC,
+										0644);
 		else if (node->file_mode[i] == RR_RED)
 			outfile = ft_open_outfile(node->outfile[i],
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
+										O_WRONLY | O_CREAT | O_APPEND,
+										0644);
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 		{
 			ft_fprintf(2, "%s: Error when trying to dup2\n", info->name);

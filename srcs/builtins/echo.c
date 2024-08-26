@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:01:22 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 18:09:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:01:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ int	if_option(char **args, int *i)
 	return (j);
 }
 
+void	loop_echo(char **args, int i)
+{
+	while (args[i])
+	{
+		ft_putstr_echo(args[i]);
+		if (args[i + 1])
+			ft_putstr_echo(" ");
+		i++;
+	}
+}
+
 void	ft_echo(char **args, t_info *info)
 {
 	int	i;
@@ -62,24 +73,10 @@ void	ft_echo(char **args, t_info *info)
 	{
 		i = 1;
 		if (if_option(args, &i))
-		{
-			while (args[i])
-			{
-				ft_putstr_echo(args[i]);
-				if (args[i + 1])
-					ft_putstr_echo(" ");
-				i++;
-			}
-		}
+			loop_echo(args, i);
 		else
 		{
-			while (args[i])
-			{
-				ft_putstr_echo(args[i]);
-				if (args[i + 1])
-					ft_putstr_echo(" ");
-				i++;
-			}
+			loop_echo(args, i);
 			printf("\n");
 		}
 	}

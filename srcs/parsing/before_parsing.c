@@ -21,10 +21,10 @@ char	*quote_or_dquote(char *str, char *prompt, t_info *info)
 	{
 		if (ft_strcmp(prompt, "quote> ") == 0)
 			ft_putendl_fd("minishell: unexpected EOF while looking for matching `''",
-				2);
+							2);
 		else
 			ft_putendl_fd("minishell: unexpected EOF while looking for matching `\"'",
-				2);
+							2);
 		ft_putendl_fd("minshell: syntax error: unexpected end of file", 2);
 		return (info->signal_code = 2, NULL);
 	}

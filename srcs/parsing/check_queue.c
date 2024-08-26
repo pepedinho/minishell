@@ -24,7 +24,7 @@ void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 			if (tmp->content[0] == '\0')
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
-					info->name);
+							info->name);
 				info->signal_code = 2;
 				tmp->type = U_TOKEN;
 			}
