@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/26 18:46:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 19:12:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ typedef struct s_element
 	struct s_element		*next;
 	struct s_element		*before;
 }							t_element;
+
+typedef struct s_change
+{
+	int			*file_mode;
+	char		**output;
+	char		**infile;
+	int			*infile_tab;
+}t_change;
 
 /*
  * heredoc_flag = 1 if there is some in heredoc in command

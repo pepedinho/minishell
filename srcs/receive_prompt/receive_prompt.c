@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 13:03:56 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 18:48:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 19:43:50by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**prepare_args_to_exec(t_element *cmd)
 
 	i = 0;
 	current = cmd;
-	while (current && !is_a_redirect(current->type))
+	while (current && !is_a_operator(current->type))
 	{
 		i++;
 		current = current->next;
@@ -54,7 +54,7 @@ char	**prepare_args_to_exec(t_element *cmd)
 	if (!cmd_tab)
 		handle_malloc_error("parsing");
 	i = 0;
-	while (current && !is_a_redirect(current->type))
+	while (current && !is_a_operator(current->type))
 	{
 		if (current->type == SFX || current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR)
 			cmd_tab[i++] = current->content;
@@ -110,73 +110,90 @@ void add_int_to_tab(int **tab, int nb, char **char_tab)
 	*tab = new;
 }
 
+void stock_infile_outfile(t_change *change, t_element **node)
+{
+	t_element *current;
 
+	current = *node;
+
+	{
+		if (current->type == RR_RED || current->type == R_RED)
+		{
+			add_int_to_tab(&change->file_mode, current->type, change->output);
+			add_string_char_2d(&change->output, current->next->content);
+		}
+		else if (current->type == L_RED || current->type == LL_RED)
+		{
+			add_int_to_tab(&change->infile_tab, current->next->fd, change->infile);
+			add_string_char_2d(&change->infile, current->next->content);
+		}
+		current = current->next;
+	}
+	*node = current;
+}
+
+void change_to_current(t_change *change, t_element **node, t_element **tmp)
+{
+	t_element *current;
+
+	current = *node;
+	if (!current || (current && is_a_operator(current->type)))
+	{
+		current = *tmp;
+		if (current->type != LOCAL_VAR)
+			current->type = N_CMD;
+	}
+	current->infile = change->infile;
+	current->infile_tab = change->infile_tab;
+	current->outfile = change->output;
+	current->file_mode = change->file_mode;
+	if (!current || (current && is_a_operator(current->type)))
+		current = current->next;
+	*node = current;
+}
+
+void redirections_before_command(t_change *change, t_element **node, t_element **tmp) 
+{
+	t_element *current;
+
+	current = *node;
+	while (current && current->type != CMD && current->type != C_BLOCK
+		&& !is_a_operator(current->type))
+	{
+		*tmp = current;
+		stock_infile_outfile(change, &current);
+	}
+	*node = current;
+	change_to_current(change, node, tmp);
+}
+
+void redirections_after_command(t_change *change, t_element **node, t_element **tmp)
+{
+	t_element *current;
+
+	current = *node;
+	current->args = prepare_args_to_exec(current);
+	*tmp = current;
+	while (current && current->type != PIPE && current->type != AND
+		&& current->type != OR && current->type != LIST)
+		stock_infile_outfile(change, &current);
+	*node = current;
+	change_to_current(change, tmp, node);
+}
 
 t_command_line	*change_queue(t_command_line *queue)
 {
 	t_element	*current;
 	t_element	*tmp;
-	int			*file_mode;
-	char		**output;
-	char		**infile;
-	int			*infile_tab;
+	t_change change;
 
 	current = queue->first;
 	while (current)
 	{
-		infile = NULL;
-		infile_tab = NULL;
-		output = NULL;
-		file_mode = NULL;
-		while (current && current->type != CMD && current->type != C_BLOCK
-			&& !is_a_redirect(current->type))
-		{
-			if (current->type == RR_RED || current->type == R_RED)
-			{
-				add_int_to_tab(&file_mode, current->type, output);
-				add_string_char_2d(&output, current->next->content);
-			}
-			else if (current->type == L_RED || current->type == LL_RED)
-			{
-				add_int_to_tab(&infile_tab, current->next->fd, infile);
-				add_string_char_2d(&infile, current->next->content);
-			}
-			tmp = current;
-			current = current->next;
-		}
-		if (!current || (current && is_a_redirect(current->type)))
-		{
-			current = tmp;
-			if (current->type != LOCAL_VAR)
-				current->type = N_CMD;
-		}
-		current->infile = infile;
-		current->infile_tab = infile_tab;
-		current->outfile = output;
-		current->file_mode = file_mode;
-		if (!current || (current && is_a_redirect(current->type)))
-			current = current->next;
+		ft_memset(&change, 0, sizeof(change));
+		redirections_before_command(&change, &current, &tmp);
 		if (current && (current->type == CMD || current->type == C_BLOCK || current->type == LOCAL_VAR))
-		{
-			current->args = prepare_args_to_exec(current);
-			tmp = current;
-			current = current->next;
-			while (current && current->type != PIPE && current->type != AND
-				&& current->type != OR && current->type != LIST)
-			{
-				if (current->type == RR_RED || current->type == R_RED)
-				{
-					add_int_to_tab(&tmp->file_mode, current->type, tmp->outfile);
-					add_string_char_2d(&tmp->outfile, current->next->content);
-				}
-				else if (current->type == L_RED || current->type == LL_RED)
-				{
-					add_int_to_tab(&tmp->infile_tab, current->next->fd, tmp->infile);
-					add_string_char_2d(&tmp->infile, current->next->content);
-				}
-				current = current->next;
-			}
-		}
+			redirections_after_command(&change, &current, &tmp);
 		if (current)
 			current = current->next;
 	}
@@ -204,9 +221,7 @@ t_command_line	*remove_in_queue(t_command_line *queue)
 	while (current)
 	{
 		if (current->type != CMD && current->type != LOCAL_VAR
-			&& current->type != PIPE && current->type != AND
-			&& current->type != OR && current->type != LIST
-			&& current->type != C_BLOCK && current->type != N_CMD)
+			&& current->type != C_BLOCK && current->type != N_CMD && !is_a_operator(current->type))
 		{
 			if (current->before)
 				current->before->next = current->next;

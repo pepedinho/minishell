@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:37:28 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/26 18:48:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:38:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_element	*create_new_element(int type, char *content)
 
 void	check_if_command_before(t_element *tmp, t_element *new)
 {
-	while (tmp && !is_a_redirect(tmp->type))
+	while (tmp && !is_a_operator(tmp->type))
 	{
 		if (tmp->type == CMD)
 		{
