@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 03:46:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 22:12:07 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_cmd(t_command_line *queue, t_info *info)
 		{
 			here_doc(tmp);
 			if (g_signal != 0)
-				return (info->signal_code = g_signal, g_signal = 0, 0);
+				return (set_info_if_signal(info), 0);
 		}
 		if (tmp->type == U_TOKEN)
 			return (close_fd(queue), 0);

@@ -325,13 +325,12 @@ char	*ft_readline(t_info *info)
 	{
 		prompt = get_prompt(info);
 		command_line = readline(prompt);
+		ft_free(prompt);
 		if (g_signal != 0)
 		{
-			info->signal_code = g_signal;
-			g_signal = 0;
+			set_info_if_signal(info);
 			continue ;
 		}
-		ft_free(prompt);
 		if (!command_line)
 			ft_exit(NULL);
 		else if (ft_strcmp(command_line, "") == 0)
@@ -342,12 +341,8 @@ char	*ft_readline(t_info *info)
 		else
 			break ;
 	}
-	prompt = ft_malloc(sizeof(char) * (ft_strlen(command_line) + 1));
-	if (!prompt)
-		handle_malloc_error("readline");
-	ft_strcpy(prompt, command_line);
-	ft_free(command_line);
-	return (prompt);
+	prompt = ft_strdup(command_line);
+	return (ft_free(command_line), prompt);
 }
 
 void	receive_prompt(t_info *info)

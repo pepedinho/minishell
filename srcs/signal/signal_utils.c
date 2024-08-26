@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 20:00:34 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 20:08:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 22:12:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ void	if_sigint(int sig)
 {
 	g_signal = 128 + sig;
 	rl_done = 1;
+}
+
+void set_info_if_signal(t_info *info)
+{
+	info->signal_code = g_signal;
+	g_signal = 0;
 }
