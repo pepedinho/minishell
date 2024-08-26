@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 21:27:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:23:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	exec(t_element *node, t_info *info, t_element *first)
 	if (node->type == LOCAL_VAR)
 		local_var(node, info, first);
 	if (node->type == AND)
-		and(node, info, first);
+		_and(node, info, first);
 	if (node->type == OR)
-		or (node, info, first);
+		_or(node, info, first);
 	if (node->type == PIPE)
 		ft_pipe(node, info, first);
 	if (node->type == C_BLOCK)
@@ -166,8 +166,7 @@ void	execute_command_line(t_tree *tree)
 		else
 			exec(tree->first, info, tree->first);
 		tmp = tree->next;
-		free_tree(tree->first);
-		ft_free(tree);
+		(free_tree(tree->first), ft_free(tree));
 		tree = tmp;
 	}
 	check_if_signal();

@@ -281,7 +281,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
 
-	queue = parser(command_line, info->env);
+	queue = parser(command_line);
 	if (!queue)
 		return (NULL);
 	print_queue(queue);

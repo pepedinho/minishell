@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/25 20:47:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:31:10 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ int	add_redirect(t_command_line *queue, char *str, int *i)
 	return (1);
 }
 
-int	add_command(t_command_line *queue, char *str, int *i, t_env *env)
+int	add_command(t_command_line *queue, char *str, int *i)
 {
 	int		j;
 	char	*cmd;
 
 	j = 0;
-	(void)env;
 	while (str[*i + j] && !is_space(str[*i + j]) && !is_a_separator(str[*i
 			+ j]))
 	{
@@ -122,18 +121,18 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	return (*i += j + 1, 1);
 }
 
-char	*add_elem(t_command_line *queue, char *str, int *i, t_env *env)
+char	*add_elem(t_command_line *queue, char *str, int *i)
 {
 	if (str[*i] == '(')
 		add_elem_for_parenthesis(queue, str, i);
 	else if (is_a_separator(str[*i]))
 		add_redirect(queue, str, i);
 	else
-		add_command(queue, str, i, env);
+		add_command(queue, str, i);
 	return (str);
 }
 
-t_command_line	*parser(char *str, t_env *env)
+t_command_line	*parser(char *str)
 {
 	int				i;
 	t_command_line	*queue;
@@ -153,7 +152,7 @@ t_command_line	*parser(char *str, t_env *env)
 	{
 		skip_white_space(str, &i);
 		if (str[i])
-			str = add_elem(queue, str, &i, env);
+			str = add_elem(queue, str, &i);
 	}
 	return (queue);
 }

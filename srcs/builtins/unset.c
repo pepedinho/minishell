@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:52 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/15 20:30:33 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:06:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_unset(char **args, t_info *info)
 {
-	int i;
-	t_env *env;
+	int		i;
+	t_env	*env;
 
 	i = 1;
 	while (args[i])

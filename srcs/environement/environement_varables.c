@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:43:41 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/20 00:44:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:07:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,7 @@ void	add_back_env(t_env **env, t_env *new)
 	else
 	{
 		while (current->next)
-		{
 			current = current->next;
-		}
 		current->next = new;
 		new->before = current;
 	}

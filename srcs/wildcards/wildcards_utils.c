@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 03:06:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 03:08:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:36:19 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void create_node_wcards(t_wcards **wcards, char *str, int i, int j)
 	if (!new)
 		handle_malloc_error("wildcards");
 	new->content = ft_substr(str, i, j);
-	new->content[j] = '\0';
+	new->content = expand_if_necessary(new->content);
 	new->before = NULL;
 	new->next = NULL;
 	add_back_wcards(wcards, new);

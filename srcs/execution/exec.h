@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 15:56:38 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/26 23:23:33 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*ft_is_evn_variable(char *line, char **envp);
 // Utils
 int		check_if_fork(t_element *node);
 int		ft_fork(void);
-char	**ready_to_exec(t_element *cmd);
 void	exit_status(int status, t_info *info);
 void ft_close(int fd);
 void close_file_tree(t_element *current);
@@ -54,8 +53,8 @@ void	only_builtin(t_element *node, t_info *info, t_element *first);
 void	exec_built_in(t_element *node, t_info *info);
 
 // Operators
-void or(t_element * node, t_info *info, t_element *first);
-void and (t_element * node, t_info *info, t_element *first);
+void _or(t_element * node, t_info *info, t_element *first);
+void _and (t_element * node, t_info *info, t_element *first);
 void	ft_pipe(t_element *node, t_info *info, t_element *first);
 
 #endif // !EXEC_H
