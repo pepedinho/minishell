@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:25:05 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 18:49:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:57:47 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_malloc_error(char *message)
 
 	info = info_in_static(NULL, GET);
 	ft_fprintf(2, "%s: Error ft_malloc when allocate for %s\n", info->name,
-			message);
+		message);
 	info->signal_code = ERR_MALLOC;
 	free_and_exit(info->signal_code);
 }

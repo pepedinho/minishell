@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/27 14:41:57 by itahri           ###   ########.fr        #
+#    Updated: 2024/08/27 15:10:51 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ GARBAGE = $(addprefix garbage_collecting/, garbage_collector.c garbage_queue_fun
 
 ERROR = $(addprefix errors/, error_file.c handle_functions.c)
 
-EXEC = $(addprefix execution/, exec_commands.c exec_utils.c operator.c  \
+EXEC = $(addprefix execution/, exec_commands.c exec_commands_utils.c exec_utils.c exec_utils2.c operator.c  \
 		redirections.c exit_code.c heredoc.c expand.c expand_utils.c)
 
 SIGNALS = $(addprefix signal/, signal.c signal_utils.c)
@@ -43,7 +43,7 @@ PROMPT = $(addprefix receive_prompt/, receive_prompt.c print_header.c)
 
 BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c unset.c)
 
-ENV = $(addprefix environement/, environement_varables.c)
+ENV = $(addprefix environement/, environement_variables.c environement_variables_utils.c)
 
 WILD_CARDS = $(addprefix wildcards/, wildcards.c wildcards_utils.c)
 

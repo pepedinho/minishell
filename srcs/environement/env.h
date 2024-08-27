@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:12:42 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/18 22:52:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:05:19 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@ typedef struct s_env
 t_env				*env_in_struct(char **envp);
 void				free_env(t_env *env);
 char				**t_env_to_envp(t_env *env, int cas);
-t_env *search_in_env(char *key);
+t_env				*search_in_env(char *key);
 t_env				*init_env(char *envp, int cas);
 void				add_back_env(t_env **env, t_env *new);
-int is_a_good_variable(char *str);
-char *ft_getenv(char *key);
-
+int					is_a_good_variable(char *str);
+char				*ft_getenv(char *key);
 
 #endif // !ENV_H
