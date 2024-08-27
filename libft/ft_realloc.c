@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/11 16:43:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 22:02:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_realloc(char *ptr, int len_realloc)
 	if (!tmp)
 	{
 		ft_free(ptr);
-		return (NULL);
+		handle_malloc_error("realloc");
 	}
 	tmp[0] = '\0';
 	tmp = ft_strcpy(tmp, ptr);

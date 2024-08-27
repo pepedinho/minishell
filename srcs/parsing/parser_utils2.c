@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:25:04 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 17:31:22 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 00:01:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	add_command(t_command_line *queue, char *str, int *i)
 	int	j;
 
 	j = 0;
-	while (str[*i + j] && !is_space(str[*i + j]) && !is_a_separator(str[*i
-			+ j]))
+	while (str[*i + j] && !is_space(str[*i + j])
+		&& !is_a_separator(str[*i + j]))
 	{
 		if (str[*i + j] == '"')
 			continue_until_find(i, &j, str, '"');

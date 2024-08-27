@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 17:27:53 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/27 23:59:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,14 @@ char						*check_if_command_line_is_good(char *str,
 // Check queue
 int							check_for_parenthesis(t_command_line *queue,
 								t_info *info);
-int							check_first_and_last_node_queue(t_command_line *queue);
+int							check_first_and_last_node_queue(t_command_line *q);
+
+// Expand
+char						*if_normal(char *str, int *i);
+char						*if_dollar(char *str, int *i);
+char						*normal_or_dollar(char *str, int *i, int j);
+char						*if_dquote(char *str, int *i);
+char						*if_cursh(char *str, int *i);
+char						*if_quote(char *str, int *i);
 
 #endif
