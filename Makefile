@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/27 15:10:51 by itahri           ###   ########.fr        #
+#    Updated: 2024/08/27 15:36:25 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SIGNALS = $(addprefix signal/, signal.c signal_utils.c)
 
 BINARY_TREE = $(addprefix binary_tree/, ast.c ast_utils.c)
 
-PROMPT = $(addprefix receive_prompt/, receive_prompt.c print_header.c)
+PROMPT = $(addprefix receive_prompt/, receive_prompt.c receive_prompt_utils1.c receive_prompt_utils2.c receive_prompt_utils3.c \
+				 print_header.c)
 
 BUILTINS = $(addprefix builtins/, env.c cd.c echo.c export.c pwd.c exit.c unset.c)
 

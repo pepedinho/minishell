@@ -6,13 +6,14 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:47:05 by marvin            #+#    #+#             */
-/*   Updated: 2024/08/11 01:09:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:59:20 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "../includes/minishell.h"
 # include <bsd/string.h>
 # include <ctype.h>
 # include <fcntl.h>
@@ -23,7 +24,6 @@
 # include <string.h>
 # include <strings.h>
 # include <unistd.h>
-#include "../includes/minishell.h"
 
 typedef struct s_list
 {
