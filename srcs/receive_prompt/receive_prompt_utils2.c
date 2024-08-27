@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   receive_prompt_utils2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:34:22 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 16:00:56 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 00:08:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_command_line	*parsing(char *command_line, t_info *info)
 {
 	t_command_line	*queue;
 
-	queue = parser(command_line);
+	queue = parser(command_line, info);
 	if (!queue)
 		return (NULL);
 	print_queue(queue);
