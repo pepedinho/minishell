@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:54:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 23:20:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 14:48:21 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ char	*ft_normal_format(char *line, char *dest, int *i)
 		(*i)++;
 	}
 	return (dest);
-}
-
-int	is_a_var_char(char c)
-{
-	if (ft_isalnum(c) || c == '_')
-		return (1);
-	return (0);
 }
 
 char	*ft_create_variable(char *line, int *i)
@@ -65,9 +58,7 @@ char	*ft_create_variable(char *line, int *i)
 	if (line[*i + j] == '}')
 		(*i)++;
 	*i += j;
-	var[j++] = '=';
-	var[j] = '\0';
-	return (var);
+	return (var[j++] = '=', var[j] = '\0', var);
 }
 
 char	*ft_check_if_variable_exist(char **envp, char *var, char *dest, int j)

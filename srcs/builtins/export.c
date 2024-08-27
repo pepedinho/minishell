@@ -101,7 +101,7 @@ int	ft_export(t_info *info, char **content)
 		else
 		{
 			printf("%s: export: `%s': not a valid identifier\n", info->name,
-					content[i]);
+				content[i]);
 			info->signal_code = 1;
 		}
 		i++;

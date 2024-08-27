@@ -25,6 +25,6 @@ int		ft_export(t_info *info, char **content);
 void	print_env(t_env *env, int cas, t_info *info);
 char	*ft_pwd(int cas, t_info *info);
 void	ft_exit(char **args);
-void ft_unset(char **args, t_info *info);
+void	ft_unset(char **args, t_info *info);
 
 #endif // !BUILTINS_H
