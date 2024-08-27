@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 16:26:43 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/27 17:27:53 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ void						free_queue(t_command_line *queue);
 t_command_line				*parser(char *str);
 void						print_queue(t_command_line *queue);
 void						free_node_queue(t_element *node);
+void						check_if_command_before(t_element *tmp,
+								t_element *new);
+t_element					*create_new_element(int type, char *content);
 
 // utils
 int							is_a_separator(char c);
@@ -106,6 +109,16 @@ char						*expand_if_necessary(char *str);
 int							is_redirection(t_element *elem);
 int							is_space(char c);
 int							check_for_wcards(t_command_line *queue, char *str);
+
+// Parser uitls 2
+void						continue_until_find(int *i, int *j, char *str,
+								char to_find);
+int							add_prth_ext(t_command_line *queue, char *str,
+								int *i, int j);
+int							add_redirect(t_command_line *queue, char *str,
+								int *i);
+int							add_command(t_command_line *queue, char *str,
+								int *i);
 
 // Before parsing
 char						*check_if_command_line_is_good(char *str,

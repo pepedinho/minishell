@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:12:38 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/14 00:13:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:33:33 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	destroy(t_garbage *garbage, void *elem)
 		current = current->next;
 	if (current->before)
 		current->before->next = current->next;
-	else 
+	else
 		garbage->first = current->next;
 	if (current->next)
 		current->next->before = current->before;

@@ -6,86 +6,18 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/26 23:31:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:27:13 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "parsing.h"
 
-int	add_redirect(t_command_line *queue, char *str, int *i)
-{
-	char	*redirection;
-	char	symbol;
-	int		type;
-	int		j;
-
-	symbol = str[*i];
-	j = 0;
-	while (str[*i + j] == symbol)
-		j++;
-	redirection = ft_malloc(sizeof(char) * (j + 1));
-	if (!redirection)
-		handle_malloc_error("redirections");
-	j = -1;
-	while (str[*i + ++j] == symbol)
-		redirection[j] = str[*i + j];
-	redirection[j] = '\0';
-	type = assigne_type(redirection, queue);
-	add_to_queue(queue, redirection, type);
-	*i += j;
-	return (1);
-}
-
-int	add_command(t_command_line *queue, char *str, int *i)
-{
-	int		j;
-	char	*cmd;
-
-	j = 0;
-	while (str[*i + j] && !is_space(str[*i + j]) && !is_a_separator(str[*i
-			+ j]))
-	{
-		if (str[*i + j] == '"')
-		{
-			j++;
-			while (str[*i + j] != '"')
-				j++;
-		}
-		else if (str[*i + j] == '\'')
-		{
-			j++;
-			while (str[*i + j] != '\'')
-				j++;
-		}
-		else if (str[*i + j] == '{')
-		{
-			j++;
-			while (str[*i + j] != '}')
-				j++;
-		}
-		j++;
-	}
-	cmd = ft_substr(str, *i, j);
-	if (!cmd)
-		handle_malloc_error("expand variable");
-	if (check_for_wcards(queue, cmd))
-		return (*i += j, 1);
-	cmd = expand_if_necessary(cmd);
-	if (!cmd[0] && !is_a_quotes(str[*i + j - 1]))
-		return (*i += j, 1);
-	if (!add_to_queue(queue, cmd, CMD))
-		handle_malloc_error("commands");
-	*i += j;
-	return (1);
-}
-
 int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 {
-	int		j;
-	char	*cmd;
-	int		open_parenthesis;
-	int		close_parenthesis;
+	int	j;
+	int	open_parenthesis;
+	int	close_parenthesis;
 
 	j = 0;
 	open_parenthesis = 1;
@@ -95,17 +27,9 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 		if (str[*i + j] == '(')
 			open_parenthesis++;
 		if (str[*i + j] == '"')
-		{
-			j++;
-			while (str[*i + j] != '"')
-				j++;
-		}
+			continue_until_find(i, &j, str, '"');
 		if (str[*i + j] == '\'')
-		{
-			j++;
-			while (str[*i + j] != '\'')
-				j++;
-		}
+			continue_until_find(i, &j, str, '\'');
 		if (str[*i + j] == ')')
 			close_parenthesis++;
 		if (open_parenthesis - close_parenthesis == 0)
@@ -113,12 +37,7 @@ int	add_elem_for_parenthesis(t_command_line *queue, char *str, int *i)
 	}
 	if (!str[*i + j] && open_parenthesis - close_parenthesis != 0)
 		return (queue->open_parenthesis_flag = 1, *i += j, NO_END_QUOTE);
-	cmd = ft_substr(str, *i + 1, j - 1);
-	if (!cmd)
-		handle_malloc_error("parenthesis");
-	if (!add_to_queue(queue, cmd, C_BLOCK))
-		handle_malloc_error("env");
-	return (*i += j + 1, 1);
+	return (add_prth_ext(queue, str, i, j));
 }
 
 char	*add_elem(t_command_line *queue, char *str, int *i)
@@ -209,7 +128,7 @@ void	print_queue(t_command_line *queue)
 			printf("|                |\n");
 			printf("|                |__[%d]\n", i);
 			printf("|                |    |___[content] -> ['%s']\n",
-					current->content);
+				current->content);
 			printf("|                |    |___[type] -> [%d]\n", current->type);
 			printf("|                |                    |____[Suffix]\n");
 			if (current->type)

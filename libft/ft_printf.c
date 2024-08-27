@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:12:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/13 21:22:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:32:46 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,5 @@ int	ft_fprintf(int fd, const char *str, ...)
 	if (!print)
 		return (-1);
 	ft_putstr_fd(print, fd);
-	return (va_end(args), /*ft_free(print),*/ ft_len_print(2));
+	return (va_end(args), ft_len_print(2));
 }
-
-/*int	main(void)
-{
-	//ft_printf(" %d\n", ft_printf("je suis en train de test %"));
-	//ft_printf(" %d\n", printf("je suis en train de test
-				%et imad est gentil"));
-}*/
