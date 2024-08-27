@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 22:10:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:27:14 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ char	*quote_or_dquote(char *str, char *prompt, t_info *info)
 	if (!new_line)
 	{
 		if (ft_strcmp(prompt, "quote> ") == 0)
-			ft_putendl_fd("minishell: unexpected EOF while looking for matching `''",
-							2);
+			ft_putendl_fd(S_U_EOF, 2);
 		else
-			ft_putendl_fd("minishell: unexpected EOF while looking for matching `\"'",
-							2);
+			ft_putendl_fd(D_U_EOF, 2);
 		ft_putendl_fd("minshell: syntax error: unexpected end of file", 2);
 		return (info->signal_code = 2, NULL);
 	}

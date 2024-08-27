@@ -6,13 +6,13 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 03:35:50 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/25 03:08:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:23:57 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int is_match(char *name, t_wcards *wcards)
+int	is_match(char *name, t_wcards *wcards)
 {
 	if (ft_strcmp(wcards->content, "") != 0)
 	{
@@ -33,17 +33,18 @@ int is_match(char *name, t_wcards *wcards)
 	}
 	if (ft_strcmp(wcards->content, "") != 0)
 	{
-		if (ft_strncmp_reverse(name, wcards->content, ft_strlen(wcards->content)) != 0)
+		if (ft_strncmp_reverse(name, wcards->content,
+				ft_strlen(wcards->content)) != 0)
 			return (0);
 	}
 	return (1);
 }
 
-t_wcards *init_wcards(char *str)
+t_wcards	*init_wcards(char *str)
 {
-	t_wcards *wcards;
-	int i;
-	int j;
+	t_wcards	*wcards;
+	int			i;
+	int			j;
 
 	i = 0;
 	j = 0;
@@ -63,16 +64,16 @@ t_wcards *init_wcards(char *str)
 	return (wcards);
 }
 
-int expand_wcards(char *str, t_command_line *queue)
+int	expand_wcards(char *str, t_command_line *queue)
 {
-	DIR *current_dir;
-	struct dirent *elem;
-	t_wcards *wcards;
-	int find;
-	
+	DIR				*current_dir;
+	struct dirent	*elem;
+	t_wcards		*wcards;
+	int				find;
+
 	find = 0;
 	wcards = init_wcards(str);
-	current_dir = opendir(".");	
+	current_dir = opendir(".");
 	elem = readdir(current_dir);
 	while (elem)
 	{

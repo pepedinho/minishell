@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 16:02:30 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/27 16:26:43 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../garbage_collecting/garbage_collecting.h"
 
 # define NO_END_QUOTE 0
+# define S_U_EOF "minishell: unexpected EOF while looking for matching `''"
+# define D_U_EOF "minishell: unexpected EOF while looking for matching `\"'"
 
 /*
  * type :

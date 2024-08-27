@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 22:12:07 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:30:00 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 			if (tmp->content[0] == '\0')
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
-							info->name);
+					info->name);
 				info->signal_code = 2;
 				tmp->type = U_TOKEN;
 			}

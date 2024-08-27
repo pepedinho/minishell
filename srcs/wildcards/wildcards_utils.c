@@ -6,15 +6,15 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 03:06:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 23:36:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/27 16:23:26 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_strncmp_reverse(char *s1, char *s2, size_t len_s2)
+int	ft_strncmp_reverse(char *s1, char *s2, size_t len_s2)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(s1);
 	while (len && len_s2)
@@ -27,9 +27,10 @@ int ft_strncmp_reverse(char *s1, char *s2, size_t len_s2)
 	return (s1[len] - s2[len_s2]);
 }
 
-void add_back_wcards(t_wcards **wcards, t_wcards *new)
+void	add_back_wcards(t_wcards **wcards, t_wcards *new)
 {
 	t_wcards	*current;
+
 	current = *wcards;
 	if (!(*wcards))
 	{
@@ -46,9 +47,10 @@ void add_back_wcards(t_wcards **wcards, t_wcards *new)
 	}
 }
 
-void create_node_wcards(t_wcards **wcards, char *str, int i, int j)
+void	create_node_wcards(t_wcards **wcards, char *str, int i, int j)
 {
-	t_wcards *new;
+	t_wcards	*new;
+
 	new = ft_malloc(sizeof(t_wcards));
 	if (!new)
 		handle_malloc_error("wildcards");
@@ -59,7 +61,7 @@ void create_node_wcards(t_wcards **wcards, char *str, int i, int j)
 	add_back_wcards(wcards, new);
 }
 
-void skip_quote_wcards(char *str, int i, int *j)
+void	skip_quote_wcards(char *str, int i, int *j)
 {
 	if (str[i + *j] == '"')
 	{
@@ -72,5 +74,5 @@ void skip_quote_wcards(char *str, int i, int *j)
 		(*j)++;
 		while (str[i + *j] != '"')
 			(*j)++;
-	}	
+	}
 }
