@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 14:51:31 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 22:23:43 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_info	*info_in_static(t_info *info, int cas)
 
 void	minishell(t_info *info, char **envp)
 {
+	info->is_child = 0;
 	info_in_static(info, INIT);
 	info->env = env_in_struct(envp);
 	pprint_header();
@@ -40,6 +41,7 @@ void	minishell(t_info *info, char **envp)
 
 void	subminishell(char **argv, t_info *info, char **envp)
 {
+	info->is_child = 1;
 	info_in_static(info, INIT);
 	if (ft_strcmp(argv[1], "-c") != 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 14:56:48 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 22:29:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	check_if_fork(t_element *node)
 	return (0);
 }
 
-int	ft_fork(void)
+int	ft_fork(t_info *info)
 {
 	int	pid;
 
@@ -89,6 +89,9 @@ int	ft_fork(void)
 	if (pid == -1)
 		free_and_exit(-1);
 	if (pid == 0)
+	{
 		set_signal_child();
+		info->is_child = 1;
+	}
 	return (pid);
 }

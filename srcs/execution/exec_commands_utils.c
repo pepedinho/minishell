@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_commmands_utils.c                             :+:      :+:    :+:   */
+/*   exec_commands_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:54:16 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 14:54:29 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 22:26:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execute_command_line(t_tree *tree)
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
 			|| tree->first->type == C_BLOCK || tree->first->type == N_CMD)
 		{
-			pid = ft_fork();
+			pid = ft_fork(info);
 			if (pid == 0)
 				exec(tree->first, info, tree->first);
 			close_file_tree(tree->first);

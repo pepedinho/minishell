@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 14:50:24 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 22:25:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_is_evn_variable(char *line, char **envp);
 
 // Utils
 int		check_if_fork(t_element *node);
-int		ft_fork(void);
+int		ft_fork(t_info *info);
 void	exit_status(int status, t_info *info);
 void	ft_close(int fd);
 void	close_file_tree(t_element *current);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 15:31:28 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/24 15:51:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/28 22:27:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	ft_exit(char **args)
 	t_info	*info;
 
 	info = info_in_static(NULL, GET);
-	ft_fprintf(2, "exit\n");
+	if (info->is_child == 0)
+		ft_fprintf(2, "exit\n");
 	if (!args)
 		free_and_exit(0);
 	if (args[1])
