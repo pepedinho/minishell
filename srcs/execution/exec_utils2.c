@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:56:32 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 14:56:45 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 23:15:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,18 @@ void	ft_close(int fd)
 			free_and_exit(-1);
 		}
 	}
+}
+
+void	if_potentialy_a_directory(char *command, t_info *info)
+{
+	struct stat	sb;
+
+	stat(command, &sb);
+	if (S_ISDIR(sb.st_mode))
+	{
+		ft_fprintf(2, "%s: %s: Is a directory\n", info->name, command);
+		free_and_exit(126);
+	}
+	ft_fprintf(2, "%s: %s: No such file or directory\n", info->name, command);
+	free_and_exit(127);
 }

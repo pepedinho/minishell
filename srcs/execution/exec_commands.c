@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 15:16:23 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/28 23:05:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,21 @@ void	command(t_element *node, t_info *info, t_element *first)
 	char	*path;
 	char	**envp;
 
+	(infile(node, info, first), outfile(node, info));
 	envp = t_env_to_envp(info->env, GLOBAL);
 	if (!envp)
 		handle_malloc_error("envp");
 	path = find_path(node->content, info);
 	if (path == NULL)
-		handle_malloc_error("path");
-	(infile(node, info, first), outfile(node, info));
+	{
+		ft_fprintf(2, "%s: %s: command not found\n", info->name,
+			node->args[0]);
+		free_and_exit(127);
+	}
 	if (!ft_strcmp(node->args[0], "ls"))
 		add_string_char_2d(&node->args, ft_strdup("--color=auto"));
 	execve(path, node->args, envp);
-	if (errno == 2)
-	{
-		ft_fprintf(2, "%s: command not found\n", node->args[0]);
-		free_and_exit(127);
-	}
-	else
-		perror(node->content);
+	ft_fprintf(2, "%s: Permission denied\n", node->args[0]);
 	free_and_exit(126);
 }
 
@@ -54,7 +52,9 @@ void	subshell(t_element *node, t_info *info, t_element *first)
 	args[3] = NULL;
 	(infile(node, info, first), outfile(node, info));
 	execve("/tmp/minishell", args, envp);
-	free_and_exit(errno);
+	ft_fprintf(2, "%s: %s: command not found\n", info->name,
+		node->args[0]);
+	free_and_exit(126);
 }
 
 void	local_var(t_element *node, t_info *info, t_element *first)

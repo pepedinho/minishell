@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/28 22:29:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/28 23:16:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char	*find_path(char *command, t_info *info)
 	char	*value;
 
 	i = 0;
-	(void)info;
+	if (ft_strchr(command, '/'))
+		if_potentialy_a_directory(command, info);
 	if (ft_access(command) == 0)
 		return (command);
 	value = ft_getenv("PATH");
@@ -68,7 +69,7 @@ char	*find_path(char *command, t_info *info)
 		}
 		ft_free_2d(split);
 	}
-	return (command);
+	return (NULL);
 }
 
 int	check_if_fork(t_element *node)
