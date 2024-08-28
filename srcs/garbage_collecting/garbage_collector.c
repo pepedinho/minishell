@@ -14,7 +14,6 @@
 
 void	*ft_malloc(long int t)
 {
-	static int			i;
 	static t_garbage	*garbage;
 	void				*ptr;
 
@@ -31,7 +30,6 @@ void	*ft_malloc(long int t)
 	push_to_garbage(garbage, ptr);
 	if (!garbage->total_alloc)
 		ft_free(garbage);
-	i++;
 	garbage->total_alloc++;
 	return (ptr);
 }
