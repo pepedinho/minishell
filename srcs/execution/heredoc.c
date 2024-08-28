@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/26 18:54:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/28 23:20:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	heredoc_bis(t_element *tmp, int *fd)
 {
 	char	*line;
+	int	i;
 
+	i = 1;
 	while (1)
 	{
 		line = readline("heredoc> ");
@@ -23,7 +25,7 @@ void	heredoc_bis(t_element *tmp, int *fd)
 			return ;
 		if (!line)
 		{
-			message_pipe(tmp->content);
+			message_pipe(tmp->content, i);
 			break ;
 		}
 		if (ft_strcmp(line, tmp->content) == 0)
@@ -34,6 +36,7 @@ void	heredoc_bis(t_element *tmp, int *fd)
 		line = ft_parse_line(line);
 		ft_putendl_fd(line, fd[WRITE]);
 		ft_free(line);
+		i++;
 	}
 }
 

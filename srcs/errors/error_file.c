@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 13:18:55 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/17 14:11:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/28 23:22:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ void	error_message(char *content)
 	info->signal_code = 1;
 }
 
-void	message_pipe(char *limiter)
+void	message_pipe(char *limiter, int cpt)
 {
 	t_info	*info;
 
 	info = info_in_static(NULL, GET);
-	ft_printf("%s: warning: here-document at line 1 delimited ", info->name);
+	ft_printf("%s: warning: here-document at line %d delimited ", info->name,
+		cpt);
 	ft_printf("by end-of-file (wanted `%s')\n", limiter);
 }
