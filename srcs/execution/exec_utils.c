@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/29 22:14:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 23:44:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	check_if_fork(t_element *node)
 
 int	ft_fork(t_info *info)
 {
-	int	pid;
+	int		pid;
+	t_env	*env;
 
 	pid = fork();
 	if (pid == -1)
@@ -93,6 +94,17 @@ int	ft_fork(t_info *info)
 	{
 		set_signal_child();
 		info->is_child = 1;
+		env = search_in_env("SHLVL");
+		if (env)
+		{
+			if (ft_is_numeric(env->value) && env->value[0] != '-'
+				&& ft_atoi(env->value))
+				env->value = ft_sprintf("%d", ft_atoi(env->value) - 1);
+			else if (ft_is_numeric(env->value) && env->value[0] == '-')
+				env->value = ft_sprintf("%d", 0);
+			else
+				env->value = ft_sprintf("%d", 0);
+		}
 	}
 	return (pid);
 }

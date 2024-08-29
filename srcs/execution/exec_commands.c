@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 23:58:00 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/28 23:05:11 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 22:45:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	command(t_element *node, t_info *info, t_element *first)
 			node->args[0]);
 		free_and_exit(127);
 	}
-	if (!ft_strcmp(node->args[0], "ls"))
+	if (!ft_strcmp(node->args[0], "ls") || !ft_strcmp(node->args[0], "grep"))
 		add_string_char_2d(&node->args, ft_strdup("--color=auto"));
 	execve(path, node->args, envp);
 	ft_fprintf(2, "%s: Permission denied\n", node->args[0]);
