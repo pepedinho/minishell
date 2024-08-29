@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:37:10 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/29 22:07:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 22:14:31 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*find_path(char *command, t_info *info)
 	i = 0;
 	if (ft_strchr(command, '/'))
 		if_potentialy_a_directory(command, info);
-	if (ft_access(command) == 0)
+	if (ft_strchr(command, '/') && ft_access(command) == 0)
 		return (command);
 	value = ft_getenv("PATH");
 	if (value)
