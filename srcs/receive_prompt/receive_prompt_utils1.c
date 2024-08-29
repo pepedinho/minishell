@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   receive_prompt_utils1.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/27 15:33:38 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 16:00:39 by itahri           ###   ########.fr       */
+/*   Created: 2024/08/29 21:48:10 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/29 21:48:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	change_to_current(t_change *change, t_element **node, t_element **tmp)
 	current->infile_tab = change->infile_tab;
 	current->outfile = change->output;
 	current->file_mode = change->file_mode;
-	if (!current || (current && is_a_operator(current->type)))
+	if (current->type == N_CMD && current->next
+		&& is_a_operator(current->next->type))
 		current = current->next;
 	*node = current;
 }
@@ -70,6 +71,7 @@ t_command_line	*change_queue(t_command_line *queue)
 	t_change	change;
 
 	current = queue->first;
+	tmp = NULL;
 	while (current)
 	{
 		ft_memset(&change, 0, sizeof(change));

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 03:38:55 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 03:44:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 20:21:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_first_and_last_node_queue(t_command_line *queue)
 	tmp = queue->first;
 	if (!tmp)
 		return (0);
-	if (tmp->type == PIPE || tmp->type == AND || tmp->type == OR)
+	if (is_a_operator(tmp->type))
 	{
 		handle_unexpected_token(tmp->content, 2);
 		return (0);

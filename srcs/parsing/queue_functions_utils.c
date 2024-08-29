@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue_functions_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:41:45 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 17:36:10 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/29 21:47:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 			current = current->next;
 		if_not_the_first(queue, new, type);
 	}
-	queue->last = new;
 	if (new->type == CMD && ft_strchr(new->content, '=')
 		&& is_a_good_variable(new->content))
 		new->type = LOCAL_VAR;
-	if (new->type == LIST && is_a_redirection(new->before->type))
+	if (new->type == LIST
+		&& (new->before && is_a_redirection(new->before->type)))
 	{
 		new->type = U_TOKEN;
 		queue->u_token_flag = 1;
 	}
-	return (new);
+	return (queue->last = new, new);
 }

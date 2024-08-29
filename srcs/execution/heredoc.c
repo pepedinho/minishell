@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:21:36 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/28 23:20:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 21:48:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	heredoc_bis(t_element *tmp, int *fd)
 {
 	char	*line;
-	int	i;
+	int		i;
 
 	i = 1;
 	while (1)
