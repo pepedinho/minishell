@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 05:48:29 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/28 23:16:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 22:09:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		global_check(struct s_command_line *queue, t_info *info);
 // Path
 char	*find_path(char *command, t_info *info);
 void	if_potentialy_a_directory(char *command, t_info *info);
+int		ft_access(char *path);
 
 // Exec
 void	execute_command_line(t_tree *tree);

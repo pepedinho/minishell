@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:56:32 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/28 23:15:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/29 22:02:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ void	if_potentialy_a_directory(char *command, t_info *info)
 	if (S_ISDIR(sb.st_mode))
 	{
 		ft_fprintf(2, "%s: %s: Is a directory\n", info->name, command);
+		free_and_exit(126);
+	}
+	if (ft_access(command) == 0)
+		return ;
+	if (errno == EACCES)
+	{
+		ft_fprintf(2, "%s: %s: Permission denied\n", info->name, command);
 		free_and_exit(126);
 	}
 	ft_fprintf(2, "%s: %s: No such file or directory\n", info->name, command);
