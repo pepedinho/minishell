@@ -6,26 +6,31 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:11:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/25 15:07:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/30 20:41:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <unistd.h>
 
-void	change_old_pwd_in_env(char *old_pwd)
+void	change_old_pwd_in_env(char *old, char *old_pwd)
 {
 	t_env	*env;
 
 	env = search_in_env("OLDPWD");
 	if (env)
 	{
-		ft_free(env->value);
-		env->value = old_pwd;
+		if (env->value)
+		{
+			ft_free(env->value);
+			env->value = old;
+		}
+		else
+			env->value = old_pwd;
 	}
 }
 
-void	change_pwd_in_env(t_info *info)
+void	change_pwd_in_env(t_info *info, char *old_pwd)
 {
 	char	*pwd;
 	t_env	*env;
@@ -35,10 +40,10 @@ void	change_pwd_in_env(t_info *info)
 	if (pwd)
 	{
 		env->value = ft_pwd(GET, info);
-		change_old_pwd_in_env(pwd);
+		change_old_pwd_in_env(pwd, old_pwd);
 	}
 	else
-		change_old_pwd_in_env(NULL);
+		change_old_pwd_in_env(NULL, old_pwd);
 }
 
 char	*go_to_home(char *directory, t_info *info)
@@ -67,8 +72,10 @@ int	ft_cd(char *directory)
 {
 	t_info	*info;
 	char	*message;
+	char	*old_pwd;
 
 	info = info_in_static(NULL, GET);
+	old_pwd = ft_pwd(GET, info);
 	info->signal_code = 0;
 	if (!directory || !ft_strcmp(directory, "~"))
 		directory = go_to_home(directory, info);
@@ -86,6 +93,6 @@ int	ft_cd(char *directory)
 		info->signal_code = 1;
 	}
 	if (info->signal_code == 0)
-		change_pwd_in_env(info);
+		change_pwd_in_env(info, old_pwd);
 	return (info->signal_code);
 }

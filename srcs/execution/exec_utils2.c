@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:56:32 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/29 22:02:54 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/30 21:58:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ void	ft_close(int fd)
 void	if_potentialy_a_directory(char *command, t_info *info)
 {
 	struct stat	sb;
+	int			check;
 
-	stat(command, &sb);
-	if (S_ISDIR(sb.st_mode))
+	check = stat(command, &sb);
+	if (check == 0 && S_ISDIR(sb.st_mode))
 	{
 		ft_fprintf(2, "%s: %s: Is a directory\n", info->name, command);
 		free_and_exit(126);

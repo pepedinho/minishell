@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:28:40 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 16:45:46 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/30 19:16:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	assigne_type(char *redirection, t_command_line *queue)
 	if (!ft_strcmp(redirection, ";") || !ft_strcmp(redirection, "\n"))
 		return (LIST);
 	queue->u_token_flag = 1;
-	if (redirection[0] == '<')
-		return (HU_TOKEN);
 	return (U_TOKEN);
 }
 
