@@ -5,12 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 05:38:12 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/30 19:28:36 by madamou          ###   ########.fr       */
+/*   Created: 2024/08/31 00:20:30 by madamou           #+#    #+#             */
+/*   Updated: 2024/08/31 00:21:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	check_for_list(t_command_line *queue, t_info *info)
+{
+	t_element	*tmp;
+
+	tmp = queue->first;
+	while (tmp)
+	{
+		if (tmp->type == LIST && tmp->before
+			&& is_a_operator_redirect(tmp->before->type))
+		{
+			handle_unexpected_token(tmp->content, 2);
+			info->signal_code = 2;
+			tmp->type = U_TOKEN;
+		}
+		tmp = tmp->next;
+	}
+}
 
 void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 {
@@ -21,7 +39,10 @@ void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 	{
 		if (tmp->type == C_BLOCK)
 		{
-			if (tmp->content[0] == '\0')
+			if (tmp->content[0] == '\0'
+				|| ((tmp->before && !is_a_operator_redirect(tmp->before->type))
+					|| (tmp->next
+						&& !is_a_operator_redirect(tmp->next->type))))
 			{
 				ft_printf("%s: syntax error near unexpected token `)'\n",
 					info->name);
@@ -31,6 +52,7 @@ void	check_if_subshell_not_empty(t_command_line *queue, t_info *info)
 		}
 		tmp = tmp->next;
 	}
+	check_for_list(queue, info);
 }
 
 void	print_if_find_utoken(t_command_line *queue)

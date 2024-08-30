@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 03:38:55 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/30 19:19:27 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/31 00:13:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,13 @@ int	check_first_and_last_node_queue(t_command_line *queue)
 		return (0);
 	}
 	return (1);
+}
+
+int	is_a_operator_redirect(int type)
+{
+	if (type == PIPE || type == AND || type == OR || type == LIST)
+		return (1);
+	if (type == LL_RED || type == L_RED || type == R_RED || type == RR_RED)
+		return (1);
+	return (0);
 }

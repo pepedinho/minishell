@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/28 22:21:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/30 23:59:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char						*expand_if_necessary(char *str);
 int							is_redirection(t_element *elem);
 int							is_space(char c);
 int							check_for_wcards(t_command_line *queue, char *str);
+int							is_a_operator_redirect(int type);
 
 // Parser uitls 2
 void						continue_until_find(int *i, int *j, char *str,
