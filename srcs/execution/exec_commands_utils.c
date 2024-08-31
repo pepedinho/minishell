@@ -6,11 +6,12 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:54:16 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/31 15:08:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/08/31 16:31:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <termios.h>
 
 void	free_tree(t_element *node)
 {
@@ -45,15 +46,14 @@ void	close_file_tree(t_element *current)
 	close_file_tree(current->right);
 }
 
-void	execute_command_line(t_tree *tree)
+void	execute_command_line(t_tree *tree, t_info *info)
 {
-	int		pid;
-	int		status;
-	t_tree	*tmp;
-	t_info	*info;
+	int				pid;
+	int				status;
+	t_tree			*tmp;
+	struct termios	term;
 
-	info = info_in_static(NULL, GET);
-	set_signal_parent_exec();
+	(tcgetattr(STDOUT_FILENO, &term), set_signal_parent_exec());
 	while (tree)
 	{
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
@@ -71,5 +71,5 @@ void	execute_command_line(t_tree *tree)
 		(free_tree(tree->first), ft_free(tree));
 		tree = tmp;
 	}
-	check_if_signal(info);
+	(check_if_signal(info), tcsetattr(STDOUT_FILENO, TCSANOW, &term));
 }

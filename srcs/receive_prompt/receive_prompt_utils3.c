@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   receive_prompt_utils3.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:35:04 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/27 16:01:06 by itahri           ###   ########.fr       */
+/*   Updated: 2024/08/31 16:29:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	receive_prompt_subminishell(char *command_line, t_info *info)
 	if (queue)
 	{
 		tree = ast(queue);
-		execute_command_line(tree);
+		execute_command_line(tree, info);
 	}
 	ft_free(DESTROY);
 }
@@ -83,6 +83,6 @@ void	receive_prompt(t_info *info)
 		if (!queue)
 			continue ;
 		tree = ast(queue);
-		execute_command_line(tree);
+		execute_command_line(tree, info);
 	}
 }
