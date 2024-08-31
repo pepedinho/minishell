@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/27 23:50:14 by madamou          ###   ########.fr        #
+#    Updated: 2024/08/31 16:51:48 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,14 +125,14 @@ push:
 debug : all
 	@lldb $(NAME)
 
-docker:
-	@if [ -z $$(docker images -q minishell-app) ]; then \
-		echo "🐳$(BLUE)Image minishell-app not found, work in progress...$(END)🐳"; \
-		docker-compose build; \
-		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
-	fi
-	@echo "🐳$(BLUE)Docker container is built $(END)✅"
-	@docker-compose run app
+# docker:
+# 	@if [ -z $$(docker images -q minishell-app) ]; then \
+# 		echo "🐳$(BLUE)Image minishell-app not found, work in progress...$(END)🐳"; \
+# 		docker-compose build; \
+# 		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
+# 	fi
+# 	@echo "🐳$(BLUE)Docker container is built $(END)✅"
+# 	@docker-compose run app
 
 clean : 
 	@rm -rf $(OBJS_DIR)
@@ -146,4 +146,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re debug push leak docker 
+.PHONY : all clean fclean re debug push leak #docker 
