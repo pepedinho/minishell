@@ -34,7 +34,7 @@ To install and run Minishell on your machine, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/pepedinho/minishell.git
    cd minishell
    ```
 2. **compile the project:**
