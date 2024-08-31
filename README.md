@@ -1,6 +1,6 @@
 # 💻 Minishell
 
-Welcome to **Minishell**! This project aims to create a mini version of a Unix shell, providing an educational and practical experience on the internal workings of a shell. This project is part of the "Chapter III" curriculum. Below, you'll find all the necessary information to install, use, and contribute to this project.
+Welcome to **Minishell**! This project aims to create a mini version of a Unix shell, providing an educational and practical experience on the internal workings of a shell.
 
 ## 📋 Table of Contents
 
