@@ -36,12 +36,15 @@ To install and run Minishell on your machine, follow these steps:
    ```bash
    git clone <repository-url>
    cd minishell
+   ```
 2. **compile the project:**
 ```bash
-  make```
+  make
+```
 3. **Run the shell:**
 ```bash
-  ./minishell```
+  ./minishell
+```
 
 ### 🐳 Running with Docker
 
