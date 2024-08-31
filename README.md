@@ -38,21 +38,21 @@ To install and run Minishell on your machine, follow these steps:
    cd minishell
    ```
 2. **compile the project:**
-```bash
-  make
-```
+   ```bash
+     make
+   ```
 3. **Run the shell:**
-```bash
-  ./minishell
-```
+   ```bash
+     ./minishell
+   ```
 
 ### 🐳 Running with Docker
 
 If you have Docker and Docker Compose installed, you can quickly test **Minishell** in an optimal environment by running:
 
-```bash
-make docker
-```
+   ```bash
+   make docker
+   ```
 
 ## 🎮 usage
 
