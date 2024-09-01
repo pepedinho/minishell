@@ -24,8 +24,7 @@ void	command(t_element *node, t_info *info, t_element *first)
 	path = find_path(node->content, info);
 	if (path == NULL)
 	{
-		ft_fprintf(2, "%s: %s: command not found\n", info->name,
-			node->args[0]);
+		ft_fprintf(2, "%s: %s: command not found\n", info->name, node->args[0]);
 		free_and_exit(127);
 	}
 	if (!ft_strcmp(node->args[0], "ls") || !ft_strcmp(node->args[0], "grep"))
@@ -52,8 +51,7 @@ void	subshell(t_element *node, t_info *info, t_element *first)
 	args[3] = NULL;
 	(infile(node, info, first), outfile(node, info));
 	execve("/tmp/minishell", args, envp);
-	ft_fprintf(2, "%s: %s: command not found\n", info->name,
-		node->args[0]);
+	ft_fprintf(2, "%s: %s: command not found\n", info->name, node->args[0]);
 	free_and_exit(126);
 }
 
@@ -110,6 +108,9 @@ void	only_builtin(t_element *node, t_info *info, t_element *first)
 		(ft_close(save_stdin), ft_close(save_stdout));
 		ft_exit(node->args);
 	}
-	(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
-	(ft_close(save_stdin), ft_close(save_stdout));
+	else
+	{
+		(dup2(save_stdin, STDIN_FILENO), dup2(save_stdout, STDOUT_FILENO));
+		(ft_close(save_stdin), ft_close(save_stdout));
+	}
 }
