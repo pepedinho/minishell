@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:35:04 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/31 16:29:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:46:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ char	*ft_readline(t_info *info)
 		if (!command_line)
 			ft_exit(NULL);
 		else if (ft_strcmp(command_line, "") == 0)
-		{
 			ft_free(command_line);
-			info->signal_code = 0;
-		}
 		else
 			break ;
 	}

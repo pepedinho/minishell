@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:39:15 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 16:09:01 by itahri           ###   ########.fr       */
+/*   Updated: 2024/09/02 10:54:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 char	*get_prompt(t_info *info)
 {
-	t_env	*current;
 	char	*pwd;
 	char	*hostname;
 	char	*prompt;
 
-	if (info->env && search_in_env("PWD") && search_in_env("USER"))
+	if (info->env && ft_getenv("PWD") && ft_getenv("USER"))
 	{
-		current = search_in_env("PWD");
-		pwd = current->value;
-		current = search_in_env("USER");
-		hostname = current->value;
+		pwd = ft_getenv("PWD");
+		hostname = ft_getenv("USER");
 		if (info->signal_code == 0)
 			prompt = ft_sprintf("%s%s:\001\033[0;32m\002%s\001\033[0m\002$ ",
 					CLR, hostname, pwd);

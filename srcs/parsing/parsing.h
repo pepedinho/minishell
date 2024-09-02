@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:26:17 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/30 23:59:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:48:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_command_line				*init_queue(void);
 t_element					*add_to_queue(t_command_line *queue, char *content,
 								int type);
 void						free_queue(t_command_line *queue);
-t_command_line				*parser(char *str, t_info *info);
+t_command_line				*parser(char *str);
 void						free_node_queue(t_element *node);
 void						check_if_command_before(t_element *tmp,
 								t_element *new);

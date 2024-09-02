@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 15:31:28 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/30 21:56:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:51:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_exit(char **args)
 	if (info->is_child == 0)
 		ft_fprintf(2, "exit\n");
 	if (!args)
-		free_and_exit(0);
+		free_and_exit(info->signal_code);
 	if (args[1])
 	{
 		if (ft_is_numeric(args[1]) == 0 || ft_is_in_range(args[1]) == 0)
@@ -79,5 +79,5 @@ void	ft_exit(char **args)
 		info->signal_code = 1;
 		return ;
 	}
-	free_and_exit(EXIT_SUCCESS);
+	free_and_exit(info->signal_code);
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 18:50:12 by itahri            #+#    #+#             */
-/*   Updated: 2024/08/28 00:07:46 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:47:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*add_elem(t_command_line *queue, char *str, int *i)
 	return (str);
 }
 
-t_command_line	*parser(char *str, t_info *info)
+t_command_line	*parser(char *str)
 {
 	int				i;
 	t_command_line	*queue;
@@ -73,6 +73,5 @@ t_command_line	*parser(char *str, t_info *info)
 		if (str[i])
 			str = add_elem(queue, str, &i);
 	}
-	info->signal_code = 0;
 	return (queue);
 }
