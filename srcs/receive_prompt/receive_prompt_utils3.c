@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:35:04 by itahri            #+#    #+#             */
-/*   Updated: 2024/09/02 10:46:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:44:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ void	receive_prompt(t_info *info)
 			continue ;
 		tree = ast(queue);
 		execute_command_line(tree, info);
+		if (!isatty(STDOUT_FILENO) ||!isatty(STDIN_FILENO))
+			free_and_exit(info->signal_code);
 	}
 }
