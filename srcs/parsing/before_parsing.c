@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/27 16:27:14 by itahri           ###   ########.fr       */
+/*   Updated: 2024/09/05 19:51:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*check_if_dquote_close(char *str, int *i, t_info *info)
 	if (str[*i] == '\0')
 	{
 		str = quote_or_dquote(str, "dquote> ", info);
-		*i = 0;
+		*i = -1;
 	}
 	return (str);
 }
@@ -56,7 +56,7 @@ char	*check_if_quote_close(char *str, int *i, t_info *info)
 	if (str[*i] == '\0')
 	{
 		str = quote_or_dquote(str, "quote> ", info);
-		*i = 0;
+		*i = -1;
 	}
 	return (str);
 }
