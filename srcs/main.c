@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 21:43:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/30 20:49:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/06 17:27:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ void	subminishell(char **argv, t_info *info, char **envp)
 		ft_fprintf(STDERR_FILENO, "minishell: %s: invalid option\n", argv[1]);
 		return ;
 	}
+	if (!argv[2])
+	{
+		info->signal_code = 2;
+		ft_fprintf(2, "%s: -c: option requires an argument\n", info->name);
+		return ;
+	}
 	if (argv[3])
 		info->name = argv[3];
 	info->env = env_in_struct(envp);
@@ -74,5 +80,6 @@ int	main(int argc, char **argv, char **envp)
 		minishell(&info, envp);
 	else
 		subminishell(argv, &info, envp);
+	ft_free(DESTROY);
 	return (info.signal_code);
 }
