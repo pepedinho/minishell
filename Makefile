@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/08/31 16:51:48 by madamou          ###   ########.fr        #
+#    Updated: 2024/09/08 03:21:00 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,7 +110,7 @@ message :
 	@echo "$(BLUE)🔩compiling minishell🔩$(END)"
 	
 leak : all
-	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=.supp.supp ./minishell
+	@valgrind --leak-check=full --show-below-main=no --show-leak-kinds=all --track-fds=yes --suppressions=.supp.supp ./minishell
 
 push:
 	@python3 -m c_formatter_42 $(addprefix $(SRCS_DIR), main.c $(PARSING) $(PROMPT) $(SIGNALS) \

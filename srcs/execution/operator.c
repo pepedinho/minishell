@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:39:21 by madamou           #+#    #+#             */
-/*   Updated: 2024/08/28 22:27:12 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 01:15:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	_and(t_element *node, t_info *info, t_element *first)
 		fork_because_mandatory(node->left, info, first);
 	else
 		exec(node->left, info, first);
-	if (info->signal_code == 0)
+	if (info->signal_code == 0 && info->signal_code != 128 + SIGINT
+		&& info->signal_code != 128 + SIGQUIT)
 	{
 		if (check_if_fork(node->right))
 			fork_because_mandatory(node->right, info, first);
@@ -75,7 +76,9 @@ void	_or(t_element *node, t_info *info, t_element *first)
 		fork_because_mandatory(node->left, info, first);
 	else
 		exec(node->left, info, first);
-	if (info->signal_code != 0)
+	if (info->signal_code == 128 + SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	if (info->signal_code != 0 && info->signal_code != 128 + SIGINT)
 	{
 		if (check_if_fork(node->right))
 			fork_because_mandatory(node->right, info, first);
