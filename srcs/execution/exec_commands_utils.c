@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:54:16 by itahri            #+#    #+#             */
-/*   Updated: 2024/09/03 15:42:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 04:02:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	execute_command_line(t_tree *tree, t_info *info)
 	t_tree			*tmp;
 	struct termios	term;
 
+	info->signaled = 0;
 	(tcgetattr(STDOUT_FILENO, &term), set_signal_parent_exec());
 	while (tree)
 	{
