@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/09/08 03:21:00 by madamou          ###   ########.fr        #
+#    Updated: 2024/09/09 01:24:11 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,14 +125,14 @@ push:
 debug : all
 	@lldb $(NAME)
 
-# docker:
-# 	@if [ -z $$(docker images -q minishell-app) ]; then \
-# 		echo "🐳$(BLUE)Image minishell-app not found, work in progress...$(END)🐳"; \
-# 		docker-compose build; \
-# 		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
-# 	fi
-# 	@echo "🐳$(BLUE)Docker container is built $(END)✅"
-# 	@docker-compose run app
+docker:
+	@if [ -z $$(docker images -q minishell-app) ]; then \
+		echo "🐳$(BLUE)Image minishell-app not found, work in progress...$(END)🐳"; \
+		docker-compose build; \
+		echo "🐳$(BLUE)Docker container is built $(END)✅"; \
+	fi
+	@echo "🐳$(BLUE)Docker container is built $(END)✅"
+	@docker-compose run app
 
 clean : 
 	@rm -rf $(OBJS_DIR)

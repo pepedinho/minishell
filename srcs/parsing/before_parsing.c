@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:26:16 by madamou           #+#    #+#             */
-/*   Updated: 2024/09/05 19:51:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 02:48:29 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*check_if_command_line_is_good(char *str, t_command_line *queue)
 	{
 		if (g_signal == 0 && str && str[i] == '"')
 			str = check_if_dquote_close(str, &i, info);
-		if (g_signal == 0 && str && str[i] == '\'')
+		else if (g_signal == 0 && str && str[i] == '\'')
 			str = check_if_quote_close(str, &i, info);
 		i++;
 	}
