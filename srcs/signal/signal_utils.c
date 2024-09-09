@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 20:00:34 by madamou           #+#    #+#             */
-/*   Updated: 2024/09/09 04:14:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 23:40:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	check_if_signal(t_info *info)
 		ft_putstr_fd("Quit (core dumped)\n", 2);
 	if (g_signal == 128 + SIGINT && info->signaled == 1)
 		write(STDERR_FILENO, "\n", 1);
+	if (info->signal_code == 128 + SIGSEGV && info->signaled == 1)
+		ft_putstr_fd("Segmentation fault (core dumped)\n", STDERR_FILENO);
 	g_signal = 0;
 }
 
