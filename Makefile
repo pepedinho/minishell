@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/09/09 01:24:11 by madamou          ###   ########.fr        #
+#    Updated: 2024/09/09 04:28:56 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,4 +146,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re debug push leak #docker 
+.PHONY : all clean fclean re debug push leak docker 

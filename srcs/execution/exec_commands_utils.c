@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 14:54:16 by itahri            #+#    #+#             */
-/*   Updated: 2024/09/09 04:02:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 04:31:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ void	close_file_tree(t_element *current)
 	close_file_tree(current->right);
 }
 
+void	set_exec(t_info *info)
+{
+	info->signaled = 0;
+	if (info->is_child == 0)
+		set_signal_parent_exec();
+	else
+		set_signal_child();
+}
+
 void	execute_command_line(t_tree *tree, t_info *info)
 {
 	int				pid;
@@ -53,8 +62,7 @@ void	execute_command_line(t_tree *tree, t_info *info)
 	t_tree			*tmp;
 	struct termios	term;
 
-	info->signaled = 0;
-	(tcgetattr(STDOUT_FILENO, &term), set_signal_parent_exec());
+	(tcgetattr(STDOUT_FILENO, &term), set_exec(info));
 	while (tree)
 	{
 		if ((tree->first->type == CMD && !check_built_in(tree->first->content))
