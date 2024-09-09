@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 14:39:21 by madamou           #+#    #+#             */
-/*   Updated: 2024/09/09 04:15:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/09 22:59:21 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	ft_pipe(t_element *node, t_info *info, t_element *first)
 	}
 	(ft_close(fd[0]), ft_close(fd[1]));
 	close_file_tree(first);
-	(waitpid(pid[0], &status, 0), waitpid(pid[1], &status, 0));
-	exit_status(status, info);
+	(waitpid(pid[0], &status, 0), exit_status(status, info));
+	(waitpid(pid[1], &status, 0), exit_status(status, info));
 }
 
 void	fork_because_mandatory(t_element *node, t_info *info, t_element *first)
