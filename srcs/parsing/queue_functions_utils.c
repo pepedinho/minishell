@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 16:41:45 by itahri            #+#    #+#             */
-/*   Updated: 2024/09/11 12:55:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/09/11 17:51:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,29 @@ int	check_for_wcards(t_command_line *queue, char *str)
 	return (0);
 }
 
+void	check_if_subshell_before(t_command_line *queue, t_element *new)
+{
+	t_element	*current;
+
+	if (new->type == CMD)
+	{
+		current = queue->last;
+		while (current && !is_a_operator(current->type))
+		{
+			if (current->type == C_BLOCK)
+			{
+				queue->u_token_flag = 1;
+				printf("curent == %s\n", new->content);
+				new->type = U_TOKEN;
+				break ;
+			}
+			else
+				new->type = CMD;
+			current = current->before;
+		}
+	}
+}
+
 void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 {
 	t_element	*tmp;
@@ -60,6 +83,7 @@ void	if_not_the_first(t_command_line *queue, t_element *new, int type)
 	}
 	new->before = current;
 	current->next = new;
+	check_if_subshell_before(queue, new);
 }
 
 int	is_a_redirection(int type)
@@ -87,23 +111,6 @@ t_element	*add_to_queue(t_command_line *queue, char *content, int type)
 		while (current->next)
 			current = current->next;
 		if_not_the_first(queue, new, type);
-	}
-	if (new->type == CMD)
-	{
-		current = queue->last;
-		while (current && !is_a_operator(current->type))
-		{
-			if (current->type == C_BLOCK)
-			{
-				queue->u_token_flag = 1;
-				printf("curent == %s\n", new->content);
-				new->type = U_TOKEN;
-				break ;
-			}
-			else
-				new->type = CMD;
-			current = current->before;
-		}		
 	}
 	if (new->type == CMD && ft_strchr(new->content, '=')
 		&& is_a_good_variable(new->content))
